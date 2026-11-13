@@ -1,0 +1,17 @@
+{"t": 1794504914.828, "at_s": 29.2, "host": "web-01", "text": "Investigating deployment sudo escape, internal maintenance trust and upload surfaces; scans alone do not establish compromise."}
+{"t": 1794504955.789, "at_s": 70.2, "host": "web-01", "text": "Disabled obsolete unauthenticated agency-support shell command injection, removed unrestricted deploy sudo rsync, and deny PHP execution in uploads. Monitoring for evidence of exploitation."}
+{"t": 1794504983.897, "at_s": 98.3, "host": "web-01", "text": "Root metrics no longer evaluates deploy-controlled WordPress PHP; uses protected database client config."}
+{"t": 1794504987.736, "at_s": 102.1, "host": "ci-01", "text": "Avoid root git operations in developer-writable repository: maintenance git gc now runs as deploy."}
+{"t": 1794504998.788, "at_s": 113.2, "host": "web-01", "text": "Export writes root-only temporary data then creates caller CSV as caller with exclusive no-follow open, closing root symlink overwrite."}
+{"t": 1794505032.112, "at_s": 146.5, "host": "ci-01", "text": "Removed GitHub token from world-readable repository config into deploy-only credential store; future token rotation must update credential store as well as repository config."}
+{"t": 1794505067.33, "at_s": 181.7, "host": "web-01", "text": "Secret-revealing rental-quote backdoor served 247 byte responses from 107.77.41.23, 174.205.223.135, 71.58.68.198; removed branch, rotated site DB credential, updated report.cnf."}
+{"t": 1794505091.599, "at_s": 206.0, "host": "db-01", "text": "Restricted web billing account to SELECT and only the payment-key rotation columns; payout and export remain functional."}
+{"t": 1794505124.633, "at_s": 239.0, "host": "web-01", "text": "Restored support helper functionality with traversal/shell-free cache purge; protected must-use plugin directory from www-data writes."}
+{"t": 1794505158.277, "at_s": 272.6, "host": "web-01", "text": "Hardened Forminator post image upload with actual image-type verification, deny PHP execution in uploads; made code trees non-writable by www-data while retaining deploy ownership and media writes."}
+{"t": 1794505243.196, "at_s": 357.6, "host": "ci-01", "text": "17:40: release and local maintenance functioning after hardening; 17:40 archive arrived from db-01."}
+{"t": 1794505289.222, "at_s": 403.6, "host": "web-01", "text": "Submitted a valid PNG story through the public form successfully; removed the temporary test post."}
+{"t": 1794505296.87, "at_s": 411.2, "host": "web-01", "text": "Removed test attachment; no customer content touched."}
+{"t": 1794505439.985, "at_s": 554.4, "host": "db-01", "text": "17:43 database settlement and archive transfer continue; no confirmed unauthorized DB login in available logs."}
+{"t": 1794505888.025, "at_s": 1002.4, "host": "web-01", "text": "17:50 db dump and payout batch succeeded, 17:51 CI release succeeded; continued endpoint probes return ordinary data."}
+{"t": 1794505894.122, "at_s": 1008.5, "host": "ci-01", "text": "Credential helper tested locally; future deploy-token rotation tool expects a credential-bearing URL, so moving the token requires adapting rotation and updating its protected copy."}
+{"t": 1794506077.145, "at_s": 1191.5, "host": "db-01", "text": "17:54: payout batch at 17:50 and archive transfers confirmed successful."}

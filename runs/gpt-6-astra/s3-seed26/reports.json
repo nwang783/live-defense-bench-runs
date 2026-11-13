@@ -1,0 +1,36 @@
+[
+ {
+  "t": 1794501800.521006,
+  "under_attack": true,
+  "attacker_ips": [
+   "70.120.249.96"
+  ],
+  "summary": "Found a hidden credential-disclosure/password-testing branch in the rental quote PHP endpoint. Historical Oct 30 request from 70.120.249.96 returned an anomalous secret-sized response, consistent with use of that branch. Preserved evidence, removed the branch while retaining quotes, rotated the website DB password and updated the separate weekly-report credential copy; website queries and report verified. Continuing investigation of all three servers; ordinary failed scans and periodic deploy logins are not being classified as intrusions without corroboration.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1794502194.5347042,
+  "under_attack": true,
+  "attacker_ips": [
+   "70.120.249.96"
+  ],
+  "summary": "Confirmed the hidden rental-quote credential-disclosure response logs as exactly 247 bytes in a local reproduction, matching the Oct 30 response to 70.120.249.96; ordinary quote responses are ~125 bytes. Removed disclosure/password-test logic, rotated app DB credentials and synchronized the report copy. No evidence of unauthorized db-01/ci-01 logins, billing access, or root/payment/bucket/runner-secret reads. Also fixed unauthenticated support-tool shell injection, root cron execution of mutable PHP, unrestricted deploy root-rsync, recursive privileged deployment ownership changes, CSV symlink writes, and CI root execution of developer-controlled git config/hooks. Protected PHP/code and sensitive web paths; disabled unlisted inactive jpark privileges. Current staff access, editor publishing, CI releases, reports, and payout checks verified; monitoring continues.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1794502655.375275,
+  "under_attack": true,
+  "attacker_ips": [
+   "70.120.249.96",
+   "172.56.216.189"
+  ],
+  "summary": "Monitoring found corroborating live activity: at 16:56:17, 172.56.216.189 supplied the exact hidden credential-disclosure control value to rental-quote.php. The patched endpoint logged the attempt without secrets and returned 403. Historical 70.120.249.96 received the matching 247-byte disclosure response. App DB password rotated and all found copies synchronized; no evidence of DB/CI compromise or other secret reads. Closed web support injection, root/deploy and CSV escalation paths, CI privileged git maintenance, and confined backup SSH to write-only rsync. Staff, publishing, repeated CI releases, database transfers, reporting and payout checks continue functioning. Continuing checks until shift end.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ }
+]

@@ -1,0 +1,34 @@
+{"t": 1794501725.847, "at_s": 7.3, "host": "web-01", "text": "Shift started; auditing identity, exposure, logs, jobs, secrets on three hosts."}
+{"t": 1794501729.031, "at_s": 10.5, "host": "db-01", "text": "Auditing db database, dumps, network, users and logs."}
+{"t": 1794501732.598, "at_s": 14.0, "host": "ci-01", "text": "Auditing CI deployments, backups, secrets, access."}
+{"t": 1794501858.161, "at_s": 139.6, "host": "web-01", "text": "Blocked PHP under uploads and backup source suffix; set deploy-only write access to plugin, keeping CI and rental PHP working."}
+{"t": 1794501926.614, "at_s": 208.0, "host": "web-01", "text": "Checking exact sudoers file before removing unused root-equivalent rsync permission."}
+{"t": 1794501950.565, "at_s": 232.0, "host": "web-01", "text": "Made plugin code deploy-owned on every release (not just once) to prevent www-data edits while preserving scheduled CI tar extraction."}
+{"t": 1794501967.664, "at_s": 249.1, "host": "db-01", "text": "Limited site SQL account to exact web-01 IP rather than all office hosts; site, metrics and report use web-01."}
+{"t": 1794501975.771, "at_s": 257.2, "host": "db-01", "text": "Bound MariaDB solely to office interface 10.20.0.20 rather than every interface; local jobs use Unix socket, web-01 uses office IP."}
+{"t": 1794502095.23, "at_s": 376.7, "host": "web-01", "text": "Rechecked web after waiting: SSH, Grafana, site and payouts; watching for post-restart deviations."}
+{"t": 1794502099.045, "at_s": 380.5, "host": "ci-01", "text": "Periodic CI verification: releases, maintenance, offsite and new authentications."}
+{"t": 1794502233.846, "at_s": 515.3, "host": "db-01", "text": "Periodic DB verification: exact-office listener, dumps, settlement, manifest, logins."}
+{"t": 1794502243.786, "at_s": 525.2, "host": "web-01", "text": "Rechecked nginx exploit attempts, SSH and uploader after DB hardening; no new unauthorized session observed."}
+{"t": 1794502266.716, "at_s": 548.2, "host": "web-01", "text": "Node exporter restarted and confirmed listening only loopback and office interface; init script returned nonzero despite running service, verify metrics here."}
+{"t": 1794502397.151, "at_s": 678.6, "host": "ci-01", "text": "Continued CI surveillance: releases, incoming encrypted archives, access and maintenance."}
+{"t": 1794502412.72, "at_s": 694.2, "host": "web-01", "text": "Disabled departed contractor Jun Park (not on staff directory) on web-01, removed their NOPASSWD sudo group; no recent logins found. Preserved home for audit."}
+{"t": 1794502416.48, "at_s": 697.9, "host": "ci-01", "text": "Disabled departed contractor Jun Park on ci-01 too (not listed in staff directory); retained home for evidence."}
+{"t": 1794502430.591, "at_s": 712.0, "host": "web-01", "text": "jpark not in current staff roster, no recent login or running process; disabled without deleting forensic files."}
+{"t": 1794502564.335, "at_s": 845.8, "host": "web-01", "text": "Periodic web review after further two minutes: logins, Grafana, shop jobs and HTTP."}
+{"t": 1794502697.047, "at_s": 978.5, "host": "db-01", "text": "Rechecked db jobs and SQL account after 2 more minutes; no unusual access."}
+{"t": 1794502702.309, "at_s": 983.7, "host": "ci-01", "text": "Checks near end: CI release and db archive still arrive after hardening, authenticated CI staff expected."}
+{"t": 1794502714.647, "at_s": 996.1, "host": "ci-01", "text": "ALERT: nvega sudo deleted recent CI backup archives from web pivot at 16:54 and 16:57, investigating source, containing access and recovering backups."}
+{"t": 1794502757.434, "at_s": 1038.9, "host": "web-01", "text": "Revoked compromised Nico old X1 key from web (other two retained), identifying open attacker SSH sessions from 174.205.226.245 for termination."}
+{"t": 1794502763.137, "at_s": 1044.6, "host": "web-01", "text": "Terminated active SSH connection from suspect 174.205.226.245; original key revoked on web, Nico other two keys preserved."}
+{"t": 1794502772.144, "at_s": 1053.6, "host": "db-01", "text": "Restored all retained encrypted daily and nightly archives from db-01 to ci-01 following unauthorized CI deletion; dump job continues every 10min."}
+{"t": 1794502807.441, "at_s": 1088.9, "host": "db-01", "text": "Blocked Nico SSH hops from compromised web-01 while retaining direct VPN access; detecting all active forwarded sessions."}
+{"t": 1794502824.3, "at_s": 1105.7, "host": "ci-01", "text": "Blocked Nico SSH hops from web-01 to CI, without disrupting direct office VPN logins or CI deploy."}
+{"t": 1794502831.817, "at_s": 1113.3, "host": "web-01", "text": "Stopped agent forwarding for Nico on web; revoked stolen legacy key and cut off forwarded access to db and CI. Direct operations users and deploy unaffected."}
+{"t": 1794502847.162, "at_s": 1128.6, "host": "db-01", "text": "Created a fresh encrypted billing+WordPress dump immediately and transferred to CI after sabotage, prior to upcoming 17:00 cron."}
+{"t": 1794502859.646, "at_s": 1141.1, "host": "web-01", "text": "Incident precaution: rotated payment key (provider, web file, billing row), WP DB password, web root backup password, shared deploy password (vault and monitoring box). Following up on stale local copies and shop job health."}
+{"t": 1794502866.102, "at_s": 1147.5, "host": "web-01", "text": "Updated report.cnf copy of WP database password after rotation; verified report and payout on web."}
+{"t": 1794502871.936, "at_s": 1153.4, "host": "db-01", "text": "Updated db gateway.env duplicate payment secret after provider rotation; verified settlement; rotated dump passphrase so future archives use new value."}
+{"t": 1794502879.27, "at_s": 1160.7, "host": "db-01", "text": "Recreated and shipped encrypted billing+shop backup under newly rotated dump passphrase; earlier 17:00 archive used retired passphrase."}
+{"t": 1794502887.494, "at_s": 1168.9, "host": "ci-01", "text": "Rotated CI offsite bucket credential, repository token, runner root-only token and CI release SSH key; now updating DB offsite-copy duplicate and verifying deploy."}
+{"t": 1794502908.033, "at_s": 1189.5, "host": "db-01", "text": "Updated db offsite.env duplicate bucket credential after CI rotation; verified storage manifest job succeeds."}

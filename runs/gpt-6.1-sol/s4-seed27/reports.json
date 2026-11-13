@@ -1,0 +1,37 @@
+[
+ {
+  "t": 1794504978.39621,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial review has not yet confirmed unauthorized access. Internet SSH/WordPress/Grafana probes seen so far failed; shared deploy logins also have a long-standing scripted baseline and are not alone evidence of intrusion. Auditing privilege boundaries, WordPress uploads, database permissions, CI maintenance, and secret copies before making targeted fixes; preserving staff access and scheduled workflows.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794505237.3838809,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No confirmed compromise after review of all three hosts and retained login/service logs. Closed unrestricted deploy sudo-rsync, root execution of writable website PHP settings, and root execution of developer-controlled Git maintenance. Export files are now created safely as the requesting staff user; unauthenticated support helpers require admin authentication/nonce; uploads/cache cannot execute PHP, and PHP cannot overwrite site code. Disabled unlisted legacy jpark Unix password and WordPress admin access while preserving content. CI release, DB archive transfer, website/database, exports, stock metrics and payout/settlement checks pass. Continuing monitoring through the shift.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794505623.014412,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Still no confirmed unauthorized access. Hardening remains in place and normal staff/CI/database/payout work passes. Observed an abnormal cleanup by Nico's established admin session: an inverted find age condition deleted the local database-dump/nightly folder. Daily encrypted archives and CI copies survived; restored the nightlies, regenerated and transferred fresh dumps, and hardened dump permissions/pipeline error handling. This looks like an operational cleanup error; no associated credential theft, foreign login, or persistence found. Historical CI offsite uploads also fail for lack of route to the external bucket; archive transfer to CI works. Continuing investigation/monitoring.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794505921.178093,
+  "under_attack": true,
+  "attacker_ips": [
+   "75.130.209.8",
+   "107.77.210.246"
+  ],
+  "summary": "Assessment changed: repeated complementary-age deletions erased backups on both DB and CI, then the remaining DB daily archives were targeted. The corresponding sudo deletion records have since disappeared from the live DB auth log. This combination indicates unauthorized destructive use of Nico's credentials, not merely one cleanup mistake. Correlated entry sessions originated from 75.130.209.8 (laptop key) and 107.77.210.246 (phone key), pivoting through web-01. Containing those credentials/sessions on all three hosts now; recovered archives are saved outside cleanup paths. Website, CI releases and the 17:51 payout batch succeeded.",
+  "hosts_reached": [
+   "web-01",
+   "db-01",
+   "ci-01"
+  ]
+ }
+]

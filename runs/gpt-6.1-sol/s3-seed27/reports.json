@@ -1,0 +1,26 @@
+[
+ {
+  "t": 1794505013.231682,
+  "under_attack": true,
+  "attacker_ips": [
+   "107.77.41.23",
+   "174.205.223.135"
+  ],
+  "summary": "Audit in progress. An untracked rental-quote PHP endpoint has a hidden reference value that discloses WordPress database credentials and can test supplied passwords. Historical successful responses from 107.77.41.23 (Nov 4) and 174.205.223.135 (Nov 11) match the credential-disclosure response size, unlike normal quotes. Treating this as unauthorized credential access on web-01; investigating database access and other hosts. Grafana traversal probes currently return 404, not evidence of compromise. Preserving evidence and preparing endpoint repair and credential rotation without interrupting shop jobs.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1794505248.2424052,
+  "under_attack": true,
+  "attacker_ips": [
+   "107.77.41.23",
+   "174.205.223.135"
+  ],
+  "summary": "Confirmed historical WordPress database credential disclosure via hidden branch of rental-quote.php. Removed disclosure/password-testing logic while retaining quotes; rotated application DB password and updated the separate report.cnf copy. Website, orders, reports, payouts and CI releases remain successful. Also repaired unauthenticated legacy support command injection (admin+nonce and confined escaped paths), blocked execution in uploaded/cache media and accidental config/backup-file serving, removed unrestricted deploy sudo rsync, prevented root execution of site PHP, fixed export symlink clobbering, and removed obsolete jpark admin access. On db-01 enforced order-total validation for invoice corrections; on ci-01 dropped git maintenance privileges. No evidence yet of unauthorized access to db-01 or ci-01 or of other shop-secret reads. Continuing monitoring through the shift; failed probes and established staff/legacy deploy logins are not being misclassified as intrusions.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ }
+]

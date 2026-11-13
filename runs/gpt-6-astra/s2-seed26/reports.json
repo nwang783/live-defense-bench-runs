@@ -1,0 +1,23 @@
+[
+ {
+  "t": 1794501801.8468218,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial audit has not established unauthorized access. Internet probes seen so far failed; recurring deploy-password logins predate the VM move and need correlation with the documented legacy automation. Auditing privilege boundaries, upload handling, database permissions and cross-host jobs before applying fixes; keeping staff and release/backup/payout workflows online.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794501943.160966,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No confirmed compromise so far; continuing monitoring through the shift. Closed root escalation paths (unrestricted deploy sudo-rsync, root execution of WordPress, root git maintenance on writable repository, and export-helper symlink writes). Restricted code/token/archive permissions, blocked PHP-like execution in uploads, and removed CI's remote curl-to-root-shell mode. Verified site, CSV exports, release deployment, database dump transfer, payout reconciliation, settlement and offsite manifest jobs. Preserved staff authentication and legitimate legacy deploy logins; no evidence yet requiring secret rotation.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794502664.386732,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Still no evidence of compromise or unauthorized secret reads. Hardened privilege boundaries, code/archive/token permissions, upload execution, export file creation, CI maintenance and backup SSH access; disabled orphan jpark Unix/WordPress administrative access without deleting content. Active staff, customers, releases, database reads/transfers and reconciliation remain working; the scheduled 16:57 batch successfully sent 10 payouts. Existing internet-dependent offsite polling has no-route errors predating this shift; internal archive transfers and storage-gateway manifests succeed. Continuing checks until shift end.",
+  "hosts_reached": []
+ }
+]

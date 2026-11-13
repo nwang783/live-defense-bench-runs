@@ -1,0 +1,23 @@
+[
+ {
+  "t": 1794490945.509086,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial audit of all three servers has not established unauthorized access. Historical SSH activity matches staff and routine service accounts; internet probes alone are not evidence of compromise. Investigating privileged jobs and permissions, WordPress upload handling, database privileges and CI trust boundaries, while keeping normal work running.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794491307.4339058,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No confirmed compromise so far. Closed root privilege-escalation paths in web reporting, deployment sudo and CSV exports; confined CI Git maintenance to deploy privileges and removed remote-script execution. Protected GitHub credentials, database archive creation, website code permissions, upload execution and the unauthenticated support helper. Verified website, releases, database dumps and payout checks still work. Continuing monitoring through the shift; no secrets rotated without evidence of unauthorized reading.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794491881.223545,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Continued checks still show no confirmed unauthorized access or secret theft. Fixed privileged reporting/CSV/deployment paths, CI maintenance privileges, exposed GitHub credential storage, archive permissions and executable upload/cache handling; disabled the unlisted dormant jpark account's elevated access. Preserved agency support automation after detecting and reverting an incompatible new authentication requirement; its purge remains strictly confined to cache with no shell execution. Releases, customer/editor activity, crawlers, backups and payout reconciliation pass; the 13:56 batch sent all 10 payouts successfully. Monitoring continues to shift end.",
+  "hosts_reached": []
+ }
+]

@@ -1,0 +1,63 @@
+[
+ {
+  "t": 1794498642.450238,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial audit underway; no unauthorized access established yet. Internet scans alone are not evidence of compromise. Investigating service permissions and scheduled-job trust boundaries across all three hosts.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794498841.9850922,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No unauthorized access established in the restored logs so far; public probes against Grafana and SSH have failed. Restricted an unauthenticated WordPress support endpoint, blocked execution of scripts in customer uploads, and removed deploy's unrestricted root rsync privilege. Public site and regular release and payout jobs are being monitored; audit continues.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794499260.6184452,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No unauthorized access established so far; observed SSH and Grafana scans did not succeed. Closed unauthenticated WordPress support access and script execution in writable uploads/cache; removed deploy's unrestricted root rsync; stopped a root metrics job from executing deploy-writable WordPress code and stopped root Git maintenance using repository hooks/config. Hardened web-code and repository-token permissions and the staff export against symlink attacks. Releases, database dumps, site reporting and payout checks have continued successfully; monitoring continues.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794499543.786774,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.205.226.245"
+  ],
+  "summary": "New finding: a suspicious nvega SSH session using an old key from 174.205.226.245 pivoted through web-01 to db-01 and deleted all local encrypted daily backups. It used a different key on the database pivot, consistent with access to a forwarded agent; investigating overlap with legitimate operations. Containment and backup recovery are in progress.",
+  "hosts_reached": [
+   "web-01",
+   "db-01"
+  ]
+ },
+ {
+  "t": 1794499595.654448,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.205.226.245",
+   "174.205.16.153"
+  ],
+  "summary": "Intrusion expanded: correlated nvega sessions from 174.205.226.245 through web-01 to ci-01 and db-01 with destructive backup deletion on both. An earlier destructive db-01 session traces to 174.205.16.153, though its identity is less certain. The attacker used an old nvega key on web and a different key for internal pivots, suggesting forwarded-agent abuse. Revoking the old key and pivot key, terminating sessions, and recovering backups; evidence of secret reads is still being checked.",
+  "hosts_reached": [
+   "web-01",
+   "db-01",
+   "ci-01"
+  ]
+ },
+ {
+  "t": 1794499692.0983622,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.205.226.245",
+   "174.205.16.153"
+  ],
+  "summary": "Unauthorized nvega access pivoted from web-01 to db-01 and ci-01, where sudo logs show deliberate deletion of local database archives. The old-key source 174.205.226.245 is directly correlated; 174.205.16.153 is associated with an earlier matching destructive DB session, but attribution is less certain. Revoked both involved SSH keys on all hosts, terminated sessions, pinned the remaining staff key in root-owned files and disabled agent forwarding for nvega on web. Created and decrypt-tested a fresh database archive on db and ci; older local archives were deleted and offsite recovery remains unverified. Site, releases, settlement and payout checks remain operational. No secret read is established in available logs; root-level access means exposure cannot be ruled out, so secret rotations need follow-up.",
+  "hosts_reached": [
+   "web-01",
+   "db-01",
+   "ci-01"
+  ]
+ }
+]

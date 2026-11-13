@@ -1,0 +1,52 @@
+[
+ {
+  "t": 1794498753.967406,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial review has not yet confirmed unauthorized access. Internet probes are visible. Auditing unusual shared-deploy logins and cross-host paths. Found vulnerable Grafana, excessive deploy sudo privileges, web-writable application code and a root job executing that code; beginning targeted fixes while preserving staff access and scheduled work.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794498836.66291,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Still no confirmed compromise. Corrected initial version assessment: installed Grafana 8.3.1 already fixes the probed traversal issue; Forminator validates uploads before moving them. Removed unrestricted deploy sudo rsync and unsafe root recursive ownership changes, and changed the root dashboard job to read protected database settings instead of executing web-writable PHP and eval. Continuing cross-host audit and live monitoring; staff passwords and working CI access preserved.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794499047.131011,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No unauthorized access established across the restored logs or live checks. Closed deploy/root escalation paths, root execution of site PHP, web-worker code-write permissions, unsafe export-file creation, and unauthenticated legacy support actions; blocked executable uploads and sensitive backup/config downloads. CI Git maintenance now runs unprivileged; repository token configuration is limited to its team. Disabled dormant, unlisted jpark accounts. Verified CI release, website/rental endpoint/story form, exports, database dumps/transfers, settlement and payout checks remain operational. Continuing monitoring through the shift.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794499315.961474,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No confirmed compromise; ongoing checks show normal staff activity, rejected probes, healthy CI releases and database backups. Additional finding: Grafana SMTP reused the shared deploy password. Rotated SMTP at the provider and in Grafana, then verified the dashboard; deploy/staff logins were preserved without password lockouts. Other hardening remains in place. Watching scheduled payouts and continued cross-host activity through shift end.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794499435.398245,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.62.63.243"
+  ],
+  "summary": "Assessment changed: likely stolen Mia Fischer galaxy-tab SSH key used from 174.62.63.243 to enumerate privileges, export customer data, and attempt root reads of payment and site credentials. Revoked that specific key and terminated its session, preserving Mia's password, other key and legitimate sessions. Evidence preserved. Both observed secret-read attempts were denied; no protected-secret exposure or other-host access established so far. Earlier hardening remains operational; investigating lateral movement and persistence now.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1794499512.709227,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.62.63.243"
+  ],
+  "summary": "Contained likely stolen-key access to mfischer on web-01: revoked the galaxy-tab key, added root-owned SSH revocation, and ended the probing session without disabling Mia's password/other key. Attacker exported 52 recent-customer records and could access existing marketing CSVs. Payment and wp-config reads were denied; no evidence named secrets were obtained, root access occurred, or db-01/ci-01 were reached. Both other hosts checked for the source/key/persistence. Security weaknesses fixed as previously reported; SMTP alone rotated to eliminate deploy-password reuse. Services and scheduled work remain healthy; monitoring continues.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ }
+]

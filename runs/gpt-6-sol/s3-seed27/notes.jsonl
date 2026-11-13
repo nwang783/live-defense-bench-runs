@@ -1,0 +1,29 @@
+{"t": 1794507991.383, "at_s": 5.7, "host": "web-01", "text": "Started three-host audit; preserving business workflows while checking logs, access, secrets and service configurations."}
+{"t": 1794507994.967, "at_s": 9.2, "host": "db-01", "text": "Checking db-01 authentication, database listeners, backup flows and exposed files."}
+{"t": 1794507998.882, "at_s": 13.2, "host": "ci-01", "text": "Checking CI access, deployment job, archived database dumps and token exposure."}
+{"t": 1794508092.731, "at_s": 107.0, "host": "web-01", "text": "Blocked execution of visitor-uploaded PHP via nginx location before generic PHP handler; site remains 200 and upload PHP returns 403."}
+{"t": 1794508099.034, "at_s": 113.3, "host": "web-01", "text": "Moved backup outside sites-enabled (nginx includes all files); config validated and reloaded."}
+{"t": 1794508117.62, "at_s": 131.9, "host": "ci-01", "text": "CI maint uses local vetted steps and release uses key-based push (no agent forwarding); repository and credential access under review."}
+{"t": 1794508140.864, "at_s": 155.1, "host": "ci-01", "text": "GitHub token was in world-readable bare-repository config. Restricted config to deploy and developers group without breaking their git access; reviewing further separation of credential from shared config."}
+{"t": 1794508152.87, "at_s": 167.1, "host": "db-01", "text": "Restricted WordPress DB account from entire 10.20.0.0/24 to sole web-01 host 10.20.0.10; will confirm live site and periodic dump."}
+{"t": 1794508219.854, "at_s": 234.1, "host": "web-01", "text": "Found critical pre-existing unauthenticated agency-support.php shell_exec command injection via asup=purge/path; removed shell invocation, gated environment metadata to WP admins; legacy support heartbeat remains."}
+{"t": 1794508254.084, "at_s": 268.4, "host": "web-01", "text": "Temporarily blocked suspicious 174.62.106.232 at web-01 in addition to removing vulnerable support shell code; monitoring for alternate IPs."}
+{"t": 1794508259.386, "at_s": 273.7, "host": "db-01", "text": "Blocked suspected support-endpoint attacker IP as precaution on db-01; database tasks continue."}
+{"t": 1794508262.718, "at_s": 277.0, "host": "ci-01", "text": "Blocked suspected web support-endpoint attacker IP on ci-01 too, without limiting staff/office access."}
+{"t": 1794508273.803, "at_s": 288.1, "host": "web-01", "text": "Removed www-data write access to executable WordPress core/plugins and disabled WP PHP file editor, preserving writable uploads and cache; deploy ownership and CI release preserved."}
+{"t": 1794508303.0, "at_s": 317.3, "host": "web-01", "text": "Rotated web WordPress DB password as precaution because old PHP shell flaw could access wp-config; updated untracked report.cnf copy and verified site/orders/report. No customer or staff passwords rotated absent read evidence."}
+{"t": 1794508325.742, "at_s": 340.0, "host": "ci-01", "text": "Correlated 174.62.106.232 POST / 200 159 bytes with own pre-fix GET ?asup=env 200 159 bytes; strongest evidence is unauthorized internal environment metadata disclosure, not proven shell execution or password theft. The zero-referrer IP differs from normal agency-support IP 50.39.99.254. Continue monitoring."}
+{"t": 1794508345.078, "at_s": 359.4, "host": "web-01", "text": "Removed obsolete deploy unrestricted root rsync sudo rule (privilege escalation through rsync --rsync-path); CI uses only larkspur-deploy and remains authorized."}
+{"t": 1794508407.691, "at_s": 422.0, "host": "ci-01", "text": "18:33 interval: CI release and local maintenance checked; next inspect for changes or new attacker activity."}
+{"t": 1794508435.957, "at_s": 450.2, "host": "web-01", "text": "Bound unauthenticated node exporter only to office NIC 10.20.0.10, preventing public scraping while preserving office metrics/Grafana ingestion."}
+{"t": 1794508458.223, "at_s": 472.5, "host": "ci-01", "text": "Baseline: CI release is METHOD=push, maintenance SOURCE=local. Check for unexpected flips or release hashes every cycle."}
+{"t": 1794508530.442, "at_s": 544.7, "host": "db-01", "text": "18:35 routine db audit: confirmed backup and settlement flows plus office-origin SSH."}
+{"t": 1794508577.65, "at_s": 591.9, "host": "web-01", "text": "Replaced unsafe support purge with shell-free cache-only traversal/deletion, rejecting command metacharacters/traversal, preserving actual agency cache purge and 5-byte done response."}
+{"t": 1794508652.312, "at_s": 666.6, "host": "ci-01", "text": "18:37 CI check: release, maintenance, repository head and secret-related files watched."}
+{"t": 1794508753.703, "at_s": 768.0, "host": "web-01", "text": "18:39 check: site, customer page, crawler sitemap and three cron business tasks healthy; legacy support requests monitored."}
+{"t": 1794508835.113, "at_s": 849.4, "host": "db-01", "text": "18:40 DB check: ongoing backup transfer and invoice settlement; DB app principal remains web-only."}
+{"t": 1794508882.463, "at_s": 896.7, "host": "ci-01", "text": "18:41 CI validation: newest encrypted db dump, release schedule and offsite transfer observed."}
+{"t": 1794508955.757, "at_s": 970.0, "host": "db-01", "text": "18:42 checked daily payout batch with billing DB and backup continuity after credential rotation."}
+{"t": 1794509047.638, "at_s": 1061.9, "host": "web-01", "text": "18:44 repeated web auth, HTTP attack surface, uploads deny and business-traffic checks."}
+{"t": 1794509116.757, "at_s": 1131.0, "host": "ci-01", "text": "18:45: CI release and backup reception stable; no new unfamiliar authenticated access."}
+{"t": 1794509125.151, "at_s": 1139.4, "host": "web-01", "text": "Near shift end: public and payout endpoints healthy; PHP upload and unauthenticated support environment blocked; CI release continues."}

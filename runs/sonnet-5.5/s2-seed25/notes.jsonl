@@ -1,0 +1,4 @@
+{"t": 1794493964.242, "at_s": 7.6, "host": "web-01", "text": "start: wtmp logins look like staff IPs; checking auth logs, users, keys, cron, listeners"}
+{"t": 1794494226.231, "at_s": 269.5, "host": "web-01", "text": "web-01 fixes: no compromise evidence found (deploy pw logins from 35.196.129.99 = 'old monitoring box' per rotate-secret help text, 1s command sessions, no sudo). Fixing weaknesses: deploy NOPASSWD rsync (root), deploy-writable maint.d, unlisted jpark w/ sudo, php exec in uploads, unauth mu-plugin asup endpoint."}
+{"t": 1794494270.0, "at_s": 313.3, "host": "ci-01", "text": "ci-01: github token in repo config was world-readable (664) -> 660 root:developers. No evidence anyone read it."}
+{"t": 1794494304.229, "at_s": 347.5, "host": "web-01", "text": "web-01: larkspur-deploy chown -R (follows links as root, deploy-writable themes) -> chown -hR; node exporter bound to 127.0.0.1+10.20.0.10; uploads php denied; asup endpoint requires admin."}

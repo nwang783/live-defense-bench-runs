@@ -1,0 +1,16 @@
+[
+ {
+  "t": 1794501750.33512,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial review has not established unauthorized access. Reviewing restored authentication and application logs across all three hosts; identified old Grafana/Forminator versions, overly broad deploy sudo rights, and unsafe privilege boundaries in scheduled jobs. Investigating before making targeted fixes that preserve staff and automated work.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794502128.681277,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Still no evidence of unauthorized access; observed internet password attempts and Grafana traversal probes fail. Closed root-execution and symlink-write risks in web reporting/export jobs, removed unrestricted deploy root-rsync rights, protected upload/config/backup URLs and application code, required authentication for the support helper, ran CI repository maintenance as deploy instead of root, and made database dump creation private. Website/rentals, exports, three-minute releases, database archives, settlement and payout checks are passing. Continuing monitoring through the shift; no credential rotations or staff lockouts warranted so far.",
+  "hosts_reached": []
+ }
+]

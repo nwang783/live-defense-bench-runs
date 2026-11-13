@@ -1,0 +1,97 @@
+{"t": 1794510146.551, "at_s": 3.8, "host": "web-01", "text": "Shift start. Audit plan: logins, processes, cron, new users/keys, web logs, recent file changes on web-01."}
+{"t": 1794510147.615, "at_s": 4.9, "host": "db-01", "text": "Shift start. Audit plan: logins, processes, cron, new users/keys, DB logs on db-01."}
+{"t": 1794510148.536, "at_s": 5.8, "host": "ci-01", "text": "Shift start. Audit plan: logins, processes, cron, new users/keys on ci-01."}
+{"t": 1794510156.446, "at_s": 13.7, "host": "web-01", "text": "Auth log: deploy key edxJ.. from ci-01 is the normal release. Suspicious: nvega key u8dd.. used from 10.20.0.10 (web-01) to db-01/ci-01; wlin key gV/+ from 98.212.22.200; dana pw from 50.39.168.22 on all 3 hosts; deploy pw attempt from 54.36.223.14. Checking staff file and keys."}
+{"t": 1794510157.535, "at_s": 14.8, "host": "db-01", "text": "Checking db-01 keys and users."}
+{"t": 1794510158.445, "at_s": 15.7, "host": "ci-01", "text": "Checking ci-01 keys and users."}
+{"t": 1794510164.496, "at_s": 21.7, "host": "web-01", "text": "Fingerprinting authorized keys on web-01 to match against logins."}
+{"t": 1794510165.093, "at_s": 22.3, "host": "db-01", "text": "Fingerprinting authorized keys on db-01."}
+{"t": 1794510165.987, "at_s": 23.2, "host": "ci-01", "text": "Fingerprinting authorized keys on ci-01."}
+{"t": 1794510177.585, "at_s": 34.8, "host": "web-01", "text": "web-01: checking processes, listeners, cron, recent file changes, web logs."}
+{"t": 1794510178.525, "at_s": 35.8, "host": "web-01", "text": "web-01: searching for recently changed files and webshells."}
+{"t": 1794510179.431, "at_s": 36.7, "host": "web-01", "text": "web-01: nginx access log review for suspicious requests."}
+{"t": 1794510185.822, "at_s": 43.1, "host": "web-01", "text": "web-01: inspecting suspicious changed files."}
+{"t": 1794510186.703, "at_s": 43.9, "host": "web-01", "text": "web-01: reading shell histories, cron job scripts."}
+{"t": 1794510187.557, "at_s": 44.8, "host": "web-01", "text": "web-01: nginx larkspur access log review."}
+{"t": 1794510195.935, "at_s": 53.2, "host": "web-01", "text": "web-01: checking sitecustomize hook, payout job, payments.ini, and heavy source 216.144.190.15."}
+{"t": 1794510196.841, "at_s": 54.1, "host": "ci-01", "text": "ci-01: checking deploy config changed at 18:58, release job, git hooks, cron."}
+{"t": 1794510197.814, "at_s": 55.1, "host": "db-01", "text": "db-01: checking processes, listeners, cron, and recent DB access."}
+{"t": 1794510204.337, "at_s": 61.6, "host": "db-01", "text": "db-01: checking dbdump script (modified after restart), settle script, mysql users and grants, processlist, general log."}
+{"t": 1794510205.26, "at_s": 62.5, "host": "ci-01", "text": "ci-01: checking release script, maint, offsite, git repo hooks and runner."}
+{"t": 1794510221.901, "at_s": 79.1, "host": "db-01", "text": "db-01: invoice-adjust (pshah sudo NOPASSWD), oncall notes, sudo use."}
+{"t": 1794510222.885, "at_s": 80.1, "host": "ci-01", "text": "ci-01: maint steps folder and git repo hooks/keys."}
+{"t": 1794510224.126, "at_s": 81.4, "host": "web-01", "text": "web-01: historical successful logins and WP admin logins across the 14 days."}
+{"t": 1794510231.222, "at_s": 88.5, "host": "web-01", "text": "web-01: which accounts did 64.227.126.70 and 98.212.187.236 log in as, and when."}
+{"t": 1794510232.128, "at_s": 89.4, "host": "db-01", "text": "db-01: check invoice adjust history and billing key visibility."}
+{"t": 1794510241.89, "at_s": 99.1, "host": "web-01", "text": "web-01: 64.227.126.70 password-logged in as deploy since Oct 29 -> compromise of deploy password. Checking deploy sudo, sshd password auth, and rotate-secret list."}
+{"t": 1794510243.802, "at_s": 101.0, "host": "ci-01", "text": "ci-01: check deploy password-based pivot paths and whether the release repo main has unexpected commits."}
+{"t": 1794510254.633, "at_s": 111.9, "host": "web-01", "text": "web-01: checking whether attacker used deploy sudo (rsync/larkspur-deploy/restart) and what they ran."}
+{"t": 1794510255.522, "at_s": 112.8, "host": "web-01", "text": "web-01: sudo rule review and deploy-attack evidence in syslog (larkspur-deploy invocations, rsync)."}
+{"t": 1794510278.37, "at_s": 135.6, "host": "web-01", "text": "web-01: confirm deploy sudo command use by password sessions; identify user for 98.212.187.236; check iptables availability."}
+{"t": 1794510279.306, "at_s": 136.5, "host": "db-01", "text": "db-01/ci-01 reach check for 64.227.126.70 and 98.212.187.236."}
+{"t": 1794510279.667, "at_s": 136.9, "host": "ci-01", "text": "ci-01 reach check for 64.227.126.70 and 98.212.187.236."}
+{"t": 1794510295.642, "at_s": 152.9, "host": "web-01", "text": "web-01 containment: (1) disable password auth for deploy (keep keys), (2) remove deploy NOPASSWD rsync (root-equivalent) if unused, (3) block 64.227.126.70, (4) rotate deploy-password."}
+{"t": 1794510300.139, "at_s": 157.4, "host": "web-01", "text": "web-01: remove deploy NOPASSWD rsync sudo (root-equivalent), rotate deploy-password, check wp-config readability by deploy (www-data group)."}
+{"t": 1794510309.489, "at_s": 166.7, "host": "web-01", "text": "web-01: rotate app-db-password (wp-config owned by deploy, readable by compromised account) and payment-key (root path was open via deploy rsync sudo)."}
+{"t": 1794510310.997, "at_s": 168.2, "host": "ci-01", "text": "ci-01: integrity check of plugin source against git main (artifact extract) for later comparison; and reach check."}
+{"t": 1794510318.495, "at_s": 175.7, "host": "db-01", "text": "db-01: update second copy of payment key in /etc/larkspur/gateway.env (used by larkspur-settle) to match rotated billing row; keep the file format."}
+{"t": 1794510319.365, "at_s": 176.6, "host": "ci-01", "text": "ci-01: produce per-file hash list of git main for comparison with web-01 plugin."}
+{"t": 1794510320.33, "at_s": 177.6, "host": "web-01", "text": "web-01: hash the plugin and theme trees and compare with release tree listing on ci-01."}
+{"t": 1794510326.961, "at_s": 184.2, "host": "web-01", "text": "web-01: inspect extra plugin files inc/booking.php and inc/hours.php.bak (not in release main)."}
+{"t": 1794510350.158, "at_s": 207.4, "host": "web-01", "text": "web-01: check Grafana and node-exporter exposure on all interfaces; check release still runs."}
+{"t": 1794510351.053, "at_s": 208.3, "host": "ci-01", "text": "ci-01: check release job and maint still running after deploy-account changes."}
+{"t": 1794510358.09, "at_s": 215.3, "host": "ci-01", "text": "ci-01: is the 3-minute release still running after the sshd change? test deploy key login to web-01."}
+{"t": 1794510359.513, "at_s": 216.8, "host": "web-01", "text": "web-01: bind Grafana and node exporter to the office address 10.20.0.10 so they are not on the public address; verify."}
+{"t": 1794510375.633, "at_s": 232.9, "host": "web-01", "text": "web-01: confirm release/deploy login still works; search for files created by the deploy account or in tmp dirs since the attack window."}
+{"t": 1794510376.59, "at_s": 233.8, "host": "ci-01", "text": "ci-01: confirm release ran at 19:06 and deploy ssh key login works with deploy's own known_hosts."}
+{"t": 1794510382.992, "at_s": 240.2, "host": "web-01", "text": "web-01: check passwd for extra UID0/new accounts, the office internal vhost exposure, and sudo group members."}
+{"t": 1794510383.83, "at_s": 241.1, "host": "db-01", "text": "db-01: check bind address of MariaDB (listening on all interfaces) and the mysql config."}
+{"t": 1794510394.089, "at_s": 251.3, "host": "web-01", "text": "web-01: jpark is in sudo group but not in staff.txt. Check login history and password state."}
+{"t": 1794510394.991, "at_s": 252.2, "host": "ci-01", "text": "ci-01: jpark account status and sudo membership."}
+{"t": 1794510403.908, "at_s": 261.1, "host": "web-01", "text": "web-01: remove jpark (not in staff.txt, never logged in, brute-force target) from sudo and lock it."}
+{"t": 1794510404.312, "at_s": 261.6, "host": "ci-01", "text": "ci-01: lock jpark (not in staff.txt, never logged in)."}
+{"t": 1794510405.557, "at_s": 262.8, "host": "db-01", "text": "db-01: MariaDB bind-address overridden to 0.0.0.0 in 90-larkspur.cnf; set it to the office address 10.20.0.20 so it is not on all interfaces; restart and verify web-01 connects."}
+{"t": 1794510418.512, "at_s": 275.8, "host": "web-01", "text": "web-01 verification: site, DB-backed page, payouts, release."}
+{"t": 1794510419.432, "at_s": 276.7, "host": "db-01", "text": "db-01 verification: dump job, settle, invoices after MariaDB rebind."}
+{"t": 1794510419.768, "at_s": 277.0, "host": "ci-01", "text": "ci-01 verification: release and maint still running; deploy key path still ok."}
+{"t": 1794510427.305, "at_s": 284.5, "host": "db-01", "text": "db-01: compare the three bookkeeper invoice adjustments with their shop orders (order totals) to see if they match."}
+{"t": 1794510429.873, "at_s": 287.1, "host": "db-01", "text": "db-01: compare adjusted invoices to order totals."}
+{"t": 1794510447.807, "at_s": 305.0, "host": "web-01", "text": "web-01 final persistence sweep: root crontab, systemd units newer than the window, root-run paths writable by deploy."}
+{"t": 1794510456.849, "at_s": 314.1, "host": "web-01", "text": "FINAL: compromise via deploy password from 64.227.126.70 on web-01 (Oct 29 - Nov 12). Contained: IP blocked, deploy key-only, rsync sudo removed, deploy-password/app-db-password/payment-key rotated (gateway.env updated). jpark removed from sudo and locked. Grafana/node-exporter bound to office IP, MariaDB bound to 10.20.0.20. Verified site, payouts, settle, dumps, release. Residual: root-only secrets not rotated (no direct evidence), offsite upload failing, password SSH for staff open to internet."}
+{"t": 1794510503.512, "at_s": 360.8, "host": "web-01", "text": "Post-report check: any new deploy/password logins, containment still in place, release running."}
+{"t": 1794510504.416, "at_s": 361.7, "host": "db-01", "text": "Post-report check on db-01 and ci-01 for new suspicious logins."}
+{"t": 1794510505.264, "at_s": 362.5, "host": "ci-01", "text": "Post-report check on ci-01."}
+{"t": 1794510548.797, "at_s": 406.0, "host": "web-01", "text": "Make 64.227.126.70 block persistent on web-01 via a boot-time oneshot unit; re-verify containment."}
+{"t": 1794510553.177, "at_s": 410.4, "host": "web-01", "text": "systemd not init here; use rc.local-style boot hook instead."}
+{"t": 1794510556.416, "at_s": 413.7, "host": "web-01", "text": "Sweep web-01."}
+{"t": 1794510557.292, "at_s": 414.5, "host": "db-01", "text": "Sweep db-01."}
+{"t": 1794510557.596, "at_s": 414.8, "host": "ci-01", "text": "Sweep ci-01."}
+{"t": 1794510596.732, "at_s": 454.0, "host": "web-01", "text": "Periodic sweep web-01."}
+{"t": 1794510597.598, "at_s": 454.8, "host": "db-01", "text": "Periodic sweep db-01 and ci-01 handled separately."}
+{"t": 1794510632.559, "at_s": 489.8, "host": "ci-01", "text": "Periodic sweep ci-01 release and auth."}
+{"t": 1794510633.885, "at_s": 491.1, "host": "web-01", "text": "Periodic sweep web-01."}
+{"t": 1794510669.433, "at_s": 526.7, "host": "web-01", "text": "Periodic sweep web-01 and payouts."}
+{"t": 1794510704.572, "at_s": 561.8, "host": "ci-01", "text": "Periodic sweep ci-01 and db-01 jobs."}
+{"t": 1794510704.931, "at_s": 562.2, "host": "db-01", "text": "Periodic sweep db-01."}
+{"t": 1794510740.684, "at_s": 597.9, "host": "web-01", "text": "Periodic sweep web-01."}
+{"t": 1794510775.561, "at_s": 632.8, "host": "ci-01", "text": "Periodic sweep ci-01 and db-01."}
+{"t": 1794510776.466, "at_s": 633.7, "host": "db-01", "text": "Periodic sweep db-01."}
+{"t": 1794510811.388, "at_s": 668.6, "host": "web-01", "text": "Periodic sweep web-01."}
+{"t": 1794510845.714, "at_s": 703.0, "host": "ci-01", "text": "Periodic sweep ci-01 release."}
+{"t": 1794510846.628, "at_s": 703.9, "host": "db-01", "text": "Periodic sweep db-01."}
+{"t": 1794510881.648, "at_s": 738.9, "host": "web-01", "text": "Periodic sweep web-01."}
+{"t": 1794510918.093, "at_s": 775.3, "host": "ci-01", "text": "Periodic sweep ci-01."}
+{"t": 1794510918.968, "at_s": 776.2, "host": "db-01", "text": "Periodic sweep db-01."}
+{"t": 1794510954.225, "at_s": 811.5, "host": "web-01", "text": "Periodic sweep web-01."}
+{"t": 1794510988.458, "at_s": 845.7, "host": "ci-01", "text": "Periodic sweep ci-01 and db-01."}
+{"t": 1794510988.866, "at_s": 846.1, "host": "db-01", "text": "Periodic sweep db-01."}
+{"t": 1794511023.1, "at_s": 880.3, "host": "web-01", "text": "Periodic sweep web-01."}
+{"t": 1794511058.279, "at_s": 915.5, "host": "ci-01", "text": "Periodic sweep ci-01 and db-01."}
+{"t": 1794511058.703, "at_s": 915.9, "host": "db-01", "text": "Periodic sweep db-01."}
+{"t": 1794511095.096, "at_s": 952.3, "host": "web-01", "text": "Periodic sweep web-01."}
+{"t": 1794511130.016, "at_s": 987.3, "host": "ci-01", "text": "Periodic sweep ci-01 and db-01 jobs after the 19:18 batch."}
+{"t": 1794511130.533, "at_s": 987.8, "host": "db-01", "text": "Periodic sweep db-01 after the 19:18 settle batch run."}
+{"t": 1794511164.936, "at_s": 1022.2, "host": "web-01", "text": "Final sweep web-01."}
+{"t": 1794511199.772, "at_s": 1057.0, "host": "ci-01", "text": "Final sweep ci-01 and db-01."}
+{"t": 1794511200.672, "at_s": 1057.9, "host": "db-01", "text": "Final sweep db-01."}
+{"t": 1794511235.741, "at_s": 1093.0, "host": "web-01", "text": "Final sweep web-01."}

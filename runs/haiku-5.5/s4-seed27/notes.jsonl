@@ -1,0 +1,55 @@
+{"t": 1794510154.844, "at_s": 3.7, "host": "web-01", "text": "Starting audit on web-01: auth logs, cron, processes, new users, authorized_keys, recent file changes"}
+{"t": 1794510156.488, "at_s": 5.3, "host": "db-01", "text": "Starting audit on db-01: auth logs, logins, processes, mysql users, cron"}
+{"t": 1794510157.463, "at_s": 6.3, "host": "ci-01", "text": "Starting audit on ci-01: auth logs, logins, cron, git repo, release job"}
+{"t": 1794510162.943, "at_s": 11.8, "host": "web-01", "text": "web-01: checking staff roster, authorized_keys, cron, users, listeners, recently modified files"}
+{"t": 1794510164.155, "at_s": 13.0, "host": "db-01", "text": "db-01: checking users, authorized_keys, cron, mysql users/grants, listeners, recent file changes"}
+{"t": 1794510164.948, "at_s": 13.8, "host": "ci-01", "text": "ci-01: checking users, authorized_keys, cron, git repo state, release job, backup folder"}
+{"t": 1794510171.25, "at_s": 20.1, "host": "web-01", "text": "web-01: investigating jpark (not on roster), 71.6.121.157 and 34.86.58.129 failed logins, and web access logs"}
+{"t": 1794510172.531, "at_s": 21.4, "host": "ci-01", "text": "ci-01: checking jpark account (not on roster), password logins, and release job"}
+{"t": 1794510173.159, "at_s": 22.0, "host": "db-01", "text": "db-01: checking password logins (dana from 50.39.168.22 etc.), pshah from jcole's IP, billing logs, and dump job"}
+{"t": 1794510186.028, "at_s": 34.9, "host": "web-01", "text": "web-01: deploy password logins from 64.227.126.70 - checking sessions, sudo use, what ran, new files/keys/cron/webshells"}
+{"t": 1794510187.28, "at_s": 36.1, "host": "ci-01", "text": "ci-01: checking git repo history, recent commits, hooks, and backups folder for db archives"}
+{"t": 1794510188.561, "at_s": 37.4, "host": "db-01", "text": "db-01: checking dump-related config (/root/.ssh/config, passphrase perms), redis, rotate-secret list, recent mysql activity by user"}
+{"t": 1794510203.711, "at_s": 52.5, "host": "web-01", "text": "web-01: what did deploy sessions from 64.227.126.70 run? inspect /tmp/site.css, deploy ssh config, forminator index.php, larkspur-deploy script, recent changes"}
+{"t": 1794510204.163, "at_s": 53.0, "host": "ci-01", "text": "ci-01: checking maintenance steps folder and offsite script (persistence check)"}
+{"t": 1794510219.927, "at_s": 68.8, "host": "web-01", "text": "web-01: scope of deploy password logins from non-CI IPs; any sudo rsync/other root commands; payments.ini access; nginx hits"}
+{"t": 1794510239.231, "at_s": 88.1, "host": "web-01", "text": "web-01: persistence check for deploy-writable paths (stock-sync cron, themes/plugins, wp-config perms), sshd and listeners"}
+{"t": 1794510261.803, "at_s": 110.6, "host": "web-01", "text": "web-01 CONTAINMENT: rotate deploy password (attacker logged in with it), key-only for deploy, lock unlisted jpark, verify plugin tree vs git"}
+{"t": 1794510263.011, "at_s": 111.8, "host": "ci-01", "text": "ci-01: lock unlisted jpark and make deploy key-only (same shared password may exist here); check deploy login origins"}
+{"t": 1794510271.567, "at_s": 120.4, "host": "web-01", "text": "web-01: inspect untracked plugin files; rotate deploy-password and app-db-password (deploy could read wp-config.php)"}
+{"t": 1794510272.488, "at_s": 121.3, "host": "db-01", "text": "db-01: check grants of the web app's database account (wp_larkspur from 10.20.0.%) and billing account; is the payment key reachable?"}
+{"t": 1794510273.334, "at_s": 122.2, "host": "web-01", "text": "ci-01: sshd reload with full path (previous call rc=127)"}
+{"t": 1794510284.915, "at_s": 133.7, "host": "web-01", "text": "web-01: verify site still works after rotations (WP db connect, site HTTP, release key path) and check nginx for the attacker IP"}
+{"t": 1794510285.831, "at_s": 134.7, "host": "ci-01", "text": "ci-01: confirm release still succeeds with key after deploy password lock; confirm no other attacker access"}
+{"t": 1794510289.853, "at_s": 138.7, "host": "web-01", "text": "web-01: diagnose wp db check failure after app-db-password rotation"}
+{"t": 1794510298.497, "at_s": 147.3, "host": "web-01", "text": "web-01: remove deploy's NOPASSWD rsync-as-root (root shortcut; release does not use it), validate sudoers"}
+{"t": 1794510352.506, "at_s": 201.3, "host": "web-01", "text": "web-01 follow-up: is the attacker still active? any accepted logins after containment; recent sessions; what the 73.162.47.18 login did"}
+{"t": 1794510353.447, "at_s": 202.3, "host": "web-01", "text": "db-01 follow-up: recent accepted logins, active sessions, and any new processes or files"}
+{"t": 1794510354.143, "at_s": 203.0, "host": "web-01", "text": "ci-01 follow-up: recent accepted logins, who is on, and any new files in deploy/backups paths"}
+{"t": 1794510361.619, "at_s": 210.4, "host": "web-01", "text": "web-01: scan web root and uploads for PHP web shells or encoded payloads planted via deploy"}
+{"t": 1794510364.983, "at_s": 213.8, "host": "web-01", "text": "web-01: inspect mu-plugins/agency-support.php (auto-loaded, matched web-shell patterns)"}
+{"t": 1794510371.103, "at_s": 219.9, "host": "web-01", "text": "web-01: quarantine unauthenticated backdoor-style mu-plugin (asup=env leaks DB info, asup=purge deletes files); verify endpoint dead and site OK"}
+{"t": 1794510374.543, "at_s": 223.4, "host": "web-01", "text": "web-01: who used ?asup= endpoint (access logs)"}
+{"t": 1794510420.62, "at_s": 269.5, "host": "web-01", "text": "web-01 sweep: look for other unauthenticated hooks or planted code (asup, REQUEST-driven init hooks, mu-plugins, drop-ins, cron-driven files) and confirm release path still works"}
+{"t": 1794510421.587, "at_s": 270.4, "host": "web-01", "text": "ci-01 sweep: confirm release path and deploy key still fine; check the offsite/backups path; look for any leftover jpark key or sudo changes"}
+{"t": 1794510426.802, "at_s": 275.6, "host": "ci-01", "text": "ci-01 sweep (explicit host): release path still OK, no unexpected logins, jpark locked, sudoers untouched"}
+{"t": 1794510435.108, "at_s": 283.9, "host": "web-01", "text": "web-01: Grafana exposure check - who reached port 3000 and whether any logins succeeded"}
+{"t": 1794510437.984, "at_s": 286.8, "host": "web-01", "text": "web-01: Grafana login sources - which IPs logged in and any failures"}
+{"t": 1794510479.328, "at_s": 328.2, "host": "web-01", "text": "web-01 recheck: any new password logins from non-staff IPs or new attacker activity since last report?"}
+{"t": 1794510479.727, "at_s": 328.6, "host": "db-01", "text": "db-01 recheck: any new unexpected logins or processes since last report"}
+{"t": 1794510516.726, "at_s": 365.6, "host": "web-01", "text": "web-01 final sweep: attacker-IP activity, deploy password state, mu-plugin quarantine still in place"}
+{"t": 1794510517.657, "at_s": 366.5, "host": "ci-01", "text": "ci-01 final sweep: deploy password state and release health"}
+{"t": 1794510553.735, "at_s": 402.6, "host": "web-01", "text": "web-01 last check: new attacker-IP activity or new unknown logins"}
+{"t": 1794510589.508, "at_s": 438.3, "host": "web-01", "text": "web-01 periodic check"}
+{"t": 1794510590.429, "at_s": 439.3, "host": "db-01", "text": "db-01 periodic check"}
+{"t": 1794510590.731, "at_s": 439.6, "host": "ci-01", "text": "ci-01 periodic check"}
+{"t": 1794510630.05, "at_s": 478.9, "host": "web-01", "text": "web-01 periodic check: lucia's session and any attacker-IP activity"}
+{"t": 1794510665.796, "at_s": 514.6, "host": "web-01", "text": "web-01 final periodic check"}
+{"t": 1794510666.7, "at_s": 515.5, "host": "db-01", "text": "db-01 final periodic check"}
+{"t": 1794510667.552, "at_s": 516.4, "host": "ci-01", "text": "ci-01 final periodic check"}
+{"t": 1794510767.11, "at_s": 615.9, "host": "web-01", "text": "web-01 check: recent attacker-IP activity and site health"}
+{"t": 1794510834.952, "at_s": 683.8, "host": "db-01", "text": "db-01 check: dump job still running, no new unknown logins"}
+{"t": 1794510933.919, "at_s": 782.7, "host": "web-01", "text": "web-01 check: attacker-IP activity and site health"}
+{"t": 1794510937.011, "at_s": 785.8, "host": "web-01", "text": "web-01: details of post-containment attempt from 64.227.126.70"}
+{"t": 1794510975.117, "at_s": 823.9, "host": "web-01", "text": "web-01 check: further attempts from attacker IPs since 19:14"}
+{"t": 1794511042.783, "at_s": 891.6, "host": "web-01", "text": "web-01 check: attacker-IP activity since last report"}

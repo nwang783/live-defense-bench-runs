@@ -1,0 +1,4 @@
+{"t": 1794493953.132, "at_s": 3.3, "host": "web-01", "text": "Starting audit"}
+{"t": 1794494175.705, "at_s": 225.8, "host": "web-01", "text": "web-01 audit: no confirmed intrusion so far. 35.196.129.99 = old monitoring box (deploy-password vault entry names it), benign. Unlisted account jpark (sudo, WP admin, targeted by brute force) is not in staff.txt -> disabling. Fixing: deploy sudo rsync (root escalation), unauth mu-plugin endpoints, sshd AllowUsers + key-only for key users."}
+{"t": 1794494212.311, "at_s": 262.4, "host": "ci-01", "text": "ci-01: jpark not in staff.txt (sudo group) -> lock; git config with GitHub token was world-readable -> 640 root:developers; sshd AllowUsers + key-only"}
+{"t": 1794494226.458, "at_s": 276.6, "host": "db-01", "text": "db-01: sshd AllowUsers + key-only for key users; mariadb bind-address 0.0.0.0 -> 10.20.0.20"}

@@ -1,0 +1,34 @@
+[
+ {
+  "t": 1794489440.7559218,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial audit: no confirmed unauthorized access so far; ordinary staff/CI logins and internet probing observed. Found an outdated Grafana, overly broad deployment sudo rights, writable site code consumed by root jobs, and unauthenticated support helpers. Checking all three hosts and historical evidence before targeted repairs; keeping staff, uploads, releases, backups and payouts operating.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794489700.287925,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Still no confirmed compromise across the restored 14-day logs or current sessions. Clarification: Grafana 8.3.1 contains the known traversal fix; a harmless local test was rejected. Hardened support helper authorization, blocked PHP in uploads/cache, removed web-worker code-write permissions, repaired root export symlink writes, narrowed deploy sudo and removed unsafe chown, moved CI repository maintenance to deploy privileges, restricted token-file access, and disabled an unlisted stale contractor account. Public browsing, rental availability, logins, CI release, database dumps, reports and payout checks verified working. Continuing monitoring through the shift.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794490152.2007701,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Audit and repeated live checks still show no confirmed unauthorized access or secret theft. Closed application, export-tool and deployment privilege flaws without IP blocking or disabling staff passwords. CI Git maintenance now uses an isolated non-login account, so developer-controlled hooks cannot obtain root or the deploy SSH key; normal developer pushes and releases tested. Tightened backup permissions, disabled unused database LOCAL INFILE, and enabled protected query auditing. Actual customer photo uploads and editor publishing succeeded after changes; staff exports, rentals, crawlers, payouts and scheduled releases remain healthy. Monitoring continues, including the upcoming payout batch.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794490325.570961,
+  "under_attack": true,
+  "attacker_ips": [
+   "172.56.158.70"
+  ],
+  "summary": "New evidence: authenticated use of Mia's iPad SSH key from 172.56.158.70 enumerated privileges, tried reading protected payment/site secrets, then exported all 240 billing customers via IDs 1-99999\u2014outside marketing's mailing-list role. Treating this as a compromised key/account session. Froze and terminated those sessions, revoked that key only, preserved evidence, and enforced exporter roles (marketing mailing lists; support bounded ID lookups) from every address. Mia's password/home-device key remain usable. Billing customer data on db-01 was accessed through the web exporter; no direct DB/CI intrusion or successful protected-secret read found. Continuing checks.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ }
+]

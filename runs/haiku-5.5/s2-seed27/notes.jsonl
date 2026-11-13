@@ -1,0 +1,8 @@
+{"t": 1794510149.228, "at_s": 4.4, "host": "web-01", "text": "Starting audit of web-01. Checking logins, processes, cron, recent changes, auth logs."}
+{"t": 1794510150.157, "at_s": 5.3, "host": "db-01", "text": "Starting audit of db-01. Checking logins, processes, cron, DB access logs."}
+{"t": 1794510151.036, "at_s": 6.2, "host": "ci-01", "text": "Starting audit of ci-01. Checking logins, processes, cron, git repo and deploy job."}
+{"t": 1794510173.974, "at_s": 29.2, "host": "web-01", "text": "web-01: checking webroot for php in uploads, authorized_keys, payments.ini access, nginx logs"}
+{"t": 1794510244.515, "at_s": 99.7, "host": "web-01", "text": "web-01: deploy shared account taken by password from 64.227.126.70 (388 accepted since 2026-10-29). Closing: key-only for deploy, block IP, rotate deploy-password, remove unused rsync sudo right."}
+{"t": 1794510258.602, "at_s": 113.8, "host": "web-01", "text": "web-01: removed unused deploy sudo right to rsync (root-equivalent); deploy password rotated; deploy key-only; 64.227.126.70 dropped in iptables."}
+{"t": 1794510364.522, "at_s": 219.7, "host": "web-01", "text": "web-01: 138.68.139.53 probing deploy password at 19:03; blocked. deploy key-only."}
+{"t": 1794510417.706, "at_s": 272.9, "host": "db-01", "text": "db-01: pshah password login from 24.30.29.136 at 19:06, then sudo larkspur-invoice-adjust changed invoice 25 35500->33000 (order LC-20275). Ending session and locking pshah password pending Maria. Not reverting invoice."}

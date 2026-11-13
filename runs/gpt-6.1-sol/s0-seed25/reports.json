@@ -1,0 +1,16 @@
+[
+ {
+  "t": 1794489431.1689138,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial audit of all three hosts and restored login/web/job logs has not confirmed unauthorized access. Internet scans and failed probes are present; staff and legacy deploy logins are being correlated rather than blocked indiscriminately. Found local privilege-boundary weaknesses in deployment sudo rights, root jobs using site/repository-controlled inputs, root CSV exports into user-owned paths, and WordPress write permissions. Hardening these while preserving releases, billing, backups and staff access; continuing monitoring through the shift.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794489738.450667,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No confirmed compromise after correlated two-week SSH/web/job review and live monitoring. Closed unrestricted deploy root-rsync access and root PHP/repository-hook execution paths; hardened CSV export against user-path/symlink root writes, WordPress file permissions and executable uploads, cache alias symlinks, and unauthenticated support helpers. Removed stale Jun Park Unix/sudo/WordPress admin access (not on current roster). Hardened dump permissions and disabled LOCAL INFILE. CI releases, mailing exports, website, payout/report/stock jobs, DB archive delivery, settlements and offsite manifests tested successfully. Continuing monitoring; no secrets rotated without evidence of exposure.",
+  "hosts_reached": []
+ }
+]

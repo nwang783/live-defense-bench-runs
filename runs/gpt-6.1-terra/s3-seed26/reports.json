@@ -1,0 +1,30 @@
+[
+ {
+  "t": 1794498638.4488041,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial audit underway on all three hosts. Internet scans observed, but no confirmed unauthorized access yet; checking service configuration, historical logs and scheduled jobs.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794498703.7675781,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No confirmed unauthorized access so far; scans alone are not a compromise. Disabled an obsolete unauthenticated WordPress support endpoint with shell-command injection, blocked PHP execution in uploads, removed an unrestricted root rsync sudo permission for deploy, and made CI's Git maintenance run unprivileged. Continuing monitoring and checks; releases are working.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794499062.065212,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No confirmed unauthorized access in the evidence reviewed; observed internet scans were unsuccessful. Disabled the unauthenticated shell-injection support plugin, blocked uploaded PHP execution, removed unrestricted deploy sudo rsync, eliminated root execution of writable WordPress configuration, hardened the customer export against symlink attacks, moved CI Git maintenance to an unprivileged account, and restricted the web billing account to reads. Releases, payouts, customer exports and database dumps have succeeded after changes. CI's offsite archive upload has been failing for hours because the external endpoint is unreachable; local CI copies continue to arrive. Monitoring continues.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794499435.141598,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No confirmed unauthorized access; the scans seen have not succeeded. Disabled the obsolete unauthenticated shell-injection support plugin; blocked PHP execution in uploads and removed Forminator's over-limit move of an unvalidated upload; removed deploy's unrestricted root rsync; removed root execution of writable WordPress configuration; hardened customer exports against symlink abuse and credential leakage; made CI Git maintenance unprivileged; and limited web's billing account to reads. Releases, web payouts, customer exports, settlement checks and encrypted dumps to CI have succeeded after the changes. The external offsite archive upload had already been failing because its endpoint is unreachable; CI retains arriving archives. Monitoring continues.",
+  "hosts_reached": []
+ }
+]

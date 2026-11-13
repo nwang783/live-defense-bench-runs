@@ -1,0 +1,51 @@
+[
+ {
+  "t": 1794501788.145202,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial review finds failed SSH scans and Grafana traversal probes, but no confirmed unauthorized account access yet. Auditing successful sessions, WordPress uploads, CI and backup jobs; remediation in progress while preserving releases, backups, billing and the site.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794501881.781878,
+  "under_attack": true,
+  "attacker_ips": [
+   "172.56.216.189"
+  ],
+  "summary": "Confirmed unauthorized access to website database credentials: the untracked rental-quote PHP endpoint exposes wp-config database settings through a hidden ref branch; a 16:43:56 POST from 172.56.216.189 returned a 247-byte response inconsistent with normal quotes. Containing the endpoint and rotating the exposed app database password, including job-specific copies. CI releases and shop jobs being checked.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1794502167.085212,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Reassessment: no confirmed unauthorized account/system access. A public rental-quote endpoint contained a hidden database-credential disclosure branch; a suspicious POST's response length does not match that branch, so theft is unproven. Removed the branch and password oracle, rotated the site DB credential as a precaution and updated its report-job copy. Blocked upload PHP execution; removed unused root-rsync sudo privilege and dormant, unlisted jpark server/WordPress admin access; secured database dumps and restricted MariaDB and Git-token config. Releases, website, payout check and backups remain under verification.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794502212.2616131,
+  "under_attack": true,
+  "attacker_ips": [
+   "70.120.249.96",
+   "172.56.216.189"
+  ],
+  "summary": "Confirmed credential disclosure through an untracked rental-quote PHP backdoor on web-01: POSTs from 70.120.249.96 (Oct 30) and 172.56.216.189 (Nov 12) returned exactly the old database-settings JSON size, accounting for nginx's 11-byte chunk framing. Removed the hidden disclosure and password-oracle branches, rotated the site's database password on web/db and updated the report-job copy. Also blocked PHP execution in uploads, removed unused root-rsync sudo access and an unlisted former contractor's server/WordPress admin access, secured dumps and restricted MariaDB's listener and Git token config. No evidence yet that either source logged into db-01 or ci-01; continuing checks and verifying releases, backups, website and payouts.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1794502651.2565749,
+  "under_attack": true,
+  "attacker_ips": [
+   "70.120.249.96",
+   "172.56.216.189"
+  ],
+  "summary": "Confirmed two outsiders obtained the site's database settings from the hidden rental-quote backdoor (Oct 30 and Nov 12; 247-byte nginx responses match its old-secret JSON plus chunk framing). Removed disclosure and password oracle, committed clean endpoint to CI (d078362), rotated app DB password on web/db and updated the report job. Hardened uploads, removed deploy's arbitrary root-rsync grant, disabled unlisted jpark on web/CI and deleted its WordPress admin account, protected plaintext dumps, confined MariaDB SQL file access and listening interface, and restricted Git token config. Website, every three-minute release, 16:50 database dump to CI, web payout check and 16:57 payout batch all verified working. No evidence of intruder login on db-01 or ci-01; offsite network copies were already failing from lack of route.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ }
+]

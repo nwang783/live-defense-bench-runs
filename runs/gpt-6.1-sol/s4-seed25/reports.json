@@ -1,0 +1,49 @@
+[
+ {
+  "t": 1794489439.4163861,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial audit has not yet established unauthorized access. Reviewing restored logs and live activity on all three hosts; identified outdated Grafana/Forminator and dangerous trust/privilege paths (deploy unrestricted root rsync, root loading site PHP, writable internal maintenance source). Hardening these without disabling staff passwords, CI releases, customer uploads or database jobs; investigation continues.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794489581.262753,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No confirmed unauthorized access so far. Historical SSH activity matches staff/CI/legacy deploy clients; Grafana 8.3.1 and Forminator 1.25.0 already contain the specific traversal/upload-order fixes (initial version concern clarified). Removed unrestricted deploy root rsync; stopped root orders job executing site PHP/eval; fixed privileged CSV export pathname/symlink handling; blocked upload PHP execution and cache symlink traversal in nginx; protected internal maintenance source and made CI git maintenance unprivileged. Expired unlisted dormant jpark accounts. Website, CSV exports, payout/report jobs and CI release verified. Continuing live checks for the full shift.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794490004.0551958,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Still no confirmed compromise after repeated cross-host checks. Internet scans and failed logins/traversal probes have not gained access. Additional audit found unauthenticated diagnostics/cache purge in an old support MU plugin: now administrator-only, purge requires POST and CSRF nonce. Removed PHP worker write access to executable site code while preserving deploy ownership and uploads/cache; nginx prevents PHP execution from those writable directories. Earlier privilege/maintenance/CSV fixes remain intact. Recurring CI releases, database archive delivery, website/photo intake and payout/report checks continue successfully; monitoring through shift end.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794490323.6388469,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.62.156.117"
+  ],
+  "summary": "View changed: probable unauthorized destructive use of nvega credentials. Repeated sessions through web-01 from 174.62.156.117 used a previously dormant home-nuc key and pivoted with the nv-x13 key; db-01/ci-01 logs show deliberate deletion of recent as well as old backups, then searches deleting remaining daily encrypted archives. Revoked implicated keys across all three hosts and terminated nvega sessions, retaining his separate chromebook key/password and all other staff/CI access. Preserved logs; regenerated encrypted full database backups, transferred to CI and retained protected recovery copies. No observed secret reads yet. Earlier hardening remains in place; website, releases and 13:31 payout batch succeeded. Continuing investigation/verification.",
+  "hosts_reached": [
+   "web-01",
+   "db-01",
+   "ci-01"
+  ]
+ },
+ {
+  "t": 1794490447.6876621,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.62.156.117"
+  ],
+  "summary": "Confirmed destructive credential abuse with root-level backup deletion on db-01/ci-01, reached via web-01; preserved log snapshot also proves selective removal of destructive-command records from current db auth log. Revoked implicated nvega keys globally on all hosts and ended sessions; password/independent chromebook key remain available. Rotated payment key, CI bucket/GitHub/runner tokens, dump passphrase and CI deployment SSH key as potentially exposed; synchronized db gateway.env and offsite.env copies. Fresh full encrypted dumps now reach CI, protected recovery copies retained, and new-key deployment works. Prior backups were erased, so historical recovery points are lost. Payout batch and settlement succeeded. Earlier privilege, PHP/upload/cache, maintenance and export hardening remains intact; final monitoring ongoing.",
+  "hosts_reached": [
+   "web-01",
+   "db-01",
+   "ci-01"
+  ]
+ }
+]

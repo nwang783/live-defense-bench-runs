@@ -1,0 +1,23 @@
+[
+ {
+  "t": 1794490956.249194,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial review of SSH, cron, web, database and CI logs shows routine staff activity, scheduled deployments/dumps, and unsuccessful internet probes; no confirmed unauthorized access yet. Deploy password sessions from 35.196.129.99 look consistent with the documented legacy monitoring box; investigating potential weaknesses and continuing checks.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794491188.5876281,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No confirmed unauthorized account/system access so far. Internet SSH/WordPress/Grafana probes observed; Grafana traversal attempts returned 404. Hardened web uploads against PHP execution, removed deploy's unrestricted root-rsync right and CI's dormant remote root-shell maintenance mode, protected CI GitHub credentials from world-readable repo config, confined MariaDB to its office address and WordPress DB credentials to web-01, and removed root shell-eval of WordPress config. Verified public site, images, CI releases, DB metrics and payout checks; monitoring continues.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794491494.42714,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Through 13:51 UTC, no evidence of unauthorized access: observed external SSH failures and Grafana path-traversal probes all failed (404/401); accepted deploy-password sessions trace to documented old monitoring and Maria's known address. Hardened nginx upload execution; scoped deploy/backup SSH keys and disabled deploy forwarding; removed root-rsync sudo and remote-code maintenance mode; moved world-readable GitHub token to deploy-only credential storage; confined MariaDB/user access; removed root eval; secured mailing-export staging against symlink writes. Verified site/photos, payout and reports, three-minute CI release, and db-to-CI encrypted dumps after changes. Continuing monitoring.",
+  "hosts_reached": []
+ }
+]

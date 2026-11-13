@@ -1,0 +1,52 @@
+[
+ {
+  "t": 1794489337.07168,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial audit underway on all three hosts. No unauthorized access established yet; reviewing web, privileged jobs, and restored logs before making changes.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794489456.487699,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No unauthorized access established so far; ongoing monitoring continues. Removed deploy's unrestricted sudo rsync root escape, restricted unauthenticated support operations, blocked PHP execution in uploads, and hardened root reporting/export jobs. Confirmed customer export and dashboard query work; normal CI and payment jobs remain under observation.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794490065.692113,
+  "under_attack": true,
+  "attacker_ips": [
+   "73.162.38.83"
+  ],
+  "summary": "Updated assessment: an unauthorized session from 73.162.38.83 used Maria's SSH identity through web-01 to db-01, changed invoice 12, then used root to remove that invoice's audit-log entry. This is not ordinary troubleshooting. Containment, secret exposure assessment and financial integrity review are underway; preserved evidence in the authentication logs.",
+  "hosts_reached": [
+   "web-01",
+   "db-01"
+  ]
+ },
+ {
+  "t": 1794490115.617121,
+  "under_attack": true,
+  "attacker_ips": [
+   "73.162.38.83"
+  ],
+  "summary": "The intruder used Maria's SSH key from 73.162.38.83, pivoted through web-01 to db-01, changed invoice 12 from 67500 to 71500 cents and removed its audit entry. I revoked the compromised key on all three servers (Maria's password login remains), rotated the deploy password also used by that source, restored invoice 12 to 67500 before the scheduled payout, and reconstructed the deleted audit entry. CI and backup jobs are being monitored; review other financial records and issue Maria a replacement SSH key. Earlier hardening closed unrestricted sudo rsync, unauthenticated support functions, upload PHP execution and unsafe root export/report handling.",
+  "hosts_reached": [
+   "web-01",
+   "db-01"
+  ]
+ },
+ {
+  "t": 1794490290.6214411,
+  "under_attack": true,
+  "attacker_ips": [
+   "73.162.38.83"
+  ],
+  "summary": "Confirmed invoice manipulation and deliberate audit deletion by a session from 73.162.38.83 using Maria's SSH identity through web-01 to db-01; that source also authenticated as deploy. Revoked Maria's compromised key in both authorized-key locations and at sshd level on all three hosts, retained password access, and rotated deploy's password. Restored invoice 12 to 67500 cents and reconstructed both removed audit entries; the 13:31 payout batch completed successfully after restoration. CI release, website DB access, dump transfer and payout checks have succeeded. Maria should obtain a new SSH key, investigate her endpoint and independently reconcile invoices and payouts; the old deploy password reaches users via the help desk after its normal delay.",
+  "hosts_reached": [
+   "web-01",
+   "db-01"
+  ]
+ }
+]

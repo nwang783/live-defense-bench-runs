@@ -1,0 +1,23 @@
+[
+ {
+  "t": 1794508045.558571,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial audit: no confirmed unauthorized access. Internet scans of WordPress and Grafana have returned failures; routine staff, CI deploys, database jobs, backups and payout checks are operating. Auditing privilege paths, logs and configurations across all three servers; will report again if findings change.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794508158.8577569,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No confirmed unauthorized login or secret access. Failed internet probes only. Closed PHP execution in web uploads/cache, removed deploy's unused unrestricted root rsync sudo, disabled obsolete former contractor jpark on web and CI, removed public read of CI repository token, and reduced web billing SQL account to SELECT. Verified site, CI release and payout job; continuing monitoring all three hosts.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794508575.1992562,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Through 18:36 UTC no confirmed unauthorized access; public Grafana/WordPress scans failed. Fixed executable PHP uploads, removed unnecessary deploy root-rsync sudo, disabled obsolete jpark on web/CI, restricted CI token file, and made WordPress code non-writable by PHP while retaining media uploads and CI deploy ownership. Restricted web billing account to SELECT. Confirmed live site, CI releases, DB dumps, payout checks and settlement logs remain healthy; monitoring continues.",
+  "hosts_reached": []
+ }
+]

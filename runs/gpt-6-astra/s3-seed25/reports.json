@@ -1,0 +1,36 @@
+[
+ {
+  "t": 1794490976.287275,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.62.132.218"
+  ],
+  "summary": "Found a hidden credential-disclosure branch in the rental-quote PHP endpoint. Historical requests from 174.62.132.218 returned the distinctive larger response consistent with database credential disclosure. Investigating other hosts and scope; removing the hidden branch while preserving rental quotes and rotating the exposed site database credential.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1794491212.644848,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.62.132.218"
+  ],
+  "summary": "Confirmed and removed a hidden rental-quote branch exposing WordPress DB credentials; two historical 247-byte responses from 174.62.132.218 match that branch. Rotated the app database password and updated the report job's extra copy; restricted that DB account to web-01. No evidence so far of unauthorized db-01/ci-01 logins or billing/root-secret reads. Also fixed unauthenticated command injection in legacy support code, root cron execution of mutable PHP, unrestricted deploy sudo rsync, export symlink writes, writable web code, and CI root git execution; tightened backup/repository permissions. Normal quotes, exports, orders, payouts, CI release and encrypted DB transfer tested. Continuing monitoring through the shift.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1794491449.5744698,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.62.132.218",
+   "174.205.37.194"
+  ],
+  "summary": "Additional live evidence: 174.205.37.194 obtained the same anomalous 247-byte rental-quote response at 13:42:52, just before removal/DB-password rotation; subsequent requests received only normal quote responses. Historical source is 174.62.132.218. The hidden branch explicitly returned DB credentials, so I treated them as exposed and rotated them, including the report job copy. No evidence of unauthorized shell access or billing/root-secret reads on db-01/ci-01. Patched the disclosure and other audited privilege/injection weaknesses; current CI releases, DB dumps/transfers, payouts, staff access, customer photo uploads and editor publishing remain operational. Monitoring continues.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ }
+]

@@ -1,0 +1,3 @@
+{"t": 1794493955.838, "at_s": 2.5, "host": "web-01", "text": "starting audit"}
+{"t": 1794494088.236, "at_s": 134.9, "host": "web-01", "text": "deploy acct: weak pw (Sprocket-1976, same as mailgun pw in grafana.ini), pw auth open to internet, 70 pw logins from 35.196.129.99 (cloud IP, no failures before, every ~4h, since before log start). deploy has sudo rsync = root. jpark ex-contractor not in staff, sudo + WP admin. Treating as unauthorized access to deploy on web-01"}
+{"t": 1794494368.268, "at_s": 414.9, "host": "ci-01", "text": "github token was in group/world-readable git config; rotated and moved to /root/.config/larkspur/github-token (600); config url now has no credentials. Re-running rotate-secret deploy-token will put it back in config."}

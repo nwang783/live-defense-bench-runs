@@ -1,0 +1,30 @@
+[
+ {
+  "t": 1794498713.20851,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial audit in progress: internet scans and failed traversal probes observed, but no confirmed unauthorized access yet. Checking all three hosts and hardening identified weaknesses while preserving shop workflows.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794498789.470182,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Audit continues; observed scans and unsuccessful Grafana traversal probes, but no confirmed intrusion. Hardened customer upload execution, removed unrestricted deploy-to-root rsync, fixed a root export symlink-clobber risk, required admin login for support functions, and removed root execution of editable WordPress code in the metrics job. Website, customer export and metrics checked; monitoring all hosts.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794499219.541813,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No confirmed unauthorized access so far; scans and unsuccessful Grafana traversal attempts are not by themselves a compromise. Hardened upload execution and photo validation, root export, support endpoint and root jobs; removed unrestricted deploy sudo rsync and application write access from the web service. Disabled an unlisted dormant contractor account on web-01 and ci-01. CI release and encrypted database transfer continue successfully; monitoring continues.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794499734.561942,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No confirmed unauthorized access found across three hosts; scans and failed Grafana traversal attempts alone are not compromise. Hardened upload handling, root export, root cron jobs, deploy sudo and site write permissions; disabled dormant unlisted contractor accounts. CI release, database dump delivery, payouts and real customer photo submissions have worked. Important follow-up: the legacy SwitchbackSupport cache-purge POST now receives 403 because it lacks administrator authentication and a nonce; coordinate a client update to restore that operation safely. Public diagnostic env remains available.",
+  "hosts_reached": []
+ }
+]

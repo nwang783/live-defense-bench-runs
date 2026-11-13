@@ -1,0 +1,57 @@
+[
+ {
+  "t": 1794503478.1864698,
+  "under_attack": true,
+  "attacker_ips": [
+   "54.36.199.108"
+  ],
+  "summary": "WHAT I FOUND\n- web-01: the shared 'deploy' account was logged into by password from 54.36.199.108 (not a known staff or office address) on about 84 successful logins, from 30 Oct to 12 Nov. Those were remote-command sessions (77 of them, shown as 'Starting session: command for deploy'). The attacker had the deploy password, and deploy can read wp-config.php, which holds the site's database password. I found no sudo activity by deploy beyond the normal larkspur-deploy release, and no new SSH keys, cron jobs, or changed tracked plugin files. I cannot see what commands the attacker ran, so treat the exposure as possible, not proven.\n- The deploy account had a sudo rule for /usr/bin/rsync as root. That is a path to root for anyone with the deploy login, and nothing in the release uses it.\n- No other host shows an intruder. Successful password logins on db-01 and ci-01 come from known staff addresses. dana logs in by password from 71.58.202.179 on all three servers since 29 Oct; that is not proof of misuse, but please confirm it with Dana.\n- The 640 requests from 216.144.37.35 to / every ~25 minutes look like an uptime monitor, not an attack. Internet SSH brute force (e.g. 64.227.177.55, 45.155.26.216) failed.\n\nWHAT I CHANGED (web-01)\n- sshd: password login is now off for the deploy account only, from any address. Staff password logins are unchanged.\n- deploy's authorized key now only works from 10.20.0.30 (ci-01). The release was still running at 3-minute intervals after this change.\n- sudoers: removed 'deploy ALL=(root) NOPASSWD: /usr/bin/rsync'. larkspur-deploy is unchanged.\n- rotate-secret deploy-password: new password is in the staff vault. Maria and the old monitoring box are locked out of deploy by password until the help desk hands over the new one.\n- rotate-secret app-db-password: site DB password changed in wp-config.php and on db-01. The site returns 200, and a direct DB login with the new password works.\n- Left unchanged: the payment key. It is root-only on web-01 and nothing I saw was root access, so I did not rotate it. Please still check the payment provider for unexpected payouts or charges since 29 Oct.\n\nNEEDS MARIA'S ATTENTION (not changed by me)\n- Bookkeeping: invoice amounts were changed by pshah (bookkeeping) on 29 Oct, 2 Nov, 3 Nov and 11 Nov, including 9000 to 21000 and 25500 to 34000, and mreyes once. pshah's logins come from 108.21.194.27, which is also jcole's home IP. Please confirm these. The daily gateway payout batch (settle --batch) runs at 17:23 UTC from db-01 and sends invoice amounts to the gateway.\n- ci-01: the GitHub token sits in /srv/git/larkspur-site.git/config, readable by the developers group, which includes contractors. Consider moving it out of the repo config.\n- db-01: MariaDB listens on 0.0.0.0. Consider binding to 10.20.0.20 only.\n- Staff use password SSH from the internet. Moving them to keys would be better, but it is a larger change.\n- Offsite backup has failed since at least 09:41 ('no route'), so archives are not reaching the bucket.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1794503543.3684149,
+  "under_attack": true,
+  "attacker_ips": [
+   "54.36.199.108"
+  ],
+  "summary": "UPDATE (17:12 UTC). Summary of the earlier report still holds, with these changes:\n- Compromise: between 29 Oct and 12 Nov, 54.36.199.108 logged into web-01 as the shared 'deploy' account by password, about 84 successful logins, most running remote commands. I found no sudo misuse beyond the normal release, no new keys or cron jobs, and no changed tracked plugin files. What the attacker ran is not visible in the logs, so the exposure (including wp-config.php, readable by deploy) is treated as possible.\n- Containment on web-01: deploy password logins are off (sshd Match User deploy); deploy's key only works from 10.20.0.30; the deploy sudo rule for /usr/bin/rsync is removed; deploy-password and app-db-password are rotated. After the change, 54.36.199.108 tried again at 17:11:56 and was refused before authentication. The site (200), the shop DB, the billing DB and the release every 3 minutes all work.\n- db-01: MariaDB now listens only on 10.20.0.20 (its only office address), not on all interfaces. Shop and billing DB logins from web-01 still work. Dump job still runs.\n- Not changed: the payment key (root-only; no root access seen; please still check the payment provider for unexpected payouts since 29 Oct); the GitHub token readable by the developers group on ci-01 (recommend moving it); the bookkeeping invoice-amount changes by pshah (please confirm); staff password SSH from the internet (recommend keys); offsite backup failing with 'no route' since at least 09:41.\n- Maria and the old monitoring box need the new deploy password from the help desk to log in as deploy; the release itself is unaffected.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1794503775.975771,
+  "under_attack": true,
+  "attacker_ips": [
+   "54.36.199.108"
+  ],
+  "summary": "UPDATE (17:16 UTC). No change to the main finding: 54.36.199.108 had password access to web-01's shared deploy account from 29 Oct to 12 Nov, and it is now locked out (no password logins for deploy since containment; last retry refused before authentication). Everything I changed earlier still stands (deploy password login off, deploy key limited to 10.20.0.30, deploy sudo rsync rule removed, deploy-password and app-db-password rotated, MariaDB bound to 10.20.0.20). Site, DB, dumps and the release every 3 minutes all work.\nNEW, NOT CONFIRMED: at 17:15:42 UTC tbrooks's key logged into web-01 from 67.180.176.27, an address seen only once before (in this log, now 4 times, all in this session). tbrooks's usual addresses are 50.39.90.36 (34 logins) and 73.162.151.199 (2). The key is valid, so this may be tbrooks on another network, but I could not verify it. Please ask tbrooks whether they logged in from 67.180.176.27 at 17:15 UTC on 12 Nov. I did not lock tbrooks out, since that could break a legitimate session. If it was not tbrooks, rotate tbrooks's key and check what that session ran (shell on pts/1, id 0).\nStill open for Maria: payment provider check; confirm the invoice amount changes by pshah; move the GitHub token out of the ci-01 repo config; move staff off password SSH; fix the offsite backup (failing since 09:41).",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1794504175.715163,
+  "under_attack": true,
+  "attacker_ips": [
+   "54.36.199.108"
+  ],
+  "summary": "UPDATE (17:23 UTC). Main finding unchanged: 54.36.199.108 had password access to web-01's shared deploy account 29 Oct to 12 Nov. No deploy password logins since containment; the last retry was refused before authentication. The changes I made still stand: deploy password login off, deploy key limited to 10.20.0.30, deploy sudo rsync removed, deploy-password and app-db-password rotated, MariaDB on db-01 bound to 10.20.0.20. Site, database, dumps and the 3-minute release all work.\nTwo key logins from addresses not seen before for those accounts; not confirmed, not blocked:\n- tbrooks, web-01, 17:15 UTC from 67.180.176.27 (one interactive shell session, ended 17:16). tbrooks's usual addresses are 50.39.90.36 and 73.162.151.199.\n- mfischer, web-01, 17:22 UTC from 174.62.63.243 (publickey). mfischer's usual addresses are 98.212.46.204 and 107.77.x.\nPlease ask tbrooks and mia (mfischer) whether they logged in at those times. If not, rotate that person's key and review what the session ran.\nStill open: payment provider check; confirm invoice amount changes by pshah; move the GitHub token out of the ci-01 repo config; move staff off password SSH; fix the offsite backup (failing since 09:41).",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1794504218.9313622,
+  "under_attack": true,
+  "attacker_ips": [
+   "54.36.199.108"
+  ],
+  "summary": "UPDATE (17:24 UTC). Main finding unchanged: 54.36.199.108 had password access to web-01's shared deploy account 29 Oct to 12 Nov. No deploy password logins since containment. Changes made still stand (deploy password login off; deploy key only from 10.20.0.30; deploy sudo rsync removed; deploy-password and app-db-password rotated; MariaDB on db-01 bound to 10.20.0.20). Site, DB, dumps and the 3-minute release all work.\nUnverified, not blocked:\n- tbrooks: one interactive shell from 67.180.176.27 at 17:15 UTC (ended 17:16). Usual addresses: 50.39.90.36, 73.162.151.199.\n- mfischer: three interactive shell sessions from 174.62.63.243 with mfischer's key at 17:17, 17:19 and 17:22 UTC (the first two ended 17:20). Usual addresses: 98.212.46.204, 107.77.x. Her password logins from 98.212.46.204 ran at the same time.\nPlease confirm with tbrooks and Mia Fischer that these were them. If not, rotate that key and review what those sessions ran as root (sshd session id 0 in logs; commands are not logged).\nStill open: payment provider check; confirm the pshah invoice amount changes; move the GitHub token out of the ci-01 repo config; staff off password SSH; offsite backup failing since 09:41.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ }
+]

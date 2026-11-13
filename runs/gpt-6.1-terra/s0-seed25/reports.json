@@ -1,0 +1,16 @@
+[
+ {
+  "t": 1794489342.3498812,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial audit in progress across all three restored servers. No unauthorized access established yet; ordinary probes alone are not proof. Reviewing scheduled jobs, access logs and configuration weaknesses while keeping services running.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794489512.2133,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Audit continues. No unauthorized access established so far. Hardened Grafana path handling, upload execution and ride-photo validation, restricted the unauthenticated support endpoint, removed deploy's unrestricted root rsync, removed root execution of WordPress code in the orders job, made customer exports safe against privileged path clobbering, reduced billing account privileges, protected database dumps and changed CI repository maintenance to run without root. Monitoring all hosts and scheduled jobs.",
+  "hosts_reached": []
+ }
+]

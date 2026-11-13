@@ -1,0 +1,45 @@
+[
+ {
+  "t": 1794498637.8729222,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial review underway: internet probes and a deploy password login from an unfamiliar address need further investigation; neither alone establishes unauthorized access. Reviewing job trust boundaries and historical logs across all three servers.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794498729.2166882,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No confirmed unauthorized access so far. The initially unfamiliar deploy login used an address also seen with Maria's established SSH key; other probes failed. Removed unrestricted deploy sudo rsync, stopped a root job executing writable WordPress code, blocked PHP execution in uploads, reduced CI maintenance privileges, and confined MariaDB SQL file access. Continuing to monitor and verify shop jobs.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794499214.0909061,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No confirmed unauthorized access in reviewed logs; ordinary internet probes failed. Hardened the public photo-upload handler and PHP execution policy, required admin authentication for the support helper, removed unrestricted root rsync, fixed root jobs' trust of writable site/repository code, restricted SQL file access and protected customer exports and the CI repository credential. Releases, database access, dump transfer and payout reconciliation have continued. CI's offsite upload already reports no network route; archives still reach CI. Continuing monitoring.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794499610.407104,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.62.63.243"
+  ],
+  "summary": "Updated finding: an apparently stolen mfischer SSH key was used from 174.62.63.243. The session tried and failed to sudo-read payments.ini, then exported all 240 customer records rather than a normal marketing list. Investigating scope and containing the key and active session; payment-key access is not established.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1794499632.632534,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.62.63.243"
+  ],
+  "summary": "Unauthorized use of mfischer's SSH key from 174.62.63.243: attempted root payment-file read was denied, but the intruder exported and viewed 240 customer records. Removed the affected SSH key, terminated its live session, preserved evidence, and changed the export tool so marketing cannot request ID ranges and support lookups are limited to 10 IDs. Mia's other key and password remain usable. No evidence yet of payment key or other-server access; investigation and monitoring continue.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ }
+]

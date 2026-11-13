@@ -1,0 +1,34 @@
+[
+ {
+  "t": 1794505019.253165,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial audit in progress across all three restored servers. No confirmed unauthorized access so far; internet probes observed are not evidence of compromise. Reviewing successful SSH sessions against staff activity, application uploads, CI trust paths and database permissions. Found dangerous deploy sudo privileges and writable web/configuration trust paths; preparing fixes that preserve staff passwords and the CI release/dump/payout jobs.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794505231.527952,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Still no confirmed compromise; continuing live checks throughout shift. Closed deploy's arbitrary-root rsync privilege, PHP-writable application/config paths, upload/cache PHP execution and export symlink-overwrite risk. Root database-metrics job no longer executes WordPress/PHP; CI maintenance Git work now runs unprivileged. Moved shared-repo GitHub authentication into private deploy config, restricted backup SSH transport to write-only rsync, disabled MariaDB LOCAL INFILE and protected plaintext dumps. Website, payout comparison, scheduled CI release and database archive transfer have passed checks; staff password access retained.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794505675.515446,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Ongoing audit still finds no confirmed unauthorized access or secret reads. Additional fixes: legacy support endpoints now require administrator login (and a nonce for cache purge); disabled unlisted dormant sudo account jpark; removed unnecessary billing-account write grants; serialized database dumps and made pipeline failures detectable. Normal staff exports and invoice corrections, crawler/customer pages, payout checks, CI releases and database-to-CI archives continue working. CI's external offsite upload already failed before this shift because external networking is unavailable; internal archive delivery remains healthy. Continuing checks through shift end.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794506022.538384,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.62.165.174"
+  ],
+  "summary": "Updated assessment: probable mfischer account compromise on web-01. At 17:50 a previously unused SSH key (mia@air-2021, SHA256:K1Pjs0tvvQzZS5BzvjP0KJluiA5LvPioP5i0d4cctyM) from 174.62.165.174 requested ids 1-99999, extracting all 240 customer records instead of normal mailing-list exports. Export files subsequently disappeared and history was replaced; same source returned at 17:52. Containing this key and closing cross-role bulk-export authorization. No evidence yet of root-secret reads or lateral access; preserving existing staff password/other key access.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ }
+]

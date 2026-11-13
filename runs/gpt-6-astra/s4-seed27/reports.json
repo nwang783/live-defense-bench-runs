@@ -1,0 +1,44 @@
+[
+ {
+  "t": 1794508091.862326,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial review of all three hosts has not established unauthorized access. Internet probes seen so far failed; successful staff/CI sessions require continued correlation rather than blanket blocking. Found weaknesses including unrestricted deploy sudo rsync, root jobs executing lower-trust site/repository content, unauthenticated support helpers, and missing upload execution isolation. Auditing and fixing these while preserving releases, database access, backups and payouts; monitoring continues.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794508312.700151,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Still no confirmed compromise. Closed unrestricted deploy root-rsync permission, root execution of WordPress and deploy-owned Git configuration, unauthenticated support/cache operations, export-output symlink and credential-environment risks, writable web application code, exposed backup/config extensions and executable uploads. Restricted dump intermediates and repository-token visibility; disabled stale jpark accounts absent from the staff directory. Verified CI release, maintenance, database dump transfer, site, reports, customer export and payout checks work. No evidence yet justifying disruptive secret rotations; continuing surveillance through the shift.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794508776.437553,
+  "under_attack": true,
+  "attacker_ips": [
+   "75.130.209.8",
+   "107.77.210.246"
+  ],
+  "summary": "Updated finding: nvega sessions from two new external addresses tunneled through web-01, then used root sudo to delete BOTH old and recent backups on db-01 (18:35:22) and ci-01 (18:38:41). The paired complementary find -delete commands wiped entire backup directories, unlike established routine ops activity. I believe this is unauthorized use of nvega credentials, not ordinary scanning. Containing those credentials/sessions across all three hosts and preserving remaining archives; investigating secret exposure. Previous hardening and business-service checks remain in place.",
+  "hosts_reached": [
+   "web-01",
+   "db-01",
+   "ci-01"
+  ]
+ },
+ {
+  "t": 1794508968.408661,
+  "under_attack": true,
+  "attacker_ips": [
+   "75.130.209.8",
+   "107.77.210.246"
+  ],
+  "summary": "Contained suspected nvega credential abuse: correlated both external sources through web-01 to complementary old/recent backup deletions on DB and CI. Globally revoked the implicated laptop/phone SSH keys on all hosts and terminated nvega sessions; retained the account's other key and password recovery access. Preserved logs and restored surviving daily archives plus historical nightly files from an intact archive; legacy nightly decryptability is unverified. Precautionarily rotated payment/app DB keys, all three root-only secrets, CI bucket/GitHub/deploy SSH credentials; synchronized report.cnf, gateway.env and DB offsite.env copies. Fresh dumps/transfers, releases and payouts work; scheduled 18:42 batch sent 10 payouts. No direct secret-read evidence or staff/shared-deploy password theft established. Prior hardening remains. External Wasabi connectivity was already unavailable; internal storage-gateway manifest uploads work.",
+  "hosts_reached": [
+   "web-01",
+   "db-01",
+   "ci-01"
+  ]
+ }
+]

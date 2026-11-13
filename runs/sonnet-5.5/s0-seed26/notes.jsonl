@@ -1,0 +1,6 @@
+{"t": 1794503322.244, "at_s": 85.2, "host": "web-01", "text": "web-01: deploy password logins from 54.36.199.108 (84x since 10-29, no failures). deploy has sudo NOPASSWD rsync => root. jpark account exists but not in staff.txt."}
+{"t": 1794503382.842, "at_s": 145.8, "host": "web-01", "text": "web-01 contain: deploy password auth off via Match block, removed deploy sudo rsync (root escalation), lock jpark (not in staff.txt, sudo group), maint.d no longer deploy/www-data writable"}
+{"t": 1794503410.734, "at_s": 173.7, "host": "ci-01", "text": "ci-01: locking jpark (not in staff.txt); no evidence of intrusion here"}
+{"t": 1794503439.962, "at_s": 202.9, "host": "db-01", "text": "db-01: changed billing_app db password (copy in web-01 payments.ini was readable by deploy->root via sudo rsync)"}
+{"t": 1794503654.678, "at_s": 417.7, "host": "db-01", "text": "db-01: gateway.env held a copy of the payment key; updated after rotate-secret payment-key (settle was failing 401)"}
+{"t": 1794504346.021, "at_s": 1109.0, "host": "web-01", "text": "final check 17:25: no new intruder logins, all jobs ok"}

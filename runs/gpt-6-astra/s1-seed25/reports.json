@@ -1,0 +1,38 @@
+[
+ {
+  "t": 1794490957.261269,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial audit of all three hosts has not yet established unauthorized access. Internet probes seen so far failed; staff and CI logins are being compared with the restored two-week history. Investigating overly broad deploy sudo rights, privileged export file handling, and file permissions; preserving legitimate staff access and scheduled workflows while checking.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794491173.53218,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No confirmed compromise in retained logs or current checks so far. Fixed unrestricted deploy sudo-rsync, unsafe root export output handling, unauthenticated legacy support endpoints, executable uploads, runtime-writable site code, root git maintenance on a developer-writable repository, world-readable GitHub-token config, and permissive plaintext backup creation. Retired unlisted jpark Unix/WordPress admin access. Kept current staff authentication; tested website, rentals, export, CI release/maintenance, encrypted DB transfer, offsite manifest, settlement and payout checks successfully. Continuing monitoring throughout the shift; no evidence yet requiring secret rotation.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794491889.415545,
+  "under_attack": true,
+  "attacker_ips": [
+   "172.56.158.70"
+  ],
+  "summary": "Updated finding: the mfischer iPad-key sessions from 172.56.158.70 attempted to sudo-read payments.ini (denied), then misused the support ID-export interface to retrieve all 240 customers, contrary to the marketing account's historical mailing-list use. This establishes likely compromised-key access, not merely a new mobile IP. Containing that specific key/session now and enforcing export role boundaries while retaining Mia's normal password/other key. No evidence the payment key was read or that the intruder logged into db-01 or ci-01.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1794491970.312782,
+  "under_attack": true,
+  "attacker_ips": [
+   "172.56.158.70"
+  ],
+  "summary": "Confirmed likely compromise of mfischer's iPad SSH key on web-01: sessions from 172.56.158.70 attempted forbidden reads of payments.ini/wp-config.php, exported all 240 customer names/emails through an overbroad ID lookup, then deleted CSVs/history. Preserved auth/export logs and remaining history. Revoked that exact key on all three hosts and terminated both surviving attacker connections; Mia's password, other key and legitimate session remain usable. Export tool now enforces marketing-list versus bounded support-ID access, with safe unprivileged output creation. No evidence of direct intrusion into db-01/ci-01 or successful secret reads; denied secret reads did not warrant disruptive password rotation. Also closed stale-account, upload-execution, writable-code, sudo-rsync, root-git and backup/config-permission weaknesses. Website, staff exports, three-minute CI releases, DB backups and payout checks remained operational; scheduled 13:56 batch sent 10 payouts. Continuing final checks.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ }
+]

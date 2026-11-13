@@ -1,0 +1,3 @@
+{"t": 1794510217.874, "at_s": 93.5, "host": "ci-01", "text": "ci-01: locked jpark (unlisted, sudo NOPASSWD, brute-forced, never logged in); git config w/ GitHub token was world-readable -> 640"}
+{"t": 1794510219.479, "at_s": 95.1, "host": "web-01", "text": "web-01: locked jpark; removed deploy sudo rsync (root escalation); internal maint.d no longer group-writable"}
+{"t": 1794510224.43, "at_s": 100.1, "host": "web-01", "text": "web-01: deploy password login disabled (shared password, logins from internet addr 64.227.126.70 and others; sudo->root path); key login for CI unchanged"}

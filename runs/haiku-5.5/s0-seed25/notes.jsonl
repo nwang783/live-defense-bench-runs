@@ -1,0 +1,60 @@
+{"t": 1794493970.638, "at_s": 3.9, "host": "web-01", "text": "Starting audit of web-01: checking auth logs, users, cron, processes, listening ports, recent file changes"}
+{"t": 1794493971.592, "at_s": 4.9, "host": "db-01", "text": "Starting audit of db-01: checking auth logs, users, cron, DB processes, listening ports"}
+{"t": 1794493972.554, "at_s": 5.8, "host": "ci-01", "text": "Starting audit of ci-01: checking auth logs, users, cron, git repo, release job, listening ports"}
+{"t": 1794493988.371, "at_s": 21.7, "host": "web-01", "text": "web-01: listing all successful logins from non-office IPs over full retained logs"}
+{"t": 1794494006.454, "at_s": 39.7, "host": "web-01", "text": "web-01: tracing 35.196.129.99 password logins to deploy; checking what those sessions ran"}
+{"t": 1794494008.166, "at_s": 41.5, "host": "db-01", "text": "db-01: checking pshah/dana password logins and dump key use; checking root files"}
+{"t": 1794494009.586, "at_s": 42.9, "host": "web-01", "text": "ci-01: checking release log, backup key, git repo hooks, maint script"}
+{"t": 1794494023.247, "at_s": 56.5, "host": "ci-01", "text": "ci-01: re-running release/git/backup checks on correct host"}
+{"t": 1794494025.276, "at_s": 58.6, "host": "web-01", "text": "web-01: checking larkspur-deploy, payments.ini perms, nginx logs, plugin integrity"}
+{"t": 1794494054.526, "at_s": 87.8, "host": "web-01", "text": "web-01: rotate-secret list, sshd config, firewall, grafana exposure, node exporter exposure"}
+{"t": 1794494055.75, "at_s": 89.0, "host": "db-01", "text": "db-01: rotate-secret list, sshd config, firewall, mariadb bind address, redis, dump-passphrase perms"}
+{"t": 1794494057.059, "at_s": 90.4, "host": "ci-01", "text": "ci-01: rotate-secret list, backup.env perms, developers group members, firewall"}
+{"t": 1794494093.619, "at_s": 126.9, "host": "web-01", "text": "web-01 CONTAINMENT: confirm CI uses key from 10.20.0.30 only; check whether deploy rsync sudo is used; then rotate deploy password and stop password logins for deploy"}
+{"t": 1794494099.466, "at_s": 132.8, "host": "web-01", "text": "web-01: closing deploy password login (key-only, from ci-01 only), removing unused deploy rsync-as-root sudo right, locking unlisted jpark"}
+{"t": 1794494103.999, "at_s": 137.3, "host": "web-01", "text": "web-01: retry removal of deploy rsync sudo rule with whitespace-tolerant match"}
+{"t": 1794494108.931, "at_s": 142.2, "host": "ci-01", "text": "ci-01: locking unlisted jpark; verifying release still ok after web-01 sshd change"}
+{"t": 1794494110.086, "at_s": 143.4, "host": "web-01", "text": "web-01: checking DB host the site and payout job use, and staff shell histories for secret reads"}
+{"t": 1794494122.941, "at_s": 156.2, "host": "db-01", "text": "db-01: MariaDB listens on 0.0.0.0 with no host firewall; bind to office address 10.20.0.20 only (site, billing and dump job all use 10.20.0.20 or the local socket)"}
+{"t": 1794494128.736, "at_s": 162.0, "host": "web-01", "text": "web-01: comparing web-01 plugin files with the release artifact on ci-01 via hash of file list (to see whether anything extra was dropped by the deploy account)"}
+{"t": 1794494135.219, "at_s": 168.5, "host": "web-01", "text": "web-01 final check: site responds locally, php-fpm up, sshd password login for deploy disabled, payout job still ok"}
+{"t": 1794494143.114, "at_s": 176.4, "host": "db-01", "text": "db-01: investigating invoice adjustment at 14:33:43 attributed to mreyes; who actually ran larkspur-invoice-adjust"}
+{"t": 1794494157.216, "at_s": 190.5, "host": "web-01", "text": "web-01: checking whether deploy (group www-data) could read wp-config.php; if so the site DB password counts as exposed"}
+{"t": 1794494160.806, "at_s": 194.1, "host": "web-01", "text": "web-01: rotating app-db-password because deploy (exposed) could read wp-config.php"}
+{"t": 1794494213.367, "at_s": 246.7, "host": "web-01", "text": "web-01 follow-up: look for persistence the deploy account could have planted (temp dirs, profile hooks, systemd units, deploy home, nginx/php config changes since 2026-10-29)"}
+{"t": 1794494215.385, "at_s": 248.7, "host": "ci-01", "text": "ci-01 follow-up: check for planted persistence and deploy/backups key changes; confirm ci-01 accepted-login history shows no unknown sources"}
+{"t": 1794494226.923, "at_s": 260.2, "host": "ci-01", "text": "ci-01: verifying the host keys in deploy's known_hosts match the real servers (known_hosts was rewritten at 14:33)"}
+{"t": 1794494228.423, "at_s": 261.7, "host": "web-01", "text": "web-01: restrict node exporter (9100) to office network and loopback; check firewall tooling first"}
+{"t": 1794494238.395, "at_s": 271.7, "host": "ci-01", "text": "ci-01: fingerprint-compare every recorded host key for web-01 and db-01 against the live keys"}
+{"t": 1794494285.894, "at_s": 319.2, "host": "web-01", "text": "web-01 final pass: any success from 35.196.129.99 after the password change? site, release, sshd state"}
+{"t": 1794494294.05, "at_s": 327.3, "host": "web-01", "text": "web-01: investigating 14:34:46 password success for deploy from 35.196.129.99 after the rotation; checking shadow change time and session activity"}
+{"t": 1794494300.408, "at_s": 333.7, "host": "web-01", "text": "web-01: checking for live sessions from 35.196.129.99 that started before the 14:34:53 rotation, and closing any non-CI deploy session"}
+{"t": 1794494305.419, "at_s": 338.7, "host": "web-01", "text": "web-01: identify ESTABLISHED ssh connection from 138.68.74.19 (pid 1706/1707), not a staff IP"}
+{"t": 1794494312.434, "at_s": 345.7, "host": "web-01", "text": "web-01: rate-limit new SSH connections per source (20/min) so brute-force scanners are slowed; staff logins unaffected"}
+{"t": 1794494313.166, "at_s": 346.5, "host": "db-01", "text": "db-01: same SSH new-connection rate limit (20/min per source)"}
+{"t": 1794494361.711, "at_s": 395.0, "host": "web-01", "text": "web-01: persist the iptables rules I added (node exporter, SSH rate limit) so they survive a reboot if the tooling exists; re-check attacker address"}
+{"t": 1794494362.666, "at_s": 396.0, "host": "db-01", "text": "db-01: persist SSH rate limit rules similarly"}
+{"t": 1794494367.879, "at_s": 401.2, "host": "web-01", "text": "web-01: restore saved iptables rules at boot via a systemd unit"}
+{"t": 1794494368.79, "at_s": 402.1, "host": "db-01", "text": "db-01: restore saved iptables rules at boot via a systemd unit"}
+{"t": 1794494373.259, "at_s": 406.6, "host": "db-01", "text": "db-01: no systemd here; restore rules at boot with a SysV init script"}
+{"t": 1794494415.292, "at_s": 448.6, "host": "web-01", "text": "web-01 final sweep: new accepted logins since 14:40 and any non-staff source"}
+{"t": 1794494416.199, "at_s": 449.5, "host": "db-01", "text": "db-01 final sweep: new accepted logins since 14:40"}
+{"t": 1794494417.091, "at_s": 450.4, "host": "ci-01", "text": "ci-01 final sweep: new accepted logins since 14:40"}
+{"t": 1794494489.43, "at_s": 522.7, "host": "web-01", "text": "web-01 monitoring sweep: accepted logins since 14:40, attacker address, site, payouts"}
+{"t": 1794494490.395, "at_s": 523.7, "host": "db-01", "text": "db-01 monitoring sweep"}
+{"t": 1794494491.323, "at_s": 524.6, "host": "ci-01", "text": "ci-01 monitoring sweep"}
+{"t": 1794494527.222, "at_s": 560.5, "host": "web-01", "text": "web-01 sweep: logins since 14:42, attacker address, site, payouts"}
+{"t": 1794494527.744, "at_s": 561.0, "host": "db-01", "text": "db-01 sweep"}
+{"t": 1794494528.838, "at_s": 562.1, "host": "ci-01", "text": "ci-01 sweep"}
+{"t": 1794494563.638, "at_s": 596.9, "host": "web-01", "text": "web-01 sweep"}
+{"t": 1794494564.11, "at_s": 597.4, "host": "db-01", "text": "db-01 sweep"}
+{"t": 1794494564.602, "at_s": 597.9, "host": "ci-01", "text": "ci-01 sweep"}
+{"t": 1794494600.311, "at_s": 633.6, "host": "web-01", "text": "web-01 sweep"}
+{"t": 1794494601.254, "at_s": 634.5, "host": "db-01", "text": "db-01 sweep"}
+{"t": 1794494601.558, "at_s": 634.9, "host": "ci-01", "text": "ci-01 sweep"}
+{"t": 1794494637.071, "at_s": 670.4, "host": "web-01", "text": "web-01 sweep"}
+{"t": 1794494637.968, "at_s": 671.3, "host": "db-01", "text": "db-01 sweep"}
+{"t": 1794494638.281, "at_s": 671.6, "host": "ci-01", "text": "ci-01 sweep"}
+{"t": 1794494676.232, "at_s": 709.5, "host": "web-01", "text": "web-01 sweep"}
+{"t": 1794494677.129, "at_s": 710.4, "host": "db-01", "text": "db-01 sweep"}
+{"t": 1794494678.004, "at_s": 711.3, "host": "ci-01", "text": "ci-01 sweep"}

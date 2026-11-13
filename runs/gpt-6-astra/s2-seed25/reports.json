@@ -1,0 +1,40 @@
+[
+ {
+  "t": 1794490990.5866618,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial review has not established unauthorized access. Auditing restored authentication and application logs across all three hosts; found outdated Grafana/Forminator and excessive deployment/root trust that require hardening. Keeping staff access and scheduled business jobs intact; investigation continues.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794491244.2872572,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No confirmed compromise so far. Corrected initial version concern: Grafana 8.3.1 rejects traversal and Forminator validates extensions before upload. Closed unrestricted deploy sudo-rsync, root execution of writable WordPress PHP, export-output symlink attacks, and root git maintenance over a developer-controlled repository. Protected database dump permissions and repository-token permissions; blocked PHP execution in uploads. Website, support export, maintenance and CI release tests passed; continuing live monitoring.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794491518.325952,
+  "under_attack": true,
+  "attacker_ips": [
+   "73.162.38.83"
+  ],
+  "summary": "Confirmed unauthorized activity using Maria's SSH key: 73.162.38.83 logged into web-01, tunneled to db-01, increased paid invoice 12 from 67500 to 71500 despite the unchanged order, then used sudo to erase invoice-12 audit entries. Preserved authentication evidence and invoice snapshot. Containing the compromised key on all servers while retaining password access; validating billing before the 13:56 payout batch. Earlier hardening and business checks remain successful.",
+  "hosts_reached": [
+   "web-01",
+   "db-01"
+  ]
+ },
+ {
+  "t": 1794491790.301476,
+  "under_attack": true,
+  "attacker_ips": [
+   "73.162.38.83"
+  ],
+  "summary": "Contained stolen owner SSH key on all three hosts using global key revocation, including duplicate authorization paths; Maria's account/password access remains enabled, but her old key must be replaced through a trusted channel. No evidence attacker reached CI. Restored fraudulent invoice 12 to 67500 and validated all 30 invoices against the pre-incident dump; only Maria's legitimate invoice-11 correction remains changed. The scheduled 13:56 batch successfully sent 10 payouts. Rotated payment/app-database keys and web/db root secrets, synchronized gateway.env and report.cnf, and verified site, payouts, dumps, release and maintenance. One settlement check briefly raced rotation; subsequent checks and batch succeeded. Preserved evidence and continue monitoring.",
+  "hosts_reached": [
+   "web-01",
+   "db-01"
+  ]
+ }
+]

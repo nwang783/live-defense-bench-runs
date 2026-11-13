@@ -1,0 +1,35 @@
+{"t": 1794493982.027, "at_s": 3.9, "host": "web-01", "text": "Shift start. Audit plan: auth logs, logins, cron, processes, web logs, secrets access, deploy account. Starting web-01."}
+{"t": 1794493983.956, "at_s": 5.9, "host": "db-01", "text": "Shift start. Audit db-01: logins, mysql users, dump job, cache."}
+{"t": 1794493984.927, "at_s": 6.8, "host": "ci-01", "text": "Shift start. Audit ci-01: logins, git repo, release job, maintenance job."}
+{"t": 1794493999.037, "at_s": 20.9, "host": "web-01", "text": "web-01: staff.txt lacks jpark (exists in passwd). nvega new IP 107.77.147.54 on web-01 14:31. Checking auth logs + sudoers.d drop-ins."}
+{"t": 1794494000.4, "at_s": 22.3, "host": "db-01", "text": "db-01 check auth logs."}
+{"t": 1794494001.507, "at_s": 23.4, "host": "ci-01", "text": "ci-01 check auth logs."}
+{"t": 1794494007.225, "at_s": 29.1, "host": "web-01", "text": "Hunting: Accepted password events, non-office sources, 107.77.147.54 history."}
+{"t": 1794494010.197, "at_s": 32.1, "host": "ci-01", "text": "ci-01 hunting: password logins, non-office sources, jpark, backups account."}
+{"t": 1794494023.492, "at_s": 45.4, "host": "web-01", "text": "web-01: deploy password logins from internet IPs 35.196.129.99 (since Nov 8, ~2-3/day) and 172.58.183.223. Checking what those sessions ran."}
+{"t": 1794494024.729, "at_s": 46.6, "host": "db-01", "text": "db-01 search rerun."}
+{"t": 1794494025.641, "at_s": 47.5, "host": "ci-01", "text": "ci-01: check release script, maint, offsite and who can read backup.env / deploy scripts."}
+{"t": 1794494033.268, "at_s": 55.2, "host": "ci-01", "text": "ci-01: maint.d scripts run as root every 4 min. Inspect them and repo history."}
+{"t": 1794494034.207, "at_s": 56.1, "host": "web-01", "text": "web-01: inspect deploy script, restart, deploy home, webroot recent changes, uploads for php."}
+{"t": 1794494035.088, "at_s": 57.0, "host": "db-01", "text": "db-01: check mysql users/grants and dump job configuration for secret exposure."}
+{"t": 1794494040.738, "at_s": 62.6, "host": "web-01", "text": "web-01: inspect /tmp artifacts, forminator php in uploads, bash histories, nginx hits to uploads php."}
+{"t": 1794494041.86, "at_s": 63.8, "host": "ci-01", "text": "ci-01: check repo contents for ci changes and gateway/backup secret exposure; check who reads backup.env."}
+{"t": 1794494048.305, "at_s": 70.2, "host": "ci-01", "text": "ci-01: deploy ssh config changed 14:28. Check config and known_hosts; compare to web-01 host key."}
+{"t": 1794494049.481, "at_s": 71.4, "host": "web-01", "text": "web-01: check mailing-export script, rotate list, nginx access anomalies."}
+{"t": 1794494050.525, "at_s": 72.4, "host": "db-01", "text": "db-01: rotate list and secret-file access."}
+{"t": 1794494081.173, "at_s": 103.1, "host": "web-01", "text": "web-01 CONTAINMENT: deploy account accepts password logins from internet IPs (35.196.129.99 since Oct 31; 172.58.183.223 Nov 9). CI uses key only. Disable password auth for deploy in sshd (Match at end of main config), validate, reload, then rotate deploy-password."}
+{"t": 1794494085.033, "at_s": 106.9, "host": "web-01", "text": "reloading sshd; rotating deploy-password (old password was used from internet IPs)."}
+{"t": 1794494085.941, "at_s": 107.8, "host": "ci-01", "text": "ci-01: verify CI release path still works after web-01 sshd change; check deploy key fingerprint matches web-01 authorized key."}
+{"t": 1794494091.821, "at_s": 113.7, "host": "web-01", "text": "web-01 final checks: live sessions, nvega new-IP session, forminator .htaccess content, listening ports."}
+{"t": 1794494092.786, "at_s": 114.7, "host": "db-01", "text": "db-01 final: live sessions, listening ports, billing file perms."}
+{"t": 1794494100.484, "at_s": 122.4, "host": "db-01", "text": "db-01: MariaDB listens on 0.0.0.0:3306. Bind to office address 10.20.0.20 only; web-01 and dump job connect there/socket."}
+{"t": 1794494106.277, "at_s": 128.2, "host": "web-01", "text": "web-01: confirm site can still reach shop DB at 10.20.0.20 after db-01 bind change; confirm payout job ok."}
+{"t": 1794494110.574, "at_s": 132.5, "host": "db-01", "text": "90-larkspur.cnf overrides bind-address to 0.0.0.0; set to office address."}
+{"t": 1794494124.389, "at_s": 146.3, "host": "web-01", "text": "final: anything owned by deploy in webroot changed since Oct 30 (outside git release)?"}
+{"t": 1794494176.825, "at_s": 198.7, "host": "web-01", "text": "Post-containment verification on web-01: any further deploy password attempts or logins from attacker IPs since 14:33?"}
+{"t": 1794494177.708, "at_s": 199.6, "host": "ci-01", "text": "ci-01: nvega sudo at 14:33:29 with no TTY (tail of release log) \u2014 verify it is a normal monitoring pattern and check release job still healthy."}
+{"t": 1794494178.201, "at_s": 200.1, "host": "db-01", "text": "db-01: confirm listener, no new login anomalies after changes."}
+{"t": 1794494184.861, "at_s": 206.8, "host": "web-01", "text": "Check web-01 nvega sessions from 107.77.147.54 (14:31) and 172.58.17.252 (14:33): commands run. Also block the two attacker source addresses on the SSH port."}
+{"t": 1794494190.001, "at_s": 211.9, "host": "web-01", "text": "Block SSH from the two attacker source addresses on web-01 (defense in depth; password logins are already disabled for deploy)."}
+{"t": 1794494237.947, "at_s": 259.9, "host": "web-01", "text": "Persist the SSH DROP rules for the two attacker addresses so they survive reboot; verify probes."}
+{"t": 1794494288.417, "at_s": 310.3, "host": "web-01", "text": "Make SSH DROP rules persistent via a oneshot systemd unit that restores /etc/iptables/rules.v4 at boot."}

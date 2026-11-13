@@ -1,0 +1,24 @@
+[
+ {
+  "t": 1794494161.085123,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.62.132.218"
+  ],
+  "summary": "INTERIM (audit still running). Found: (1) A hidden backdoor in the site plugin file inc/rental-quote.php on web-01 (not in the git repo; 'copied by hand'): a POST with a secret token returned wp-config DB settings (host/user/db) and could test DB passwords. 174.62.132.218 used it on Nov 1 and Nov 10 (backdoor-sized replies); 100.37.229.93's Oct 30 request got a normal quote reply. DONE: removed the backdoor branch, rotated app DB password (wp-config.php + db-01 account) and updated the report job's own copy in report.cnf (report/orders jobs verified ok). (2) deploy's password was weak (Sprocket-1976), also used as Grafana's SMTP password in grafana.ini, and password login for deploy is open to the internet (daily logins from 35.196.129.99 look like the 'old monitoring box' - not treated as hostile). Rotated deploy-password (Maria and the monitoring box get it via the help desk in ~8 min). (3) Weaknesses fixed: deploy's sudo rsync (= root) removed; stale account jpark (not in staff list) had sudo on web-01 and was an admin in WordPress - locked, removed from sudo, WP user deleted; locked on ci-01 too; /var/www/internal (served maintenance script that ci-01 could pipe to sh as root) was writable by deploy/www-data - now root-owned, and ci-01's larkspur-maint no longer has the curl|sh option; PHP execution in wp-content/uploads blocked in nginx; db-01's key for backups@ci-01 restricted to from=10.20.0.20. No evidence yet of lateral movement to db-01/ci-01; continuing to check.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1794494745.079405,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.62.132.218"
+  ],
+  "summary": "FINAL. Compromise (limited, web-01 only): inc/rental-quote.php in the site plugin on web-01 had a hidden backdoor (a secret 'ref' token in a POST returned wp-config's DB host/user/db and could test DB passwords; the file was hand-copied and is not in git). 174.62.132.218 used it on Nov 1 and Nov 10 (backdoor-sized replies). No other requests from that IP, no logins, no web shell, no new files or cron, no new WP users; no sign they reached db-01 or ci-01. All staff SSH logins match the staff list and usual IPs. The failed logins and scans from the internet are noise (Tor and scanner IPs). The daily deploy password logins from 35.196.129.99 look like the 'old monitoring box' and are not treated as hostile.\nACTIONS: removed the backdoor branch; rotated the site DB password (wp-config.php and the db-01 account) and updated the report job's own copy in /etc/larkspur/report.cnf (report, orders, payouts jobs verified ok); rotated deploy's Unix password (it was weak, 'Sprocket-1976', and also sat in grafana.ini as the Mailgun SMTP password) and Grafana's SMTP password. Maria and the monitoring box get the new deploy password from the help desk in about 8 minutes, until then deploy password logins fail, but ci-01's key-based release is unaffected and was verified. Payment key, backup/bucket/GitHub tokens, runner token and dump passphrase were not rotated because I found no sign they were read; recommend rotating the GitHub token anyway, since the repo config file holding it was world-readable on ci-01 (now fixed). Also note the Mailgun password itself needs changing at Mailgun if it was the real one.\nWEAKNESSES FIXED: (a) the Blue Ridge Web Co. mu-plugin agency-support.php on web-01 had unauthenticated command injection (asup=purge&path=...); path is now validated (no shell metacharacters, no '..'); no sign it was exploited, but its 'env' action still shows DB host/user/name to anyone; consider removing the plugin; (b) deploy's sudo rsync (= root) removed; (c) stale account jpark (not in staff list) had sudo on web-01 and WP admin: locked, removed from sudo, WP user deleted, locked on ci-01; (d) /var/www/internal (maintenance script that ci-01 could pipe into a root shell) was writable by deploy and www-data: now root-owned, and ci-01's larkspur-maint no longer has the curl|sh option; (e) PHP execution in wp-content/uploads blocked in nginx; (f) WordPress core and plugin files were group-writable by PHP (www-data): removed except for uploads and cache; (g) ci-01 repo config with the GitHub token was world-readable: now deploy:developers 660; (h) backups@ci-01 key restricted to from 10.20.0.20; X11 forwarding off on web-01. Still open, deliberately: SSH password login on web-01 is open to the internet for staff and deploy (needed for people who use passwords; moving everyone to keys is recommended); Grafana is public on :3000 with its admin password in grafana.ini; offsite upload to the bucket fails only because of the restored VMs' lack of internet. Release every 3 min, dumps to ci-01, site, payout check all verified working at the end.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ }
+]

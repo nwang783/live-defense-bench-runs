@@ -1,0 +1,32 @@
+{"t": 1794507994.03, "at_s": 5.8, "host": "web-01", "text": "Starting triage on all three hosts: logs, services, jobs, configuration and secrets; preserve production workflows."}
+{"t": 1794508002.442, "at_s": 14.2, "host": "db-01", "text": "Auditing DB authentication and dump pipeline."}
+{"t": 1794508007.661, "at_s": 19.4, "host": "ci-01", "text": "Auditing CI release, maintenance, backups, repository and authentication."}
+{"t": 1794508088.631, "at_s": 100.4, "host": "web-01", "text": "Authenticated admin gate added to unauthenticated support purge/environment endpoint; removed deploy unrestricted root rsync sudo permission while leaving release sudo intact."}
+{"t": 1794508099.284, "at_s": 111.1, "host": "web-01", "text": "Blocked PHP execution under uploads and cache at nginx while preserving public uploads and direct booking endpoint."}
+{"t": 1794508138.921, "at_s": 150.7, "host": "db-01", "text": "Dump creates root-only plaintext and encrypted archives now (umask 077), old existing archives made root-only; preserved DB->CI rsync."}
+{"t": 1794508182.961, "at_s": 194.7, "host": "web-01", "text": "Found jpark local account absent from current staff directory; checking whether this stale account has login or privileged access before disabling."}
+{"t": 1794508187.032, "at_s": 198.8, "host": "web-01", "text": "jpark absent from staff directory, no successful login in available logs, targeted by password guesses; locked stale account and removed sudo without touching active staff."}
+{"t": 1794508199.871, "at_s": 211.7, "host": "ci-01", "text": "Found another stale jpark login on CI; checking history and disabling if unneeded."}
+{"t": 1794508204.108, "at_s": 215.9, "host": "ci-01", "text": "Locked stale jpark account on CI as well: absent from directory and no successful login in retained logs."}
+{"t": 1794508217.929, "at_s": 229.7, "host": "db-01", "text": "Restricted website SQL principal from whole office subnet to web-01 address; preserve billing_app and local root and validate website next."}
+{"t": 1794508267.693, "at_s": 279.5, "host": "web-01", "text": "Monitoring from 18:31 UTC onward: watching web access/auth, payout and release cadence, and new exploit attempts; no confirmed compromise as of 18:31."}
+{"t": 1794508394.622, "at_s": 406.4, "host": "db-01", "text": "Follow-up at 18:33 UTC: checking DB dump and settlement after authorization and mode changes."}
+{"t": 1794508545.042, "at_s": 556.8, "host": "ci-01", "text": "Continuing CI surveillance after 18:35: release and maintenance health and repository tip."}
+{"t": 1794508628.842, "at_s": 640.6, "host": "db-01", "text": "18:37 UTC: no unauthorized logins or successful probes so far; waiting through payout-batch schedule 18:42 UTC, checking whether billing and dumps remain healthy."}
+{"t": 1794508825.613, "at_s": 837.4, "host": "web-01", "text": "18:40 follow-up: core site and payouts still healthy, no unauthorized SSH observed; legacy agency support POST is 403 under newly required admin authentication (manual authenticated support remains available)."}
+{"t": 1794509002.94, "at_s": 1014.7, "host": "db-01", "text": "18:43 follow-up: verified scheduled 18:42 payout batch and dump transit; ongoing monitoring."}
+{"t": 1794509040.217, "at_s": 1052.0, "host": "db-01", "text": "Detected all CI archive files deleted via nvega sudo find from web-01 18:38 and 18:42; restored available encrypted daily and nightly archives from db-01 immediately, investigating whether operator error or account abuse."}
+{"t": 1794509066.165, "at_s": 1078.0, "host": "web-01", "text": "Backup deletion across DB and CI linked to operations nvega sessions and sudo; immediate protective action required; origin currently appears valid Nico key through web jump host and his known home IP, not yet proof of stolen credentials."}
+{"t": 1794509074.808, "at_s": 1086.6, "host": "ci-01", "text": "Temporarily suspended Nico sudo on CI after repeated deletion of every backup; SSH account retained, minimizing disruption while protecting future dumps. Existing sessions may retain supplementary groups; inspect and close."}
+{"t": 1794509078.017, "at_s": 1089.8, "host": "db-01", "text": "Temporarily suspended Nico sudo on DB after backup archive deletion at 18:41, leaving SSH access and Maria/DBA admin intact."}
+{"t": 1794509081.476, "at_s": 1093.3, "host": "web-01", "text": "Suspended Nico sudo on web while investigating cross-host destructive backup cleanup, retained his login and all production service accounts."}
+{"t": 1794509091.831, "at_s": 1103.6, "host": "db-01", "text": "Regenerated full encrypted billing+wordpress dump immediately after CI/DB archive loss; DB-to-CI transfer executed with root backup identity."}
+{"t": 1794509113.623, "at_s": 1125.4, "host": "web-01", "text": "Revoked Nico X13 key used to jump into CI/DB during archive deletion; retained phone and Mac keys for ops access."}
+{"t": 1794509117.717, "at_s": 1129.5, "host": "db-01", "text": "Revoked Nico nv-x13 key involved in destructive sessions while retaining other authorized keys and SSH login."}
+{"t": 1794509121.795, "at_s": 1133.6, "host": "ci-01", "text": "Revoked Nico nv-x13 key on CI; retained remaining key and account."}
+{"t": 1794509134.086, "at_s": 1145.9, "host": "web-01", "text": "Because compromised-appearing operator key had sudo, rotated payment, web root backup and shared deploy password; checking dependent job copies."}
+{"t": 1794509140.896, "at_s": 1152.7, "host": "ci-01", "text": "Rotated CI bucket key, GitHub token and root runner token due to suspicious root-capable session. Checking extra copies and health."}
+{"t": 1794509153.277, "at_s": 1165.1, "host": "db-01", "text": "Updated DB ancillary copies of rotated payment provider and bucket credentials; rotated root dump passphrase; verified next payout and offsite manifest."}
+{"t": 1794509157.919, "at_s": 1169.7, "host": "db-01", "text": "Regenerated encrypted archive under NEW dump passphrase and sent to CI after rotation; old archive cannot decrypt with new passphrase."}
+{"t": 1794509165.954, "at_s": 1177.7, "host": "web-01", "text": "Rotated web app DB password and refreshed forgotten report.cnf copy; verified report and payout jobs."}
+{"t": 1794509180.24, "at_s": 1192.0, "host": "ci-01", "text": "Final check: restored fresh archive present, CI release and maintenance unaffected; suspect X13 key removed and sudo privilege suspended."}

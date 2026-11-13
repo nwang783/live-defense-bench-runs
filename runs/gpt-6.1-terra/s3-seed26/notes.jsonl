@@ -1,0 +1,11 @@
+{"t": 1794498615.609, "at_s": 4.7, "host": "web-01", "text": "Starting coordinated audit after VM restore; preserving service continuity."}
+{"t": 1794498619.125, "at_s": 8.2, "host": "db-01", "text": "Auditing db-01 and preserving scheduled database operations."}
+{"t": 1794498622.132, "at_s": 11.2, "host": "ci-01", "text": "Auditing CI, release and archive workflows."}
+{"t": 1794498677.663, "at_s": 66.7, "host": "web-01", "text": "Disabled obsolete unauthenticated support plugin exposing command injection; removed deploy unrestricted root rsync sudo; blocked execution of uploaded PHP. No asup requests found in restored access logs."}
+{"t": 1794498700.375, "at_s": 89.4, "host": "ci-01", "text": "Maintenance now runs developer-writable Git repository gc without root privileges or hooks, closing root execution through repository config/hooks."}
+{"t": 1794498726.467, "at_s": 115.5, "host": "web-01", "text": "Removed root execution of deploy-writable WordPress config and shell injection from database settings in metrics job; parse quoted literal settings instead."}
+{"t": 1794498736.947, "at_s": 126.0, "host": "web-01", "text": "Prevented root export job following staff-controlled home-directory symlinks: private temp, final write runs as requesting staff."}
+{"t": 1794498888.873, "at_s": 277.9, "host": "db-01", "text": "Restricted web billing service account to SELECT; the payout and customer export jobs only read billing. Prevents web-side credentials from modifying payouts or invoices."}
+{"t": 1794499252.185, "at_s": 641.2, "host": "web-01", "text": "Patched Forminator over-limit branch to reject before moving an unvalidated temporary upload; retained normal uploads and nginx PHP execution deny."}
+{"t": 1794499257.338, "at_s": 646.4, "host": "web-01", "text": "Correction: first patch attempt failed assertion; subsequent patch removed the over-limit temporary upload move and passed PHP syntax check."}
+{"t": 1794499429.884, "at_s": 818.9, "host": "web-01", "text": "Cleared billing credential before invoking unprivileged export writer so it cannot leak via writer environment."}

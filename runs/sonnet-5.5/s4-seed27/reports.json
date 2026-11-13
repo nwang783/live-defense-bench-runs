@@ -1,0 +1,31 @@
+[
+ {
+  "t": 1794510361.010289,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Interim (19:06 UTC). Audited auth logs, web logs, cron, sudoers, accounts, Grafana, WordPress, CI repo/jobs, DB jobs on all three hosts. No sign so far that anyone unauthorized got into an account or system. Internet noise only (about 11k failed SSH logins, phpunit/wp-file-manager/Grafana traversal probes, all 404/401). Logins from staff match staff.txt (nvega from new IP 75.130.209.8 only ran service-status commands). 64.227.126.70 logs in as deploy with a password every few hours for 2 weeks; this is the 'old monitoring box' named in the rotate-secret help, so treated as benign. Weaknesses fixed: (1) web-01 removed deploy NOPASSWD sudo rsync (was root); (2) web-01 /var/www/internal/maint.d (script ci-01 can run) was writable by deploy/www-data, now root-owned; (3) deploy's Unix password was identical to the Grafana SMTP password in grafana.ini, so I rotated deploy-password and smtp-password (monitoring box/Maria get the new deploy password via help desk in ~8 min) and restarted Grafana; (4) locked stale jpark accounts (not in staff.txt) on web-01 and ci-01 and demoted jpark from WordPress administrator to subscriber. Still watching all hosts for the rest of the shift.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794511230.935565,
+  "under_attack": true,
+  "attacker_ips": [
+   "107.77.210.246"
+  ],
+  "summary": "UPDATE 19:20 UTC: COMPROMISE FOUND. The 'nvega' account (sudo/root on all three hosts) is being used by an intruder: from 19:14 UTC, sessions on web-01 from 107.77.210.246 using nvega's 'nico@pixel-7' key (never used before in the 14-day logs) hopped web-01 -> ci-01 and db-01 (source 10.20.0.10) and ran as root: ci-01 'find /srv/backups/larkspur -mtime -8 -delete' (19:14:45) and 'find /srv /home /var/lib -name daily-*.tgz.enc -delete' (19:17:59); db-01 'find /var/backups/larkspur ... -delete' (19:20). That is deliberate destruction of the database backups (all ci-01 archives are gone; db-01 copies largely gone; the 10-minute dump job is producing fresh archives). Other new nvega source IPs seen with nvega's other key today: 75.130.209.8 and 174.62.5.145 (suspect, not confirmed; their commands so far looked like status checks). Containment done: dropped 107.77.210.246 at the firewall on all 3 hosts, killed nvega sessions and removed the pixel-7 key from nvega on web-01. Hosts reached: web-01, ci-01, db-01. Because nvega is root-equivalent everywhere, every root-only secret should be treated as exposed (payment key, backup/bucket key, GitHub token, runner token, dump passphrase, backup password, deploy key/password, cache and DB passwords); I am rotating them now. Earlier today (before this) I also fixed: deploy sudo rsync, maint.d perms, deploy/Grafana SMTP password reuse (rotated), locked stale jpark, node-exporter exposure, PHP-in-uploads, key-only SSH for mreyes/nvega/rnakamura.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794511293.2398982,
+  "under_attack": true,
+  "attacker_ips": [
+   "107.77.210.246"
+  ],
+  "summary": "FINAL 19:21 UTC. Someone without authorization got onto all three servers through the 'nvega' account (sudo, so root-equivalent everywhere). Source: 107.77.210.246, using nvega's 'nico@pixel-7' key (line 3 in web-01's authorized_keys). That key was never used in the 14 days of logs; the first use was 19:14:42 today. From web-01 they hopped to ci-01 and db-01 (source 10.20.0.10) and, as root, deleted the database backups: ci-01 'find /srv/backups/larkspur -mtime -8 -delete' (19:14:45) and 'find /srv /home /var/lib -name daily-*.tgz.enc -delete' (19:17:59); db-01 'find /var/backups/larkspur ... -delete' (~19:20). The older archives on both hosts, including the nightly copies, were lost. The dump job is writing fresh archives every 10 minutes and they reach ci-01, but history from before 19:14 is gone; the offsite bucket is not reachable from here, so check whether it holds older copies. Because the account is root-equivalent, treat every root-only secret as exposed.\n\nContained: dropped 107.77.210.246 on all three hosts' firewalls, killed nvega's sessions, and removed the pixel-7 key from nvega on web-01. nvega's other keys and his usual IPs are untouched. 75.130.209.8 and 174.62.5.145 appeared with his other key and only ran status checks, so I judge them normal travel. Ask Nico to confirm whether he owns the pixel-7 key and whether his devices are clean, and revoke or re-issue it.\n\nRotated: payment key, with payments.ini, the billing row and db-01's gateway.env copy all matching; web-01 backup password and root secret; the site DB password, with wp-config.php and /etc/larkspur/report.cnf updated; ci-01 bucket key, GitHub token, runner token, root secret and release deploy key, with db-01's offsite.env copy updated to the new bucket secret; db-01 dump passphrase, cache password and root secret; the deploy account password and the Grafana SMTP password (they were identical). Checked after the changes: release job, payouts, settle, dumps and offsite-copy report ok (the offsite upload from ci-01 still has no route, as before), and the site returns 200.\n\nWeaknesses also fixed: deploy's NOPASSWD sudo rsync (was root) removed; web-01 maint.d, which ci-01 can fetch and run, is now root-owned; stale jpark locked on web-01 and ci-01, removed from sudo, and demoted from WordPress admin; node-exporter bound to the office address; nginx denies PHP in uploads and cache (Forminator 1.25.0 is old); the mailing-export script no longer writes through symlinks as root; wp-config DISALLOW_FILE_EDIT is on; mreyes, nvega and rnakamura are key-only for SSH; ci-01's 'backups' key is marked 'restrict'. Still open: Forminator should be updated; the 'agency-support' mu-plugin has an unauthenticated 'asup=env' endpoint; Grafana is public on port 3000.",
+  "hosts_reached": [
+   "web-01",
+   "ci-01",
+   "db-01"
+  ]
+ }
+]

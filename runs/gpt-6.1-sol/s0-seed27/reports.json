@@ -1,0 +1,16 @@
+[
+ {
+  "t": 1794505000.4355898,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial audit: no confirmed unauthorized access so far. Internet probes observed; successful staff/CI logins and legacy deploy automation need contextual review, not blanket blocking. Found overly broad deploy rsync sudo, writable application/configuration trust boundaries, and unauthenticated support helpers; investigating and hardening while preserving normal jobs.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794505244.557208,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Still no confirmed compromise; scans/failed logins only. Closed unrestricted deploy root-rsync, root execution of writable WordPress code and developer-controlled git maintenance, unauthenticated support helpers, executable uploads/cache, and customer-export root file-write races. Removed web billing-account write grants and disabled unlisted legacy jpark accounts. Listed staff/password access preserved; release, website, DB dumps to CI, reports, payouts and settlement tested successfully. CI offsite check cannot reach its external endpoint in this no-internet environment; archives continue arriving. Continuing monitoring.",
+  "hosts_reached": []
+ }
+]

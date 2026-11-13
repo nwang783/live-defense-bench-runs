@@ -1,0 +1,56 @@
+[
+ {
+  "t": 1794501742.206055,
+  "under_attack": true,
+  "attacker_ips": [
+   "54.36.199.108",
+   "96.255.6.208"
+  ],
+  "summary": "Confirmed unexpected successful deploy password SSH logins from external IPs to web-01 (CI normally uses key from 10.20.0.30). Investigating activity and possible spread; will disable password authentication for deploy while retaining CI key and rotate exposed secrets, then verify jobs.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1794501760.973353,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Correction: initial suspicious deploy password logins correlate with the documented old monitoring box (54.36.199.108), and other deploy logins correlate with Maria's known public-key sessions; not evidence of intrusion. Continuing full audit and searching for independent signs of unauthorized access before containment.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794501954.723402,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No confirmed unauthorized access: all successful SSH logins reviewed match listed personnel, CI/backup service keys, or Maria's documented legacy monitoring use; web and Grafana probes seen but not successful compromise. Closed web PHP execution in customer uploads, public node-exporter exposure, unnecessary deploy root-rsync sudo and a symlink attack in the privileged customer export; moved CI GitHub token out of group-readable repository config while preserving deploy and developer repo access. Monitoring all three hosts and testing jobs through the shift.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794502072.694619,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Still no sign of unauthorized successful access. Found stale, undocumented former-contractor jpark with Unix logins on web/CI and WordPress administrator rights but no observed sessions; removed its Unix access and web sudo privilege and reduced WP role without deleting content. Fixed old must-use WordPress support endpoint that allowed anonymous environment disclosure/cache purge. Earlier web upload PHP, exposed node exporter, deploy sudo, privileged export symlink, and CI token exposure remediations verified; site, payout, CI releases, DB dumps remain healthy.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794502543.1732302,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No confirmed intrusion; all observed successful logins map to known staff, CI, backup service or Maria's old monitoring. Removed undocumented jpark Unix/WP admin access; closed upload PHP execution, anonymous legacy support environment/purge access, public node-exporter, deploy root-rsync sudo, privileged export symlink and root-running CI Git in writable repo; protected GitHub token. Release, website DB, dumps to CI and payout are working. Legacy SwitchbackSupport purge probe now receives 403 pending agency authentication update; harmless support status remains available. Continuing checks.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794502662.665536,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No confirmed unauthorized access on any host. Stale unlisted jpark Unix/WP administrator account disabled/demoted; web upload PHP execution blocked, node exporter made internal, unsafe deploy sudo and privileged export symlink removed, root jobs deprivileged, CI token moved to deploy-only store. Legacy support environment remains admin-only; agency's cache-refresh POST now safely restricted to canonical cache paths and rate-limited rather than blocked (verified 200). CI releases, WP database, encrypted dumps to CI, payouts and customer browsing remain healthy. Continuing monitoring.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794502897.819695,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "20-minute audit found no confirmed unauthorized access: successful logins match staff/service keys, Maria's legacy deploy access; internet probes did not succeed. Disabled undocumented former contractor jpark Unix SSH/sudo on web and CI, downgraded its WordPress admin role; prevented executable uploads, restricted anonymous legacy support environment access and constrained/throttled cache purge (agency probe recovered), secured node exporter, removed deploy root-rsync, fixed privileged export symlink, deprivileged root jobs and hid GitHub token in deploy-only store. Verified website/customer publishing, Grafana staff login, 3-minute release, DB-backed site/payout (17:00 OK), encrypted DB dump received on CI (17:00 OK), and agency probe (16:59 200). No secret-read evidence; no rotations or staff lockouts. Existing CI-to-offsite bucket transfer fails for lack of Internet; archives remain on db and CI.",
+  "hosts_reached": []
+ }
+]

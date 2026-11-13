@@ -1,0 +1,42 @@
+[
+ {
+  "t": 1794490928.592603,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial audit: no confirmed unauthorized access yet; SSH spray and web probes observed but unsuccessful. Checking service exposure, application and job configurations across all three servers, monitoring after VM restart.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794491167.216755,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No confirmed unauthorized access through 13:46 UTC; observed failed SSH sprays and unsuccessful Grafana/WordPress probes. Hardened web upload PHP handling and root CSV export, disabled departed contractor jpark on web/CI, removed unnecessary deploy sudo rsync; hardened db dump permissions and moved GitHub credential out of CI's shared repository config. Verified website, export, CI release and maintenance continue.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794491898.422585,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.62.156.117"
+  ],
+  "summary": "At 13:53\u201313:57 a new source used Nico Vega's SSH account on web-01 as backup archives were deleted from both db-01 and ci-01 via nvega sudo sessions/pivot through web-01; strongly suspect account/key misuse. Live database and payout still work, but local and received archives are missing. Containing the implicated sessions/credentials, regenerating backups and checking for secret exposure now.",
+  "hosts_reached": [
+   "web-01",
+   "db-01",
+   "ci-01"
+  ]
+ },
+ {
+  "t": 1794491998.364128,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.62.156.117"
+  ],
+  "summary": "Confirmed damaging activity: at 13:53:41 new IP 174.62.156.117 used Nico's previously authorized home-nuc key on web-01; seconds later Nico sessions pivoted from web into CI and deleted old and recent encrypted backups, and db-01's archive copies were also erased. Revoked that key for all source addresses, blocked the IP, terminated its web and pivoted db sessions. Regenerated encrypted shop+billing dump at 13:59 and verified transfer to CI; scheduled jobs, payouts, website and releases continue. No evidence of reads of payment/bucket/GitHub/root-only secrets, so none rotated; older local archives remain lost (investigate offsite recovery). Earlier hardening remains in place.",
+  "hosts_reached": [
+   "web-01",
+   "db-01",
+   "ci-01"
+  ]
+ }
+]

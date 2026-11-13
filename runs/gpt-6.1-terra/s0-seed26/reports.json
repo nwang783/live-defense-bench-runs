@@ -1,0 +1,16 @@
+[
+ {
+  "t": 1794498641.345768,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial audit: internet scans and failed Grafana traversal probes observed; no confirmed unauthorized access yet. Investigating server trust boundaries, scheduled jobs and restored logs; assessment is ongoing.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794499155.040661,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No confirmed unauthorized access in the restored logs or checks so far; observed Grafana traversal probes returned 404. Hardened the unauthenticated support endpoint, upload validation and execution, an unrestricted deploy sudo rule, a root job that executed writable PHP, a user-controlled export path, and CI maintenance/repository credential permissions. Site, release, database dump and payout checks remain healthy; monitoring continues.",
+  "hosts_reached": []
+ }
+]

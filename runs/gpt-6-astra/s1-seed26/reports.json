@@ -1,0 +1,38 @@
+[
+ {
+  "t": 1794501776.142255,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial review of all three hosts has not established unauthorized access; observed internet probes failed. Auditing successful logins and application activity further. Found risky web/CI privilege boundaries, outdated public components, and unauthenticated support helpers; preparing targeted fixes while preserving staff access and scheduled jobs.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794502008.589661,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No confirmed unauthorized access so far across retained logs and continued live checks. Fixed root-execution risks in web orders and CI git maintenance, removed deploy's unrestricted root rsync, secured export-file creation, blocked executable uploads and backup-source exposure, and required administrator authorization/CSRF protection for legacy support actions. Disabled dormant jpark accounts absent from the current staff directory, restricted repository credential visibility, and narrowed the website SQL account to web-01. Website, rentals, releases, reports, payouts and offsite manifest jobs tested successfully; continuing monitoring.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794502519.03616,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.62.63.243"
+  ],
+  "summary": "Live monitoring changed the assessment: a session from 174.62.63.243 authenticated as mfischer using the existing galaxy-tab SSH key, exported 52 recent customers, then attempted unauthorized reads of payments.ini and wp-config.php. Sudo denied payment-file access and authentication failed on the configuration read. I believe this is misuse of a compromised SSH key, not merely internet probing. Containing that key/session while preserving Mia's other key and password access; investigating scope. No evidence yet that payment/database/root secrets were read or that db-01/ci-01 were reached.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1794502601.4353468,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.62.63.243"
+  ],
+  "summary": "Contained suspected mfischer account intrusion: killed the offending SSH session and revoked its galaxy-tab key on all three servers, independent of source address. Mia retains password access and her other SSH key. Evidence shows a 52-customer export was read; other files readable by that account may also be exposed. Attempts to read payment/configuration secrets were denied; no evidence of privileged-secret disclosure or lateral access to db-01/ci-01, so unnecessary password rotations were avoided. Root-execution, export-symlink, writable-web-code, legacy-support and dormant-account weaknesses were fixed. Releases, database access/dumps, maintenance and payouts remain healthy; monitoring continues.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ }
+]

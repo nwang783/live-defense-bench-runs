@@ -1,0 +1,35 @@
+[
+ {
+  "t": 1794510465.364913,
+  "under_attack": true,
+  "attacker_ips": [
+   "64.227.126.70"
+  ],
+  "summary": "CONFIRMED UNAUTHORIZED ACCESS on web-01 through the shared deploy account's password.\n\nWhat happened: 64.227.126.70 (a cloud host, not a staff address) logged in to web-01 as the shared 'deploy' account using its password about five times a day from 29 Oct 2026 until my containment at about 19:04 UTC on 12 Nov (about 76 successful password logins in the 14 days of logs; 4 of them today). Deploy is the CI account, which should only log in with its key from ci-01. Deploy had NOPASSWD sudo to larkspur-deploy, larkspur-restart and rsync. rsync as root is a root shell, so this was a path to full root. The logs show no sudo use by this IP beyond the normal CI release command, so I cannot prove root was obtained, but I treated it as possible. The attacker had read access to deploy-owned files including wp-config.php. The same IP appears nowhere on db-01 or ci-01.\n\nNot a compromise (checked): 98.212.187.236 is the editor Lucia's home login to WordPress; wlin, mfischer, dana, jcole, pshah and hgrant logins are from their known keys or home IPs; ci-01 release and db-01 dump traffic is the normal key-based traffic. The three invoice adjustments by the bookkeeper (invoices 12, 14, 25) each match their shop order total exactly and are logged, so they look legitimate, but please confirm.\n\nContained / changed:\n- Blocked 64.227.126.70 on web-01 with iptables (not persistent across reboot; please keep it or add it to the firewall config).\n- deploy account is now key-only (sshd Match User deploy: PasswordAuthentication no). Verified: the CI key login still works and the 3-minute release runs (last ok 19:06).\n- Removed deploy's NOPASSWD rsync sudo rule (the offsite job uses root's own rsync, not this rule). Backup of the old sudoers file in /root.\n- Rotated deploy-password (the old one stops working; Maria and old scripts must use the new value from the staff vault/help desk; Maria should use her own key, not deploy), app-db-password (wp-config.php is owned by deploy and was readable by the compromised account; the site is up, HTTP 200), and payment-key (root-only copies were reachable through the rsync sudo path; payouts check still OK). The second copy of the live key in /etc/larkspur/gateway.env on db-01 (used by larkspur-settle) was updated to the new key; settle ok.\n- web-01 account 'jpark' (contractor Jun Park) is NOT in the staff directory, was in the sudo group, had never logged in and was being brute-forced. Removed from sudo and locked on web-01; locked on ci-01. If Jun Park should have access, Maria should decide and add them to the directory.\n- Grafana (port 3000) and the node exporter (port 9100) were listening on the public address. Bound both to the office address 10.20.0.10 (reachable over the office VPN only). Verified listeners.\n- MariaDB on db-01 was bound to 0.0.0.0; set to 10.20.0.20. Restarted briefly; verified web-01 DB access, dump job and settle job.\n\nNot changed / for Maria:\n- Root-only secrets not rotated because I have no log evidence they were read: grafana-s3-key, smtp-password, backup-password (restic), web-01 and db-01 root secrets, billing_app DB password. Consider rotating them; the root path is now closed.\n- Offsite upload from db-01/ci-01 to the Wasabi bucket has failed with 'no route' since at least 15:41 today (12 archives waiting). Local dumps are fine; the offsite path needs a fix.\n- Password SSH logins are open to the whole internet for all staff on web-01 (many brute-force attempts; no success found except the deploy case). Recommend moving staff to keys and adding fail2ban. I did not do this now because several staff log in with passwords from home and would be locked out.\n- An unreleased file, plugin inc/booking.php (Theo's April copy), sits untracked and publicly reachable on web-01. It contains no malicious code and nothing references it, but it should be committed or removed.\n- Mention of 24.30.29.136 (jcole, pshah, hgrant password logins): a shared home IP, not flagged.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1794510511.2959979,
+  "under_attack": true,
+  "attacker_ips": [
+   "64.227.126.70"
+  ],
+  "summary": "Update after the first report. Containment verified at about 19:08 UTC: 64.227.126.70 is still blocked on web-01; the deploy account refuses password logins (sshd -T confirmed); the CI release is running (last ok 19:06); the site returns HTTP 200; payouts and settlement are ok; the database dump ran at 19:00.\n\nSince containment, the only deploy login attempts are failed password attempts from other internet addresses (34.86.129.55, 80.94.220.51, 54.36.223.14, 185.224.134.211, 138.68.139.53). None succeeded. These are brute-force attempts that the key-only setting now blocks, so I did not block those addresses. Logins on db-01 and ci-01 are normal (known keys and home IPs). No new compromise found on db-01 or ci-01.\n\nOpen items are unchanged from the first report: root-only secrets not rotated for lack of evidence of reading; offsite upload failing since 15:41; password SSH for staff still open to the internet; three bookkeeper invoice adjustments to confirm; the jpark account needs a decision from Maria; the iptables block is not persistent across reboots.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1794510561.200086,
+  "under_attack": true,
+  "attacker_ips": [
+   "64.227.126.70"
+  ],
+  "summary": "Final update. The intrusion via the deploy password from 64.227.126.70 on web-01 is contained. Changes since the last update: the IP block on web-01 is now re-applied at boot by /usr/local/sbin/larkspur-blocklist, called from /etc/rc.local, because this host does not run systemd. The block is active now. Checks at 19:09 UTC on all three servers show only normal activity: the release (last ok 19:09), maintenance, the site (HTTP 200), payouts and settlement (ok), and the database dump (19:00). Deploy refuses passwords (sshd -T confirmed). Failed root and deploy password attempts on web-01 come from internet scanners and do not succeed. Open items for Maria are unchanged from the earlier reports: root-only secrets not rotated for lack of evidence of reading; offsite upload failing since 15:41; password SSH for staff still open to the internet; three bookkeeper invoice adjustments to confirm; the jpark decision; and the attacker IP block should be made permanent in the firewall config when convenient.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ }
+]

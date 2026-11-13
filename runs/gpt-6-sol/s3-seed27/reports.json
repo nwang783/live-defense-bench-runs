@@ -1,0 +1,42 @@
+[
+ {
+  "t": 1794508076.874881,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial audit: no confirmed unauthorized access yet. Staff and service logins match the directory and expected CI/database flows; internet Grafana/WordPress probes seen failing. Checking a recurring remote deploy-password login against the documented legacy monitoring use. Reviewing application and privileged-job weaknesses and watching all three hosts through shift.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794508248.075935,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.62.106.232"
+  ],
+  "summary": "Found a critical unauthenticated legacy WordPress support endpoint that concatenated request input into a shell command. An unfamiliar 174.62.106.232 POST received an anomalous 159-byte successful response consistent with using that endpoint; treating as suspected unauthorized web-01 execution while investigating impact. Removed shell execution, restricted environment details, blocked PHP execution in uploads, narrowed WordPress DB login to web-01, and restricted CI GitHub-token config. Site and scheduled jobs remain active.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1794508364.893603,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.62.106.232"
+  ],
+  "summary": "The unfamiliar 174.62.106.232 POST returned exactly the 159 bytes produced by the unauthenticated legacy WordPress 'environment' endpoint, disclosing internal DB host/name/user; shell execution or secret theft is not established. Patched the same endpoint's unauthenticated shell-command injection, gated environment details to admins, blocked the source on all three hosts, blocked executable uploads, removed web PHP's write access to code, disabled the WP file editor, restricted CI token-config permissions and WordPress DB account host, removed unsafe deploy root-rsync sudo, and precautionarily rotated the site DB password plus its report-job copy. Site, CI releases, payouts, and DB dumps have tested healthy.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1794508989.446015,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.62.106.232"
+  ],
+  "summary": "Confirmed an unfamiliar IP (174.62.106.232) successfully retrieved 159 bytes of internal WordPress environment metadata from an unauthenticated legacy support endpoint; no evidence of shell execution or of other servers/secret values being read. Patched endpoint to admin-only metadata and shell-free cache-only purging, blocked source on all three hosts, restricted upload PHP execution and code write access, narrowed WordPress DB account and rotated its password (updated report-job copy), restricted CI GitHub config and public node exporter, and removed obsolete deploy root-rsync sudo. Verified site, crawler sitemap, three-minute releases, payouts (10 sent at 18:42), and encrypted DB dumps arriving on CI. Pre-existing CI offsite bucket job still reports no external route; local/CI backups continue.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ }
+]

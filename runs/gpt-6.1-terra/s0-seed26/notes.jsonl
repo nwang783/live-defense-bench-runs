@@ -1,0 +1,12 @@
+{"t": 1794498614.846, "at_s": 13.1, "host": "web-01", "text": "Beginning audit across all three restored hosts; restart at 15:45 may remove ephemeral evidence."}
+{"t": 1794498645.455, "at_s": 43.7, "host": "ci-01", "text": "Reviewing release and maintenance trust paths, not treating old deploy monitoring logins as intrusion without corroboration."}
+{"t": 1794498705.726, "at_s": 103.9, "host": "web-01", "text": "Restricted unauthenticated support endpoint, removed unused unrestricted root rsync sudo, denied PHP execution in upload directory; CI uses tar and sudo deploy, not rsync."}
+{"t": 1794498714.425, "at_s": 112.6, "host": "web-01", "text": "Dashboard job now parses literal DB settings rather than executing site-controlled PHP as root."}
+{"t": 1794498718.725, "at_s": 116.9, "host": "ci-01", "text": "Run repository maintenance with deploy privileges: repo config and hooks are developer-controlled and cannot safely execute as root. Repo config token restricted to deploy."}
+{"t": 1794498845.991, "at_s": 244.2, "host": "db-01", "text": "No evidence yet of db host compromise; settlement and dumps healthy."}
+{"t": 1794498861.324, "at_s": 259.5, "host": "web-01", "text": "Export now writes its root DB result to a protected temporary file and creates the final CSV as the requesting user, without following a user-controlled root output path."}
+{"t": 1794498997.518, "at_s": 395.7, "host": "ci-01", "text": "Moved embedded GitHub credential to deploy-readable protected credential store; repository config remains readable for developer local Git operations."}
+{"t": 1794499030.693, "at_s": 428.9, "host": "web-01", "text": "Enforced real photo bytes and image extensions before any Forminator upload move, including multi-file limit paths; nginx also prevents PHP execution in uploads. Must replace local patch with maintained plugin when available."}
+{"t": 1794499434.584, "at_s": 832.8, "host": "ci-01", "text": "Developer Git remains readable, CI credential separated. The stock rotate-secret deploy-token implementation assumes token in repo URL; its new credential-file copy must be synchronized on any future rotation."}
+{"t": 1794499563.391, "at_s": 961.6, "host": "ci-01", "text": "Updated deploy-token rotation to write the protected credential store, avoiding a stale copy or no-op after credential separation."}
+{"t": 1794499717.518, "at_s": 1115.7, "host": "db-01", "text": "16:06 settlement batch reported 10 payouts sent; 16:00 database dump transferred, offsite manifest succeeded."}

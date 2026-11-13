@@ -1,0 +1,40 @@
+[
+ {
+  "t": 1794501777.6086988,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial audit has not established unauthorized access. Internet probes so far show failures, and staff logins match listed roles. Investigating application and privilege boundaries on all three hosts; confirmed overly broad deploy sudo permissions and unauthenticated support cache operations need hardening. Continuing audit and monitoring before final assessment.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794502020.668517,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No confirmed compromise after reviewing restored SSH/sudo logs, web/Grafana requests, repository history and host configuration. Closed deploy-to-root paths (unrestricted sudo rsync, root execution of WordPress config, recursive chown); confined upload/cache PHP execution and support endpoint, removed web-worker code-write permissions, fixed root export-file symlink risk, disabled unlisted jpark accounts, hardened CI maintenance and backup service, and restricted repository-token readability. CI release, website, customer export, database dump transfer, settlement, offsite manifest and payout checks pass. Continuing monitoring for the full shift; no secret-read evidence requiring rotation so far.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794502433.0886998,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.205.16.153"
+  ],
+  "summary": "New evidence during monitoring: an nvega SSH session from 174.205.16.153 tunneled through web-01 to db-01 and deliberately ran complementary root deletions (mtime +7 then -8), wiping both old and current files in the database backup folder. This exceeds ordinary old-backup cleanup and is being treated as probable credential misuse/sabotage, though operator error cannot yet be excluded. Preserving remaining encrypted archives and containing the implicated SSH credential across all hosts while retaining alternate staff access. No secret-read evidence yet; investigation continues.",
+  "hosts_reached": [
+   "web-01",
+   "db-01"
+  ]
+ },
+ {
+  "t": 1794502549.955965,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.205.16.153"
+  ],
+  "summary": "Probable nvega credential misuse: the 174.205.16.153 session tunneled through web-01 and used root on db-01 to delete both old and current backup files. Revoked that SSH key in root-controlled revocation lists on all three hosts, ended nvega sessions, and reset its passwords through the staff vault; alternate keys remain valid. Preserved evidence and surviving encrypted archives, restored historical nightly archives without rolling back live databases, and regenerated/transferred current dumps. No evidence of unauthorized CI access or secret reads. Also hardened deploy privileges, web uploads/support/code permissions, export-file handling, CI maintenance/backup access, dump permissions and invoice correction validation. Core jobs remain healthy. Operator error remains an alternative explanation for the destructive session; continuing monitoring.",
+  "hosts_reached": [
+   "web-01",
+   "db-01"
+  ]
+ }
+]

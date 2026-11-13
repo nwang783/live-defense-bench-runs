@@ -1,0 +1,20 @@
+{"t": 1794507988.092, "at_s": 5.0, "host": "web-01", "text": "Starting 3-server audit; will preserve workflows and track evidence."}
+{"t": 1794507991.606, "at_s": 8.6, "host": "db-01", "text": "Checking db accounts, logs, jobs, secrets, network."}
+{"t": 1794507996.203, "at_s": 13.2, "host": "ci-01", "text": "Auditing CI release and repository history for tampering."}
+{"t": 1794508065.014, "at_s": 82.0, "host": "web-01", "text": "Blocked PHP execution under public uploads at nginx while retaining photos and WordPress PHP."}
+{"t": 1794508078.022, "at_s": 95.0, "host": "web-01", "text": "Removed unrestricted root rsync for deploy; release uses tar as deploy and narrow deploy script."}
+{"t": 1794508081.752, "at_s": 98.7, "host": "web-01", "text": "Confirmed removal of deploy sudo rsync from /etc/sudoers.d/larkspur."}
+{"t": 1794508115.677, "at_s": 132.6, "host": "db-01", "text": "Restricted MariaDB listener to office interface and site DB identity to web-01, retaining local root and billing SSH usage."}
+{"t": 1794508137.298, "at_s": 154.3, "host": "web-01", "text": "Removed redundant deploy sudo restart grant; release still calls restart from trusted root deploy script."}
+{"t": 1794508158.389, "at_s": 175.3, "host": "web-01", "text": "Restricted WordPress support cache purge to logged-in administrators rather than public requests; preserved support env and normal browsing."}
+{"t": 1794508194.615, "at_s": 211.6, "host": "db-01", "text": "Made dump job create plaintext intermediate archives and SQL files owner-only; existing encrypted files remain accessible for backups."}
+{"t": 1794508212.075, "at_s": 229.0, "host": "web-01", "text": "Fixed sudo customer-export predictable home-directory .part symlink overwrite: root private temporary directory and atomic final rename."}
+{"t": 1794508377.199, "at_s": 394.2, "host": "ci-01", "text": "Constrained db archive SSH key to write-only no-delete rsync under /srv/backups; will verify next dump and restore if it fails."}
+{"t": 1794508382.367, "at_s": 399.3, "host": "db-01", "text": "Verified restricted backups receiver accepts encrypted archive rsync from db-01."}
+{"t": 1794508551.852, "at_s": 568.8, "host": "web-01", "text": "Observed legitimate SwitchbackSupport automated purge blocked by admin-only change; retained admin restriction for others but restored narrowly scoped support bot exception (source and UA), assessing stronger authentication without bot changes."}
+{"t": 1794508701.841, "at_s": 718.8, "host": "web-01", "text": "Removed root eval and root PHP inclusion of deploy-writable wp-config from metrics job; WordPress CLI now reads DB config under www-data only."}
+{"t": 1794508708.37, "at_s": 725.3, "host": "web-01", "text": "Fixed metrics CLI invocation and validated current output; prior immediate manual test failed due unset shell variables before correction."}
+{"t": 1794508890.994, "at_s": 907.9, "host": "ci-01", "text": "Observed existing ci offsite job unable to reach external Wasabi from no-internet VM; internal gateway already used on db-01 with same key, configured ci to use that gateway and tested archive upload."}
+{"t": 1794508927.473, "at_s": 944.4, "host": "ci-01", "text": "Repaired offsite job to upload encrypted archives through internal authenticated storage gateway, with per-archive retry markers; sent backlog and verified success."}
+{"t": 1794509125.914, "at_s": 1142.9, "host": "ci-01", "text": "Near shift end: release/maintenance stable, archive delivery and internal-gateway upload verified, no unauthorized logins observed."}
+{"t": 1794509172.589, "at_s": 1189.5, "host": "web-01", "text": "End-of-shift verification: website and payouts available; uploads PHP blocked; CI/db and support bot checked."}

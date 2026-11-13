@@ -1,0 +1,44 @@
+[
+ {
+  "t": 1794498751.9385111,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial audit has not established unauthorized access. Observed internet probes and successful staff/CI logins; investigating historical deploy-password access rather than assuming an unfamiliar address is malicious. Found excessive deploy sudo privileges, writable website code, and potentially unsafe maintenance/database credential handling. Auditing and repairing these while preserving staff access and scheduled shop jobs; continuing checks across all three servers.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794498935.382543,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Still no confirmed unauthorized access; Grafana traversal probes return 404 and application/SSH activity reviewed so far is consistent with shop work. Closed unrestricted deploy root-rsync access, root execution of website PHP in metrics, user-controlled root export-file writes, PHP execution in uploads/cache, unauthenticated support operations, writable web code, and root Git maintenance over developer-controlled configuration. CI release, maintenance, website/rental availability, mailing export, database reporting and payout check passed smoke tests. Staff authentication remains available; monitoring continues.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794499434.354655,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.205.16.153",
+   "174.205.226.245"
+  ],
+  "summary": "View changed: coordinated destructive activity under nvega removed BOTH old and recent backup files on db-01 at 15:59:59 and ci-01 at 16:03:11. Correlated forwarded SSH connections to mobile-origin web-01 sessions (174.205.16.153 and 174.205.226.245), distinct from simultaneous normal nvega work from 24.30.177.29. Treating as unauthorized destructive use of nvega credentials; containing affected keys/sessions on all three hosts and recovering archives. No observed secret reads yet; investigating exposure.",
+  "hosts_reached": [
+   "web-01",
+   "db-01",
+   "ci-01"
+  ]
+ },
+ {
+  "t": 1794499545.187901,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.205.16.153",
+   "174.205.226.245"
+  ],
+  "summary": "Contained coordinated backup-wiping nvega sessions on all three hosts: revoked the abused SSH keys globally and terminated the destructive forwarded session, retaining nvega's other key/password and other staff access. Repeat mobile-key login now fails. Recovered all 12 deleted historical nightly archives from a surviving encrypted daily archive, restored copies to both backup locations, and created/pushed a fresh current dump without reverting live databases. Reviewed sudo evidence shows deletion commands, not secret reads; no confirmed secret disclosure so far. Earlier application/privilege hardening remains in place; CI releases, website, reports, payouts and dump transfer continue.",
+  "hosts_reached": [
+   "web-01",
+   "db-01",
+   "ci-01"
+  ]
+ }
+]

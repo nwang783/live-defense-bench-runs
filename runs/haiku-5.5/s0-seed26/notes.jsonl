@@ -1,0 +1,3 @@
+{"t": 1794503290.585, "at_s": 37.3, "host": "web-01", "text": "web-01: deploy account accepted password logins from 54.36.199.108 (and 96.255.6.208,100.37.236.110,73.162.171.242) since Nov 1; sessions run commands. Investigating webshells / modified files."}
+{"t": 1794503376.949, "at_s": 123.6, "host": "web-01", "text": "web-01 contained: deploy locked, key-only, from=10.20.0.30, sudo rsync removed, deploy-password and app-db-password rotated, report.cnf updated"}
+{"t": 1794503437.432, "at_s": 184.1, "host": "web-01", "text": "web-01: jpark (unlisted contractor, no keys, not in staff.txt) locked and shell set to nologin; brute-force from internet on global password auth continues"}

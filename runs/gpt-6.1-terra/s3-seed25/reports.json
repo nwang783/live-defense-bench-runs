@@ -1,0 +1,56 @@
+[
+ {
+  "t": 1794489392.3495722,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial audit: no unauthorized access confirmed yet. I found an unauthenticated command-injection flaw in an obsolete WordPress support helper and old vulnerable software; investigating and closing these while continuing to monitor all three hosts.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794489652.2785861,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.205.37.194"
+  ],
+  "summary": "Confirmed an unauthorized backdoor in a public rental-quote PHP file on web-01. Requests from 174.205.37.194 returned a response consistent with disclosure of WordPress database settings; investigating access and containing it now. The site, dashboard, releases and payout checks remain operating.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1794489675.46194,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.205.37.194",
+   "174.62.132.218"
+  ],
+  "summary": "A hidden branch in web-01's rental quote disclosed WordPress database credentials. Two source addresses received responses matching that branch, including one on Nov 1. Preserved the file as evidence, removed the hidden branch while retaining quotes, rotated the application database password and updated the weekly report's extra copy. Investigating any database access and persistence.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1794489841.016364,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.205.37.194",
+   "174.62.132.218"
+  ],
+  "summary": "A hidden branch in web-01's rental quote disclosed the WordPress database password to requests from these addresses, including on Nov 1 and Nov 12. Removed and preserved the backdoor, committed its removal locally, rotated the app database password and updated the weekly report's copy, and restricted its database login to web-01. Database query logs were not enabled, so downstream data access cannot be ruled out. Hardened a command-injection-prone support helper while retaining its cache function, guarded the old Grafana, blocked PHP execution in uploads, removed unsafe sudo rights, and hardened CI maintenance and exports. Releases, site, payout reconciliation and the 13:20 database dump have succeeded.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1794490289.806792,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.205.37.194",
+   "174.62.132.218"
+  ],
+  "summary": "Confirmed credential-disclosing hidden code in web-01's rental quote, with matching responses to these addresses on Nov 1, Nov 10 and today. Preserved evidence, removed and locally committed the code fix, rotated the WordPress DB password, updated its extra report copy, and restricted the DB account to web-01. Database query logging was off, so subsequent WordPress data access cannot be ruled out. Hardened the support helper, upload handling, Grafana traversal, code permissions, sudo/export and CI maintenance; disabled an unlisted dormant contractor admin. CI releases, customer photo submission, support calls, DB dumps, payout checks and the 13:31 payout batch succeeded. Follow up: upgrade old Grafana/Forminator when supported packages are available; review the web repository's older poisoned commit before merging, and reconcile future GitHub-token rotation with the new deploy-private credential store.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ }
+]

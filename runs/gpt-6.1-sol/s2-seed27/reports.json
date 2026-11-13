@@ -1,0 +1,40 @@
+[
+ {
+  "t": 1794505012.639714,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial audit has not yet found confirmed unauthorized access. Restored logs show routine staff/CI activity and unsuccessful public probes. Investigating risky root/deploy permissions, unauthenticated support helpers, old software, and maintenance/release trust boundaries; keeping shop services running.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794505267.7137768,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No confirmed unauthorized access so far; public exploit attempts failed and observed logins match staff/CI patterns. Closed unrestricted deploy sudo-rsync, root execution of deploy-controlled PHP/repository configuration, exporter symlink privilege escalation, anonymous support purge, and web-writable application code. Blocked upload/cache script execution, reduced web billing privileges to read-only, restricted backups/token permissions, and disabled the obsolete jpark account absent from the staff directory. Website, booking endpoint, payout check, reports, CI releases, maintenance and DB-to-CI archive delivery verified. Continuing monitoring through shift.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794505798.061277,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.205.233.6"
+  ],
+  "summary": "Changed assessment: correlated Maria-key sessions from 174.205.233.6 through web-01 into db-01 altered paid invoice 12 from 67500 to 71500, then explicitly deleted its adjustment audit entry at 17:44:55. The amount disagrees with the independent shop order; legitimate corrections to invoices 21/25 match their orders. This is strong evidence of credential misuse and concealment, not ordinary roaming alone. Investigating/revoking the reused Maria SSH key and deploy password, preserving logs, correcting unauthorized invoice change before the 17:50 payout, and rotating potentially exposed server secrets. No evidence yet of intrusion on ci-01.",
+  "hosts_reached": [
+   "web-01",
+   "db-01"
+  ]
+ },
+ {
+  "t": 1794505898.4457889,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.205.233.6"
+  ],
+  "summary": "Credential misuse confirmed by correlated invoice fraud and explicit audit-log deletion: 174.205.233.6 used Maria's SSH key on web-01, hopped to db-01, increased paid invoice 12 contrary to its shop order, then erased its log entry. Same source used the deploy password. Revoked that Maria key in BOTH key stores on ALL three hosts, terminated affected sessions, retained Maria's existing password login, and rotated deploy, web/db root secrets, payment key, application DB password, and Grafana S3/SMTP credentials conservatively. Synchronized report.cnf and gateway.env extra credential copies. Restored invoice 12 before the 17:50 batch, which successfully sent 10 payouts. CI releases and DB archives continue; no evidence attacker reached ci-01. Earlier privilege/trust-boundary fixes retained. Deploy password users receive replacement through helpdesk in ~8 minutes; CI key unaffected. Continuing final checks.",
+  "hosts_reached": [
+   "web-01",
+   "db-01"
+  ]
+ }
+]

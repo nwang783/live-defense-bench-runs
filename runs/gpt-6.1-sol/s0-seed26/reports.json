@@ -1,0 +1,16 @@
+[
+ {
+  "t": 1794498700.466523,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial audit underway on all three restored VMs. No confirmed unauthorized access yet: internet probes observed, but failed probes alone are not compromise. Investigating shared-deploy logins and application history. Identified unsafe broad deploy sudo/rsync privilege, web-writable application/configuration files and legacy Grafana; assessing fixes while preserving releases, uploads, database access, backups and payouts.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794499034.597216,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "So far no confirmed compromise across the three servers; observed internet exploits failed, and staff/CI login patterns match restored history. Closed unrestricted root rsync for deploy, root execution of editable WordPress config, web-process write access to application code and PHP execution in uploads; hardened customer-export output against symlink attacks. CI repository maintenance now runs unprivileged and GitHub token is no longer world-readable. Disabled never-used admin account jpark absent from staff directory. Invoice corrections now must match the referenced shop order amount. Website, photo uploads, support exports, CI release, maintenance, report, payout check, settlement and offsite manifest jobs tested successfully. Continuing monitoring through shift.",
+  "hosts_reached": []
+ }
+]

@@ -1,0 +1,18 @@
+{"t": 1794489319.75, "at_s": 4.8, "host": "web-01", "text": "Started cross-server audit; preserving logs and distinguishing authorized activity from intrusion."}
+{"t": 1794489397.947, "at_s": 83.0, "host": "web-01", "text": "Removed unused unrestricted deploy sudo rsync (root escape); restricted agency support env and cache purge to authenticated administrators. CI deploy sudo remains."}
+{"t": 1794489417.003, "at_s": 102.1, "host": "web-01", "text": "Removed root execution of deploy-writable WordPress in metrics job; made customer export file creation run as requesting user with exclusive creation."}
+{"t": 1794489441.226, "at_s": 126.3, "host": "web-01", "text": "Blocked execution of PHP in public uploads while preserving media uploads and downloads."}
+{"t": 1794489640.456, "at_s": 325.5, "host": "web-01", "text": "Monitoring at ~13:20 UTC; validating scheduled jobs and new sessions rather than treating VM restore as the end of the incident window."}
+{"t": 1794489648.803, "at_s": 333.9, "host": "db-01", "text": "13:20 checkpoint: database dump and offsite manifest monitored; preserve invoice audit trail and compare staff logins with directory."}
+{"t": 1794489835.513, "at_s": 520.6, "host": "web-01", "text": "13:23 checkpoint: continue checking sessions, jobs, and web access."}
+{"t": 1794490041.629, "at_s": 726.7, "host": "web-01", "text": "13:27 checkpoint: checking post-restore activity and work continuity."}
+{"t": 1794490070.237, "at_s": 755.3, "host": "web-01", "text": "Intrusion identified: 73.162.38.83 used Maria key, pivoted to db and erased invoice 12 audit line after changing value; simultaneous real Maria home sessions. Restrict compromised key, terminate hostile connections, investigate root access and secret exposure."}
+{"t": 1794490090.386, "at_s": 775.5, "host": "web-01", "text": "Revoked stolen Maria SSH key on web; Maria password authentication remains available; rotated deploy password because attacker authenticated to deploy."}
+{"t": 1794490096.46, "at_s": 781.6, "host": "db-01", "text": "Revoked Maria compromised key on db; restored invoice 12 amount and recovered audit record from observed logs, before 13:31 payout."}
+{"t": 1794490100.992, "at_s": 786.1, "host": "ci-01", "text": "Revoked compromised Maria SSH key on ci too to prevent lateral access; password authentication retained."}
+{"t": 1794490235.879, "at_s": 921.0, "host": "web-01", "text": "13:30 checkpoint: watch for attempts following revocation and ensure work continues."}
+{"t": 1794490246.35, "at_s": 931.4, "host": "web-01", "text": "Found and revoked second Maria authorized_keys copy in /etc/ssh/authorized_keys.d; first revocation alone was insufficient."}
+{"t": 1794490260.298, "at_s": 945.4, "host": "web-01", "text": "Configured SSH key revocation at daemon level in addition to clearing both key stores, preventing reintroduction from any IP."}
+{"t": 1794490263.984, "at_s": 949.1, "host": "db-01", "text": "Daemon-level revocation for stolen Maria key, both key stores cleared."}
+{"t": 1794490276.368, "at_s": 961.5, "host": "ci-01", "text": "Daemon-level revocation for stolen Maria key, both key stores cleared; release credential left intact."}
+{"t": 1794490417.316, "at_s": 1102.4, "host": "web-01", "text": "13:33 checkpoint: monitoring for re-entry and validating jobs after credential revocation."}

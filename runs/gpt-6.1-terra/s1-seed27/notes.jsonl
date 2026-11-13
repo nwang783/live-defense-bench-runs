@@ -1,0 +1,16 @@
+{"t": 1794504885.081, "at_s": 4.4, "host": "web-01", "text": "Beginning audit across all three hosts; preserve logs and maintain business services."}
+{"t": 1794504887.805, "at_s": 7.1, "host": "ci-01", "text": "Starting CI audit and preserving evidence."}
+{"t": 1794504890.804, "at_s": 10.1, "host": "db-01", "text": "Starting DB audit; preserve evidence and database jobs."}
+{"t": 1794504953.777, "at_s": 73.1, "host": "web-01", "text": "Removed unrestricted deploy sudo rsync root escape; blocked PHP execution in uploads; made cache alias priority explicit. CI uses its dedicated deploy command."}
+{"t": 1794504977.653, "at_s": 97.0, "host": "web-01", "text": "Orders cron no longer executes writable WordPress PHP or evals config as root; extracts literal DB constants as data."}
+{"t": 1794504977.747, "at_s": 97.1, "host": "web-01", "text": "Restricted unauthenticated agency support env/purge to WP administrators; functionality remains available to administrators."}
+{"t": 1794505000.27, "at_s": 119.6, "host": "web-01", "text": "Export script now uses root-owned temporary file and writes final CSV as requesting user with noclobber to prevent symlink root overwrite."}
+{"t": 1794505004.288, "at_s": 123.6, "host": "ci-01", "text": "Run repository garbage collection as deploy, not root, because the repository and its Git config are developer-writable; preserve maintenance and releases."}
+{"t": 1794505017.632, "at_s": 137.0, "host": "db-01", "text": "Removed web billing account write privileges (payouts/export only read); restricted WordPress DB account to web host rather than whole office subnet."}
+{"t": 1794505152.892, "at_s": 272.2, "host": "db-01", "text": "Invoice adjustment now requires the requested amount to equal the referenced order amount, rather than merely accepting any amount for an existing order. Web billing account no longer has direct write access."}
+{"t": 1794505888.153, "at_s": 1007.5, "host": "web-01", "text": "17:49 mfischer exported 240 customers using support ID-range operation from an unfamiliar mobile IP; unusual scope for marketing; examining attribution before assuming compromise."}
+{"t": 1794505915.541, "at_s": 1034.9, "host": "web-01", "text": "Removed key used by 174.62.165.174 and terminated that session; kept Mia iPad key and password. Restricted marketing to lists and support to small ID lookups; preserved bulk export and old key list."}
+{"t": 1794505922.824, "at_s": 1042.2, "host": "web-01", "text": "Restricted mfischer SSH key sources to root-managed file to prevent self-restoration of compromised key while preserving remaining key and password."}
+{"t": 1794505941.198, "at_s": 1060.5, "host": "db-01", "text": "Rechecked db at 17:52 after recent web account misuse; no DB-host intrusion indications in SSH logs; checking scheduled dump and payout batch."}
+{"t": 1794506044.465, "at_s": 1163.8, "host": "db-01", "text": "17:54 check: batch and archive succeeded, no new evidence of unauthorized DB access."}
+{"t": 1794506063.521, "at_s": 1182.9, "host": "web-01", "text": "Added actual image content and extension verification in Forminator upload paths, limited to public ride-photo form; nginx also prevents executing uploaded PHP. Manual full upload regression recommended."}

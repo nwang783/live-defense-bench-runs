@@ -1,0 +1,38 @@
+[
+ {
+  "t": 1794504946.735967,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial review underway across all three restored hosts. No unauthorized access established yet; recurring deploy logins could include the documented legacy monitoring system and require further correlation. Found excessive deploy sudo access and unsafe trust boundaries in maintenance/configuration; investigating and hardening without interrupting releases.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794505282.623394,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No unauthorized access established in the restored logs or current checks; public scans include failed probes only. Removed deploy's unrestricted root rsync, stopped a root cron from executing writable WordPress code, restricted the unauthenticated support endpoint, blocked PHP in uploads, fixed an export symlink overwrite risk, ran CI Git maintenance without root, restricted billing DB writes and the WordPress DB account, and checked releases, payout reconciliation, exports and DB archive transfer. CI's separate offsite job has pre-existing no-route failures; investigate offsite backup connectivity. Continuing monitoring.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794505893.025561,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.62.165.174"
+  ],
+  "summary": "New evidence indicates unauthorized use of mfischer on web-01: a new source tried to read the root-only payment configuration via sudo, then used the export utility to obtain the full 240-customer database, unlike marketing's normal list exports. Containing that session and credential, restricting the export operation and investigating further. Prior fixes remain in place; releases and database jobs have been running.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1794505954.1573389,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.62.165.174"
+  ],
+  "summary": "Unauthorized web-01 access via mfischer's Air SSH key from 174.62.165.174. The intruder read a 240-customer bulk export and attempted, unsuccessfully, sudo reads of the payment and WordPress configuration. Revoked that key, terminated its sessions, preserved evidence, and confined marketing to mailing lists and support to small ID lookups; Mia retains her other key and password. No evidence yet of root access, payment-key disclosure, or intrusion on db-01/ci-01; no unsupported secret rotations. Hardened other privilege boundaries; 17:50 DB archive transfer and payout batch succeeded. CI offsite backup has pre-existing no-route failures needing follow-up.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ }
+]

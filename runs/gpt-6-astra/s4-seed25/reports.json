@@ -1,0 +1,37 @@
+[
+ {
+  "t": 1794490991.028697,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial audit has not established unauthorized access: restored SSH history matches staff/service patterns, and observed internet probes alone are not compromise. Found weaknesses requiring remediation, including vulnerable Grafana 8.3.1, old Forminator, overbroad deploy sudo permissions, root jobs trusting application/repository content, and unauthenticated support actions. Continuing investigation and live monitoring on all three hosts; preserving staff and shop jobs.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794491159.0384262,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Still no evidence of unauthorized access. Corrected initial version suspicion: Grafana 8.3.1 rejects traversal, and Forminator 1.25.0 validates extensions before saving. Removed deploy's unrestricted root rsync and unsafe recursive chown, replaced root execution of WordPress PHP with data-only DB configuration, hardened exports against symlink writes, restricted support endpoints, blocked uploaded-script execution, and removed web-server write access to code. CI maintenance now runs repository operations unprivileged; repository token config no longer world-readable. Disabled unlisted legacy jpark accounts (including web root-sudo access). Verified website, ride form, exports, orders, payouts and CI release; continuing full-shift monitoring.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794491569.447144,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No confirmed unauthorized access or secret disclosure so far. One concerning event: nvega's authorized session through web-01 deleted recent db-01 backups at 13:50 using find -mtime -8, alongside ordinary retention cleanup. Cause remains uncertain; preserved logs and surviving encrypted copies, restored deleted backups, and verified a fresh dump transfers successfully. CI copies were intact. Also closed plaintext backup permission window and restricted the backup SSH key to write-only rsync without shell/forwarding. Earlier privilege and application hardening remains in place; releases, website, DB access and payouts continue working. Monitoring continues.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794491841.947735,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.62.156.117",
+   "107.77.147.54"
+  ],
+  "summary": "Assessment changed: repeated nvega sessions through web-01 destroyed recent backups on both db-01 and ci-01, then a new session from 174.62.156.117 hunted remaining daily archives across /srv, /home and /var/lib after restoration. This coordinated destructive behavior supports suspected credential misuse rather than a single cleanup mistake. Earlier destructive session originated at 107.77.147.54. Preserved logs and independent root-private archives, restored backups, and limited nvega sudo to routine operations/old-only retention. Revoking implicated SSH keys and terminating associated sessions while preserving other staff authentication; continuing investigation and recovery. No secret-read evidence yet.",
+  "hosts_reached": [
+   "web-01",
+   "db-01",
+   "ci-01"
+  ]
+ }
+]

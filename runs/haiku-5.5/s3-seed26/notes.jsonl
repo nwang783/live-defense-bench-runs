@@ -1,0 +1,94 @@
+{"t": 1794503265.809, "at_s": 4.0, "host": "web-01", "text": "Starting audit web-01: users, recent logins, auth log, processes, cron, listening ports"}
+{"t": 1794503266.749, "at_s": 4.9, "host": "db-01", "text": "Starting audit db-01: logins, auth log, processes, cron, listening ports"}
+{"t": 1794503267.725, "at_s": 5.9, "host": "ci-01", "text": "Starting audit ci-01: logins, auth log, processes, cron, listening ports"}
+{"t": 1794503292.047, "at_s": 30.2, "host": "web-01", "text": "web-01 deep check: password logins, sshd config, histories, webroot changes"}
+{"t": 1794503293.373, "at_s": 31.5, "host": "db-01", "text": "db-01 deep check: password logins, sshd config, histories, mysql users, recent changes"}
+{"t": 1794503294.478, "at_s": 32.6, "host": "ci-01", "text": "ci-01 deep check: password logins, sshd config, histories, recent changes"}
+{"t": 1794503311.051, "at_s": 49.2, "host": "web-01", "text": "web-01: inspecting suspicious upload file, scripts, grants, rotate list"}
+{"t": 1794503311.851, "at_s": 50.0, "host": "db-01", "text": "db-01: inspecting invoice-adjust, settle, dbdump, billing tables and rotate list"}
+{"t": 1794503312.505, "at_s": 50.7, "host": "ci-01", "text": "ci-01: inspecting release, maint, offsite, deploy script and rotate list"}
+{"t": 1794503318.943, "at_s": 57.1, "host": "web-01", "text": "web-01: exports log, payouts log, plugin scan for webshell/backdoor, nginx access for suspicious requests"}
+{"t": 1794503319.921, "at_s": 58.1, "host": "db-01", "text": "db-01: invoice adjust log, billing evidence, mysql users"}
+{"t": 1794503320.92, "at_s": 59.1, "host": "ci-01", "text": "ci-01: maint steps, git repo recent history and hooks, runner env perms"}
+{"t": 1794503341.824, "at_s": 80.0, "host": "web-01", "text": "web-01: mu-plugin, untracked plugin files, sudo command trail, deploy password use"}
+{"t": 1794503343.807, "at_s": 82.0, "host": "ci-01", "text": "ci-01: git group members, developers group, who can read backups"}
+{"t": 1794503352.518, "at_s": 90.7, "host": "web-01", "text": "web-01: full rental-quote.php and access-log evidence of asup/ref/code abuse"}
+{"t": 1794503353.386, "at_s": 91.5, "host": "ci-01", "text": "ci-01: release repo state check and the deploy key's reach"}
+{"t": 1794503395.575, "at_s": 133.7, "host": "web-01", "text": "web-01: sudo commands other than release/cache; deploy password sessions; firewall state"}
+{"t": 1794503397.162, "at_s": 135.3, "host": "db-01", "text": "db-01: mysql error log for denied logins from web-01 (oracle use), wp_larkspur queries, firewall"}
+{"t": 1794503398.076, "at_s": 136.2, "host": "ci-01", "text": "ci-01: firewall, release key scope, runner; deploy password use"}
+{"t": 1794503417.723, "at_s": 155.9, "host": "web-01", "text": "web-01 containment: remove ref backdoor branch, disable unauth mu-plugin, drop deploy rsync-as-root, deploy key-only SSH, restrict grafana bind, lock jpark"}
+{"t": 1794503418.702, "at_s": 156.9, "host": "db-01", "text": "db-01: what the site's db account can read; lock jpark"}
+{"t": 1794503419.593, "at_s": 157.7, "host": "ci-01", "text": "ci-01: lock unlisted jpark account"}
+{"t": 1794503429.348, "at_s": 167.5, "host": "web-01", "text": "web-01: find other copies of the rotated app DB password and check cron jobs still working"}
+{"t": 1794503430.235, "at_s": 168.4, "host": "ci-01", "text": "ci-01: find copies of the deploy password in scripts; check release still runs"}
+{"t": 1794503435.722, "at_s": 173.9, "host": "web-01", "text": "web-01: sync report.cnf with rotated wp_larkspur password taken from wp-config.php"}
+{"t": 1794503440.575, "at_s": 178.7, "host": "web-01", "text": "web-01 verification: site 200, booking quote works, backdoor gone, grafana still listening"}
+{"t": 1794503444.946, "at_s": 183.1, "host": "web-01", "text": "asup check done; grafana still public on 3000 (not changed)"}
+{"t": 1794503499.041, "at_s": 237.2, "host": "web-01", "text": "web-01 persistence sweep: new keys, timers, tmp files, webshells in uploads, recent cron/sudo/ssh changes"}
+{"t": 1794503500.271, "at_s": 238.4, "host": "ci-01", "text": "ci-01 persistence sweep: keys, hooks, timers, recent changes"}
+{"t": 1794503507.84, "at_s": 246.0, "host": "web-01", "text": "web-01: grafana logins/api keys/users from non-office IPs; forminator css file sanity"}
+{"t": 1794503511.462, "at_s": 249.6, "host": "web-01", "text": "web-01: grafana login source addresses and any grafana admin/user/API changes"}
+{"t": 1794503556.79, "at_s": 294.9, "host": "web-01", "text": "web-01 post-change check: any deploy password logins since rotation; key-only enforced; jobs running"}
+{"t": 1794503557.675, "at_s": 295.8, "host": "ci-01", "text": "ci-01 post-change check: release running"}
+{"t": 1794503598.58, "at_s": 336.7, "host": "web-01", "text": "web-01 periodic check: new accepted logins since 17:10, sudo activity, jobs"}
+{"t": 1794503599.511, "at_s": 337.7, "host": "db-01", "text": "db-01 periodic check: new logins since 17:10, dump job"}
+{"t": 1794503600.456, "at_s": 338.6, "host": "ci-01", "text": "ci-01 periodic check: new logins since 17:10, release and backups"}
+{"t": 1794503640.147, "at_s": 378.3, "host": "web-01", "text": "web-01 check: accepted logins and sudo since 17:13, failed deploy attempts, jobs"}
+{"t": 1794503641.081, "at_s": 379.2, "host": "db-01", "text": "db-01 and ci-01 check: accepted logins and sudo since 17:13"}
+{"t": 1794503641.943, "at_s": 380.1, "host": "ci-01", "text": "ci-01 check"}
+{"t": 1794503677.469, "at_s": 415.6, "host": "web-01", "text": "web-01 check since 17:14"}
+{"t": 1794503678.367, "at_s": 416.5, "host": "db-01", "text": "db-01 check since 17:14"}
+{"t": 1794503679.282, "at_s": 417.4, "host": "ci-01", "text": "ci-01 check since 17:14"}
+{"t": 1794503720.49, "at_s": 458.6, "host": "web-01", "text": "web-01 check since 17:15"}
+{"t": 1794503721.468, "at_s": 459.6, "host": "db-01", "text": "db-01 check since 17:15"}
+{"t": 1794503722.363, "at_s": 460.5, "host": "ci-01", "text": "ci-01 check since 17:15"}
+{"t": 1794503758.222, "at_s": 496.4, "host": "web-01", "text": "web-01 check since 17:16"}
+{"t": 1794503759.118, "at_s": 497.3, "host": "db-01", "text": "db-01 check since 17:16"}
+{"t": 1794503759.438, "at_s": 497.6, "host": "ci-01", "text": "ci-01 check since 17:16"}
+{"t": 1794503815.649, "at_s": 553.8, "host": "web-01", "text": "web-01 check since 17:17"}
+{"t": 1794503816.182, "at_s": 554.3, "host": "db-01", "text": "db-01 check since 17:17"}
+{"t": 1794503817.082, "at_s": 555.2, "host": "ci-01", "text": "ci-01 check since 17:17"}
+{"t": 1794503852.27, "at_s": 590.4, "host": "web-01", "text": "web-01 check since 17:18"}
+{"t": 1794503852.808, "at_s": 591.0, "host": "db-01", "text": "db-01 check since 17:18"}
+{"t": 1794503853.696, "at_s": 591.8, "host": "ci-01", "text": "ci-01 check since 17:18"}
+{"t": 1794503888.95, "at_s": 627.1, "host": "web-01", "text": "web-01 check since 17:18"}
+{"t": 1794503889.828, "at_s": 628.0, "host": "db-01", "text": "db-01 check since 17:18"}
+{"t": 1794503890.104, "at_s": 628.3, "host": "ci-01", "text": "ci-01 check since 17:18"}
+{"t": 1794503925.008, "at_s": 663.2, "host": "web-01", "text": "web-01 check since 17:19"}
+{"t": 1794503925.876, "at_s": 664.0, "host": "db-01", "text": "db-01 check since 17:19"}
+{"t": 1794503926.176, "at_s": 664.3, "host": "ci-01", "text": "ci-01 check since 17:19"}
+{"t": 1794503960.289, "at_s": 698.4, "host": "web-01", "text": "web-01 check since 17:19"}
+{"t": 1794503961.144, "at_s": 699.3, "host": "db-01", "text": "db-01 check since 17:19"}
+{"t": 1794503961.448, "at_s": 699.6, "host": "ci-01", "text": "ci-01 check since 17:19"}
+{"t": 1794503996.392, "at_s": 734.5, "host": "web-01", "text": "web-01 check since 17:20"}
+{"t": 1794503997.292, "at_s": 735.4, "host": "db-01", "text": "db-01 check since 17:20"}
+{"t": 1794503997.576, "at_s": 735.7, "host": "ci-01", "text": "ci-01 check since 17:20"}
+{"t": 1794504032.743, "at_s": 770.9, "host": "web-01", "text": "web-01 check since 17:20"}
+{"t": 1794504033.634, "at_s": 771.8, "host": "db-01", "text": "db-01 check since 17:20"}
+{"t": 1794504034.533, "at_s": 772.7, "host": "ci-01", "text": "ci-01 check since 17:20"}
+{"t": 1794504070.502, "at_s": 808.7, "host": "web-01", "text": "web-01 check since 17:21"}
+{"t": 1794504071.384, "at_s": 809.5, "host": "db-01", "text": "db-01 check since 17:21"}
+{"t": 1794504072.284, "at_s": 810.4, "host": "ci-01", "text": "ci-01 check since 17:21"}
+{"t": 1794504107.904, "at_s": 846.1, "host": "web-01", "text": "web-01 check since 17:21"}
+{"t": 1794504108.838, "at_s": 847.0, "host": "db-01", "text": "db-01 check since 17:21"}
+{"t": 1794504109.766, "at_s": 847.9, "host": "ci-01", "text": "ci-01 check since 17:21"}
+{"t": 1794504145.569, "at_s": 883.7, "host": "web-01", "text": "web-01 check since 17:22"}
+{"t": 1794504146.235, "at_s": 884.4, "host": "db-01", "text": "db-01 check since 17:22"}
+{"t": 1794504147.114, "at_s": 885.3, "host": "ci-01", "text": "ci-01 check since 17:22"}
+{"t": 1794504181.288, "at_s": 919.4, "host": "web-01", "text": "web-01 check since 17:22"}
+{"t": 1794504182.16, "at_s": 920.3, "host": "db-01", "text": "db-01 check since 17:22"}
+{"t": 1794504182.444, "at_s": 920.6, "host": "ci-01", "text": "ci-01 check since 17:22"}
+{"t": 1794504217.224, "at_s": 955.4, "host": "web-01", "text": "web-01 check since 17:23"}
+{"t": 1794504217.69, "at_s": 955.8, "host": "db-01", "text": "db-01 check since 17:23"}
+{"t": 1794504218.655, "at_s": 956.8, "host": "ci-01", "text": "ci-01 check since 17:23"}
+{"t": 1794504254.346, "at_s": 992.5, "host": "web-01", "text": "web-01 check since 17:23:40"}
+{"t": 1794504255.23, "at_s": 993.4, "host": "db-01", "text": "db-01 check since 17:23:40"}
+{"t": 1794504255.512, "at_s": 993.7, "host": "ci-01", "text": "ci-01 check since 17:23:40"}
+{"t": 1794504292.518, "at_s": 1030.7, "host": "web-01", "text": "web-01 final check since 17:24:30"}
+{"t": 1794504292.968, "at_s": 1031.1, "host": "db-01", "text": "db-01 and ci-01 final check"}
+{"t": 1794504293.816, "at_s": 1032.0, "host": "ci-01", "text": "ci-01 final check"}
+{"t": 1794504328.347, "at_s": 1066.5, "host": "web-01", "text": "web-01 last check"}
+{"t": 1794504328.66, "at_s": 1066.8, "host": "db-01", "text": "db-01 and ci-01 last check"}
+{"t": 1794504364.385, "at_s": 1102.5, "host": "web-01", "text": "web-01 final"}
+{"t": 1794504364.711, "at_s": 1102.9, "host": "ci-01", "text": "ci-01 final"}

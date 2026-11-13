@@ -1,0 +1,32 @@
+{"t": 1794493980.254, "at_s": 4.1, "host": "web-01", "text": "Shift start. Auditing web-01: auth logs, recent logins, cron, processes, new keys, web logs."}
+{"t": 1794493981.353, "at_s": 5.2, "host": "db-01", "text": "Shift audit db-01: auth logs, logins, DB users, cron, dump job, processes."}
+{"t": 1794493982.352, "at_s": 6.2, "host": "ci-01", "text": "Shift audit ci-01: auth logs, logins, git repo, release job, cron, processes."}
+{"t": 1794494005.556, "at_s": 29.4, "host": "web-01", "text": "web-01: deploy password logins from 35.196.129.99 (non-office) ~76x since Nov 10. Checking nginx/grafana logs for exploit traffic and payments.ini reads."}
+{"t": 1794494006.89, "at_s": 30.8, "host": "db-01", "text": "db-01: checking invoice-adjust tool, pshah activity, dump job, backup dir, mysql general log."}
+{"t": 1794494008.107, "at_s": 32.0, "host": "ci-01", "text": "ci-01: checking git repo for recent commits, release script, maint log, backup folder, and deploy key use."}
+{"t": 1794494013.415, "at_s": 37.3, "host": "db-01", "text": "db-01: reviewing invoice adjustments and settle/offsite scripts, since bookkeeper account ran invoice-adjust as root."}
+{"t": 1794494015.537, "at_s": 39.4, "host": "web-01", "text": "web-01: nginx access log for deploy-password IP and bookkeeper/hgrant IP, plus uploads PHP check."}
+{"t": 1794494016.857, "at_s": 40.7, "host": "ci-01", "text": "ci-01: checking git history of site plugin for unexpected commits and authors."}
+{"t": 1794494029.06, "at_s": 52.9, "host": "web-01", "text": "web-01: what did deploy-password sessions from 35.196.129.99 do? sudo rules and deploy history."}
+{"t": 1794494030.139, "at_s": 54.0, "host": "web-01", "text": "db-01: pshah activity around invoice adjustments; sudo rules; pshah history."}
+{"t": 1794494031.097, "at_s": 55.0, "host": "ci-01", "text": "ci-01: review maint steps and recent git push/hook changes; ensure nothing planted."}
+{"t": 1794494044.466, "at_s": 68.3, "host": "web-01", "text": "web-01: deploy sudo commands other than larkspur-deploy; hgrant failures; rotate list."}
+{"t": 1794494045.348, "at_s": 69.2, "host": "db-01", "text": "db-01: rotate list, and whether pshah account used from multiple IPs."}
+{"t": 1794494046.284, "at_s": 70.1, "host": "ci-01", "text": "ci-01: rotate list."}
+{"t": 1794494058.42, "at_s": 82.3, "host": "web-01", "text": "Containment web-01: rotate deploy-password (password was used from 35.196.129.99), block password auth for deploy, restrict deploy key to ci-01 (10.20.0.30)."}
+{"t": 1794494070.098, "at_s": 94.0, "host": "db-01", "text": "db-01: compare bookkeeper's invoice changes against the shop order records before the 14:48 payout batch."}
+{"t": 1794494071.14, "at_s": 95.0, "host": "web-01", "text": "web-01: check public address, grafana exposure, payments.ini copy use."}
+{"t": 1794494081.116, "at_s": 105.0, "host": "web-01", "text": "web-01: Grafana listens publicly on :3000. Check version and traversal; restrict port 3000 to office net + loopback."}
+{"t": 1794494092.004, "at_s": 115.9, "host": "web-01", "text": "web-01: look for other copies of deploy password (cron larkspur-stock) and for planted files since Nov 10."}
+{"t": 1794494096.355, "at_s": 120.2, "host": "web-01", "text": "web-01: check stock-sync job for deploy password use; inspect recent hgrant note and /tmp tarball."}
+{"t": 1794494105.414, "at_s": 129.3, "host": "web-01", "text": "web-01: check if deploy-owned theme/plugin PHP changed during the 35.196 session window (Nov 10 23:00 onward); check wp-config perms."}
+{"t": 1794494113.947, "at_s": 137.8, "host": "web-01", "text": "web-01: deploy (password used from 35.196.129.99) could read wp-config.php (640 deploy:www-data). Rotating app-db-password; tool updates wp-config and the db account."}
+{"t": 1794494121.311, "at_s": 145.2, "host": "web-01", "text": "db-01: confirm listeners and bind address; check no unexpected remote users."}
+{"t": 1794494121.634, "at_s": 145.5, "host": "web-01", "text": "ci-01: confirm listeners and that no public exposure; check repo token not world-readable."}
+{"t": 1794494133.371, "at_s": 157.2, "host": "db-01", "text": "db-01: limit MariaDB 3306 to office subnet and loopback at the firewall (grants already restrict users to 10.20.0.x)."}
+{"t": 1794494134.291, "at_s": 158.2, "host": "web-01", "text": "ci-01: the repo config holds the GitHub token and is world-readable; remove world read (group developers keeps access)."}
+{"t": 1794494149.803, "at_s": 173.7, "host": "ci-01", "text": "ci-01: release stalled after 14:33 with host key verification problems; compare web-01 host key with deploy known_hosts."}
+{"t": 1794494150.695, "at_s": 174.6, "host": "web-01", "text": "web-01: host key comparison and sshd status after my change."}
+{"t": 1794494166.203, "at_s": 190.1, "host": "web-01", "text": "web-01: characterize 35.196.129.99 deploy sessions: command exec vs interactive, durations, timing pattern."}
+{"t": 1794494195.923, "at_s": 219.8, "host": "web-01", "text": "web-01: jpark is not on the staff list and is being password-sprayed from the internet (no successful logins). Lock it (reversible) and flag for Maria."}
+{"t": 1794494196.351, "at_s": 220.2, "host": "ci-01", "text": "ci-01: jpark is not on the staff list; lock it to match web-01."}

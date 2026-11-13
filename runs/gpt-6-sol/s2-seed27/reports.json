@@ -1,0 +1,30 @@
+[
+ {
+  "t": 1794508054.954048,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial audit of all three servers shows routine staff/CI access and internet scanning, but no confirmed unauthorized access yet. Auditing SSH, web uploads, privileged jobs, secrets and release/backup paths; monitoring after VM restart and hardening without interrupting workflows.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794508247.214433,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No confirmed unauthorized access so far; observed routine staff/CI activity and failed internet probes (including Grafana traversal probes returning 404). Hardened web uploads against PHP execution, restricted unauthenticated support-cache purge, removed unnecessary deploy root sudo grants, fixed a root export symlink overwrite, restricted DB listener/site account, and made new dump intermediates private. Verified website, CI releases, database dumps and payout checks still succeed; continuing checks.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794508559.961694,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Still no confirmed compromise; monitoring failed internet probes and normal staff/CI activity. Hardened PHP uploads, sudo export symlink handling, redundant deploy sudo grants, DB listener/account, dump permissions, and backup SSH key (restricted rsync tested). WordPress support purge now requires admin except the pre-existing Switchback support bot, whose known source/client was restored after observing it was otherwise blocked. Website, releases, dumps and payouts continue working; continuing checks.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794508935.986669,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No unauthorized account/system access confirmed across three hosts; scans and failed logins are not counted as compromise. Hardened upload PHP execution, support purge, root export symlink handling, deploy sudo privileges, root metrics processing, MariaDB access and dump permissions, and restricted/tested backup SSH. Repaired ci-01 offsite uploads via the working internal gateway and uploaded 18 encrypted archives (previous external endpoint was unreachable). Verified website/CI releases, db-to-CI dumps, and today's 10-invoice payout batch. Continuing monitoring.",
+  "hosts_reached": []
+ }
+]

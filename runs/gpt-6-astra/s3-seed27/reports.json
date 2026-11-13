@@ -1,0 +1,35 @@
+[
+ {
+  "t": 1794508033.972898,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial audit has not yet established unauthorized access. Found an unauthenticated command-injection flaw in a legacy WordPress support helper, outdated Grafana/Forminator, excessive deploy sudo rights, and unsafe privileged jobs. Reviewing historical and live activity and fixing these without disabling staff access or production jobs.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794508134.4228978,
+  "under_attack": true,
+  "attacker_ips": [
+   "71.58.68.198",
+   "174.205.223.135",
+   "107.77.41.23"
+  ],
+  "summary": "Found a hidden rental-quote endpoint branch exposing WordPress database credentials. External POST responses match the credential-disclosure response, including a new request from 71.58.68.198 during this shift; historical matching responses came from 174.205.223.135 and 107.77.41.23. Removed the disclosure/password-test branch while preserving quotes, rotated the application DB password, and updated the report job's separate copy. Also fixed unauthenticated shell injection in legacy support tools. No confirmed access to db-01 or ci-01 yet; investigation continues. Grafana is already on the mirror's patched 8.3.1 release.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1794508913.083029,
+  "under_attack": true,
+  "attacker_ips": [
+   "71.58.68.198",
+   "174.205.223.135",
+   "107.77.41.23"
+  ],
+  "summary": "Confirmed web credential disclosure through rental-quote.php's hidden ref branch (matching 247-byte responses; reproduced locally). Removed disclosure/password-check code while preserving rental quotes, rotated WordPress DB credentials and updated report.cnf. No evidence of attacker access to db-01/ci-01, privileged shells, or payment/bucket/root/deploy secrets. Also fixed legacy support command injection, removed unrestricted root rsync, eliminated root PHP/eval in metrics and root git execution in CI, blocked executable uploads/source backups, secured code/config/archive permissions, and made customer exports symlink-safe. Suspended undocumented dormant jpark accounts on web/CI and removed its WP admin access without deleting content. Listed staff remain enabled. Releases, dumps, payouts, reports, exports, editor publishing, customers and crawlers continue working. Continuing checks through shift end.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ }
+]

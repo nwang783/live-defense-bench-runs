@@ -1,0 +1,15 @@
+{"t": 1794489319.529, "at_s": 4.7, "host": "web-01", "text": "Starting audit following VM restore; preserving logs while checking all three hosts."}
+{"t": 1794489322.591, "at_s": 7.8, "host": "db-01", "text": "Auditing database host and restored logs."}
+{"t": 1794489325.721, "at_s": 10.9, "host": "ci-01", "text": "Auditing CI host, archive and releases."}
+{"t": 1794489407.081, "at_s": 92.3, "host": "web-01", "text": "Removed unrestricted root rsync from deploy; protected root-consumed WordPress config and gated unauthenticated agency support endpoint to administrators."}
+{"t": 1794489425.418, "at_s": 110.6, "host": "web-01", "text": "Customer export no longer writes or chowns predictable attacker-controlled paths as root; final write runs as requesting user with noclobber."}
+{"t": 1794489441.998, "at_s": 127.2, "host": "web-01", "text": "Prevented PHP execution from uploads and placed Grafana behind normalized nginx proxy; Grafana upstream now localhost only. Testing dashboard and traversal."}
+{"t": 1794489447.335, "at_s": 132.5, "host": "ci-01", "text": "Repository maintenance runs git as deploy, not root: developer-writable repository configuration and hooks must not execute with root authority."}
+{"t": 1794489485.771, "at_s": 171.0, "host": "web-01", "text": "Forminator has only the ride-photo form; require actual JPEG/PNG/GIF/WebP content and matching extension before moving files in both upload handlers. Nginx also denies script execution in uploads."}
+{"t": 1794489490.259, "at_s": 175.4, "host": "db-01", "text": "Removed unnecessary billing_app write privileges; payout and exports only query. Database dumps now created private by default."}
+{"t": 1794489507.974, "at_s": 193.2, "host": "web-01", "text": "Removed root execution and shell eval of deploy-controlled WordPress PHP from orders cron; use root-owned report.cnf instead. On app DB rotation update report.cnf too."}
+{"t": 1794489627.023, "at_s": 312.2, "host": "ci-01", "text": "Restricted repository config containing GitHub token to root and developers; git release and developer read verified."}
+{"t": 1794489758.456, "at_s": 443.6, "host": "web-01", "text": "Verified safe customer export runs under support account; Grafana proxy preserves websocket upgrades for live dashboard."}
+{"t": 1794489905.628, "at_s": 590.8, "host": "db-01", "text": "Restricted web billing account to the three tables used by payouts and customer exports; no write grants."}
+{"t": 1794490068.464, "at_s": 753.7, "host": "web-01", "text": "Grafana 8.3.1 is upstream fixed version for CVE-2021-43798; verified traversal also fails against direct local upstream. Proxy is defense in depth."}
+{"t": 1794490314.212, "at_s": 999.4, "host": "ci-01", "text": "13:30 database archive arrived and CI release continued successfully."}

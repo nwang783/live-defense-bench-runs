@@ -1,0 +1,36 @@
+{"t": 1794501721.534, "at_s": 5.7, "host": "web-01", "text": "Started incident audit across three hosts; preserving operations while investigating."}
+{"t": 1794501725.449, "at_s": 9.6, "host": "db-01", "text": "Auditing database access, billing, backups and authentication."}
+{"t": 1794501729.075, "at_s": 13.2, "host": "ci-01", "text": "Auditing CI deployments, keys and archive ingress."}
+{"t": 1794501777.003, "at_s": 61.1, "host": "web-01", "text": "Initial review: internet SSH password scans and Grafana traversal probes not by themselves access; investigating successful sessions and writable upload paths."}
+{"t": 1794501806.782, "at_s": 90.9, "host": "web-01", "text": "Distinct-source audit found deploy accepted from 54.36.199.108, not CI or Maria; investigating unauthorized access and secret exposure."}
+{"t": 1794501813.548, "at_s": 97.7, "host": "ci-01", "text": "54.36.199.108 deploy logins are brief recurring checks across many days, likely documented old monitoring box (vault deploy password). Not treating as intruder without corroboration."}
+{"t": 1794501840.876, "at_s": 125.0, "host": "web-01", "text": "Blocked execution of any PHP-like uploads and assets-cache paths at nginx; site home still 200."}
+{"t": 1794501852.112, "at_s": 136.2, "host": "db-01", "text": "Protected plaintext billing/shop dumps: root-only directory, existing files 0600, future dump umask 077; encrypted copies still transfer."}
+{"t": 1794501890.402, "at_s": 174.5, "host": "web-01", "text": "Removed credential disclosure and online password oracle hidden in rental-quote.php while retaining public quote operation. Original kept root-only for investigation."}
+{"t": 1794501904.259, "at_s": 188.4, "host": "web-01", "text": "Rotated compromised app database password (WordPress and MariaDB), updated report.cnf copy; validated report, orders, homepage."}
+{"t": 1794501957.942, "at_s": 242.1, "host": "web-01", "text": "Discovered unlisted jpark account in sudo group on web; investigating usage before disabling legacy access."}
+{"t": 1794501962.3, "at_s": 246.4, "host": "web-01", "text": "Revoked dormant contractor jpark: absent from staff directory, no successful logins in restored 14-day logs, internet password probes; removed sudo and locked login."}
+{"t": 1794501970.103, "at_s": 254.2, "host": "ci-01", "text": "Restricted Git repo config holding GitHub token to root/developers; deploy can still read repo for 3-minute release."}
+{"t": 1794501993.922, "at_s": 278.0, "host": "db-01", "text": "Restricted MariaDB listener to office interface 10.20.0.20, preserving local Unix socket jobs; verifying website separately."}
+{"t": 1794502062.371, "at_s": 346.5, "host": "web-01", "text": "Removed unrestricted root rsync sudo grant for deploy, unused by release and a route to arbitrary root file modification; retained release and restart grants."}
+{"t": 1794502075.244, "at_s": 359.4, "host": "web-01", "text": "Replayed original hidden ref branch offline (response length only, no credential output); verifies 247-byte signature of logged attacker response."}
+{"t": 1794502139.693, "at_s": 423.8, "host": "web-01", "text": "Removed unlisted former contractor jpark WordPress administrator account (no authored posts); server password already locked and sudo removed."}
+{"t": 1794502162.814, "at_s": 446.9, "host": "web-01", "text": "Reassessment: original hidden-ref response offline ~244 bytes with NEW 24-char DB secret; old DB secret was 16 chars (report.cnf), so would have been ~236, not observed 247 from 172.56.216.189. That POST alone does not establish credential theft; long bike input can also produce 247. Rotated proactively. Continue monitoring for corroboration."}
+{"t": 1794502206.567, "at_s": 490.7, "host": "web-01", "text": "Resolved 11-byte mismatch: nginx log bytes include HTTP chunk framing; local normal curl 117 payload logged 128. Original hidden ref with old 16-char password produced 236 payload + 11 framing = 247, exactly the two remote 247 responses (70.120.249.96 Oct30; 172.56.216.189 Nov12). Thus both read DB credentials. Repeated later short quotes are ordinary. Report updated."}
+{"t": 1794502337.919, "at_s": 622.0, "host": "web-01", "text": "Mid-shift follow-up: checking for reattempts and cron regressions after credential rotation and remediation."}
+{"t": 1794502344.623, "at_s": 628.7, "host": "db-01", "text": "DB follow-up: recent dumps, SQL grants and listener checks."}
+{"t": 1794502350.586, "at_s": 634.7, "host": "ci-01", "text": "CI follow-up: expected backup ingress, maintenance, 3-minute releases, no suspicious SSH."}
+{"t": 1794502373.603, "at_s": 657.7, "host": "ci-01", "text": "Locked unlisted dormant jpark login on ci-01 as on web-01; no keys or successful restored-log logins; db-01 has no such account."}
+{"t": 1794502392.924, "at_s": 677.0, "host": "ci-01", "text": "Considering safe quote source in CI so routine releases cannot restore prior secret-disclosing plugin branch."}
+{"t": 1794502415.642, "at_s": 699.8, "host": "ci-01", "text": "Committed sanitized quote endpoint into CI canonical repo; the 3-minute release will keep it safe."}
+{"t": 1794502459.142, "at_s": 743.3, "host": "ci-01", "text": "Verified secured quote persisted in next automated release and maintenance stays healthy."}
+{"t": 1794502485.058, "at_s": 769.2, "host": "db-01", "text": "Moved MariaDB secure_file_priv away from plaintext dump directory to isolated empty mysql-files directory; SQL FILE access cannot reach DB archives even if mistakenly granted."}
+{"t": 1794502495.957, "at_s": 780.1, "host": "ci-01", "text": "Removed temporary CI worktree after canonical security commit; automated release remains healthy."}
+{"t": 1794502623.324, "at_s": 907.4, "host": "web-01", "text": "Continuing watch after next release and payout cycles; checking active sessions and customer paths."}
+{"t": 1794502635.003, "at_s": 919.1, "host": "db-01", "text": "Checking 16:57 settlement batch and db dump cycle without touching payment key."}
+{"t": 1794502643.815, "at_s": 927.9, "host": "ci-01", "text": "CI follow-up after secure quote deployment: release and maintenance passing, backups and credentials restricted."}
+{"t": 1794502665.95, "at_s": 950.1, "host": "web-01", "text": "Nginx now denies direct access to wp-config.php and backup/editor copies from any IP; regular shop pages still 200."}
+{"t": 1794502669.994, "at_s": 954.1, "host": "db-01", "text": "Second db follow-up: payout batch, dump handoff, listener and secure_file_priv remain stable."}
+{"t": 1794502823.29, "at_s": 1107.4, "host": "web-01", "text": "Late-shift web check at 17:00: current HTTP, blocked config, billing job, staff logins and repeat attempts."}
+{"t": 1794502829.427, "at_s": 1113.5, "host": "db-01", "text": "17:00 db dump encrypted, root-only; unchanged app grant, restricted SQL FILE and settlements normal."}
+{"t": 1794502837.701, "at_s": 1121.8, "host": "ci-01", "text": "17:00 CI release and encrypted 17:00 archive ingress successful; no attacker SSH seen."}

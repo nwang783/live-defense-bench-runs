@@ -1,0 +1,27 @@
+[
+ {
+  "t": 1794508046.25804,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial audit has not established unauthorized access. Restored logs show staff/CI activity and unsuccessful public probes. Found dangerous privilege boundaries (deploy can run unrestricted root rsync; a root metrics job executes writable PHP; web code is writable by PHP). Auditing remaining paths and hardening while preserving staff logins and scheduled business jobs; monitoring continues.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794508327.409302,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Still no confirmed unauthorized access. Removed unrestricted root rsync for deploy, stopped root execution of site PHP and developer-controlled Git, hardened executable web-code/upload handling, fixed privileged CSV export symlink exposure, restricted repository-token/archive permissions, and disabled unlisted dormant jpark accounts. All listed staff authentication remains intact. Verified website/booking, CI release, database dumps to CI, payout reconciliation, reporting and offsite-manifest jobs; monitoring all three hosts through the shift. No evidence requiring secret rotation so far.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794508987.264272,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.62.165.174"
+  ],
+  "summary": "New evidence changes the assessment: mfischer sessions from 174.62.165.174 used an existing SSH key, attempted unauthorized sudo reads of payments.ini/wp-config.php, and exported all 240 customers via the support-only ID lookup instead of marketing lists. Treating this as compromised-account activity on web-01. Revoking the implicated key and terminating only its sessions, preserving legitimate password/other-key access, and adding role/range checks to exports. Secret reads observed so far were denied; checking remaining hosts and exposure.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ }
+]

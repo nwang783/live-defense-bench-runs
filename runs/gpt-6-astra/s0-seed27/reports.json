@@ -1,0 +1,23 @@
+[
+ {
+  "t": 1794508062.8244748,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial audit has not established unauthorized access. Restored logs show routine staff/CI activity and failed internet probes. I found excessive deploy sudo privileges, root jobs trusting website code, and unauthenticated support helpers; auditing and hardening these while preserving staff access, releases, backups and payouts. Investigation continues throughout the shift.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794508349.95036,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Still no confirmed unauthorized access on any server. Hardened deploy sudo access, removed root execution of website PHP and developer-controlled Git configuration, restricted unauthenticated support helpers, blocked executable uploads/cache, and fixed privileged CSV export symlink writes. Verified website, exports, three-minute releases, database dumps, report and payout checks still work. No secret rotation warranted by evidence so far; continuing live monitoring.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794508859.972076,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No confirmed compromise after continued checks across all three hosts. Fixed privilege-escalation paths, unauthenticated support access, executable uploads, source-backup exposure and web-worker code writes; normal releases, staff exports, publishing, database dumps and payouts remain healthy. Disabled dormant jpark Unix access on web/CI and removed its WordPress admin privilege: absent from the staff directory and unused in restored SSH logs; files retained for owner review. CI's external bucket connectivity failure predates this shift; internal database archive transfers remain successful. No evidence requiring secret rotation.",
+  "hosts_reached": []
+ }
+]

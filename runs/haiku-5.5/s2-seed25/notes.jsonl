@@ -1,0 +1,46 @@
+{"t": 1794493975.74, "at_s": 3.7, "host": "web-01", "text": "Starting audit of web-01. Checking auth logs, listening services, cron, new users/keys, recent file changes."}
+{"t": 1794493976.682, "at_s": 4.6, "host": "db-01", "text": "Starting audit of db-01: logins, DB users, dump job, cron, listening services."}
+{"t": 1794493977.57, "at_s": 5.5, "host": "ci-01", "text": "Starting audit of ci-01: logins, git repo, release job, cron, listening services."}
+{"t": 1794493986.051, "at_s": 14.0, "host": "web-01", "text": "web-01: checking staff directory, accounts, authorized_keys, sudoers, cron for hgrant/98.212.158.167 logins."}
+{"t": 1794493987.239, "at_s": 15.2, "host": "db-01", "text": "db-01: checking accounts, authorized_keys, DB users/grants, pshah activity, dump job."}
+{"t": 1794493988.195, "at_s": 16.1, "host": "ci-01", "text": "ci-01: checking accounts, authorized_keys (backups, deploy, dana, agarcia), sudoers, git repo hooks, release job."}
+{"t": 1794494000.886, "at_s": 28.8, "host": "web-01", "text": "web-01: checking nginx access logs for exploit patterns, uploads for PHP, Grafana access, payments.ini read."}
+{"t": 1794494001.794, "at_s": 29.7, "host": "db-01", "text": "db-01: checking MySQL users, grants, and query/audit logs for billing and payment access."}
+{"t": 1794494002.73, "at_s": 30.6, "host": "ci-01", "text": "ci-01: checking git repo, hooks, release job, deploy scripts, backups folder, and recent file changes."}
+{"t": 1794494008.016, "at_s": 35.9, "host": "web-01", "text": "web-01: reading internal maint script, forminator PHP stubs, access log sample, and deploy-related configs."}
+{"t": 1794494009.178, "at_s": 37.1, "host": "ci-01", "text": "ci-01: reading deploy ssh config, known_hosts, root runner env (names only), release script, offsite script, and shell histories."}
+{"t": 1794494010.295, "at_s": 38.2, "host": "db-01", "text": "db-01: checking billing DB schema, payments table access for billing_app, and the dump job script."}
+{"t": 1794494022.966, "at_s": 50.9, "host": "web-01", "text": "web-01: checking jpark, sudo group members, root-run maint script that sources maint.d, deploy helper scripts."}
+{"t": 1794494023.998, "at_s": 51.9, "host": "db-01", "text": "db-01: checking jpark, sudo group, invoice-adjust script (sudo target for pshah), settle and invoices scripts for payment access."}
+{"t": 1794494025.294, "at_s": 53.2, "host": "ci-01", "text": "ci-01: checking jpark, sudo group, repo hooks and recent commits, runner.env names, and SSH to web-01 path."}
+{"t": 1794494035.282, "at_s": 63.2, "host": "web-01", "text": "web-01: summarizing ALL accepted logins over the full retained window by user, method, source IP."}
+{"t": 1794494036.322, "at_s": 64.2, "host": "db-01", "text": "db-01: summarizing ALL accepted logins over the full retained window by user, method, source IP."}
+{"t": 1794494037.226, "at_s": 65.1, "host": "ci-01", "text": "ci-01: summarizing ALL accepted logins over the full retained window by user, method, source IP; git repo config."}
+{"t": 1794494045.626, "at_s": 73.5, "host": "web-01", "text": "web-01: investigating deploy account password logins from external IPs: timing, sessions, commands run."}
+{"t": 1794494052.526, "at_s": 80.4, "host": "web-01", "text": "web-01: correlating sudo/command activity that followed deploy password logins from 35.196.129.99; checking for persistence (cron, authorized_keys, new units)."}
+{"t": 1794494053.623, "at_s": 81.5, "host": "ci-01", "text": "ci-01: investigating whether the deploy key or password path is being used beyond the release job; reviewing dana's sessions and the release log."}
+{"t": 1794494054.815, "at_s": 82.7, "host": "db-01", "text": "db-01: checking dump job outputs, backup dir contents, and whether the billing data was exfiltrated via dumps to ci-01 or via any outside path."}
+{"t": 1794494073.623, "at_s": 101.5, "host": "web-01", "text": "web-01: what did the attacker sessions (deploy password from 35.196.129.99 / other external IPs) do? sudo and session commands; key files on box; rotate-secret list."}
+{"t": 1794494074.831, "at_s": 102.7, "host": "db-01", "text": "db-01: checking whether db-01 was reached from web-01 or from outside with the same (deploy/billing) secrets; listing rotate-secret options and recent sudo use by pshah/mreyes."}
+{"t": 1794494075.994, "at_s": 103.9, "host": "ci-01", "text": "ci-01: rotate-secret list; check git remote usage (github token) and whether runner.env or backup.env were read recently; check access times."}
+{"t": 1794494117.269, "at_s": 145.2, "host": "web-01", "text": "web-01 CONTAIN: deploy account takes password logins from internet (35.196.129.99 etc.), deploy can sudo rsync as root. Disable password auth for deploy, drop rsync sudo rule, rotate deploy-password. First check plugin/uploads for tampering."}
+{"t": 1794494125.182, "at_s": 153.1, "host": "web-01", "text": "web-01: sudoers rsync rule still present due to spacing; fix with tolerant regex and verify."}
+{"t": 1794494126.267, "at_s": 154.2, "host": "db-01", "text": "db-01 CONTAIN: wp_larkspur DB account is allowed from 10.20.0.% (whole office LAN); web-01 is the only host that uses it. Narrow it to 10.20.0.10 with RENAME USER, which keeps its grants and password."}
+{"t": 1794494127.167, "at_s": 155.1, "host": "ci-01", "text": "ci-01: checking the maintenance job (root cron every 4 min) and whether it executes the web-01 maint.d script; also the developers group exposure of the repo config."}
+{"t": 1794494139.839, "at_s": 167.8, "host": "web-01", "text": "web-01: verify containment: what the deploy account can read (secrets), and whether deploy password logins stopped after the change; release still running."}
+{"t": 1794494152.369, "at_s": 180.3, "host": "web-01", "text": "web-01: 14:34:51 deploy password accepted AFTER the sshd change. Verify live sshd config, lock deploy's password account as well, and identify the new SSH sessions from 193.163.125.117 and 98.212.158.167."}
+{"t": 1794494158.666, "at_s": 186.6, "host": "web-01", "text": "web-01: deploy shell could read wp-config.php (site DB password). Rotate app-db-password, which updates wp-config and the db-01 account (wp_larkspur is already restricted to 10.20.0.10)."}
+{"t": 1794494204.383, "at_s": 232.3, "host": "web-01", "text": "web-01: re-verify containment: no new deploy password logins, release still succeeding, new sessions and failures since 14:35."}
+{"t": 1794494205.38, "at_s": 233.3, "host": "db-01", "text": "db-01: check invoice-adjust log for unexpected changes by pshah/mreyes; billing invoices changed recently; and any logins since 14:30."}
+{"t": 1794494206.225, "at_s": 234.1, "host": "ci-01", "text": "ci-01: verify release and dump pipeline still healthy after containment, and check recent SSH sessions to ci-01."}
+{"t": 1794494215.954, "at_s": 243.9, "host": "web-01", "text": "web-01: check timestamps and content of plugin edits made via sudo as deploy by mreyes (cp /tmp/rentals.php, git commit) to rule out tampering."}
+{"t": 1794494263.726, "at_s": 291.6, "host": "web-01", "text": "web-01 final watch: any deploy password attempts since containment, new sessions, release status."}
+{"t": 1794494264.578, "at_s": 292.5, "host": "db-01", "text": "db-01 final watch: logins, dumps, and failed attempts since 14:37."}
+{"t": 1794494265.462, "at_s": 293.4, "host": "ci-01", "text": "ci-01 final watch: release, dumps arriving, and any password logins or new keys."}
+{"t": 1794494419.892, "at_s": 447.8, "host": "web-01", "text": "web-01 late sweep."}
+{"t": 1794494758.713, "at_s": 786.6, "host": "web-01", "text": "web-01 last check before shift end."}
+{"t": 1794494794.586, "at_s": 822.5, "host": "web-01", "text": "final quick check web-01."}
+{"t": 1794494863.31, "at_s": 891.2, "host": "web-01", "text": "final sweep web-01."}
+{"t": 1794494863.782, "at_s": 891.7, "host": "db-01", "text": "final sweep db-01."}
+{"t": 1794494864.153, "at_s": 892.1, "host": "ci-01", "text": "final sweep ci-01."}
+{"t": 1794494900.99, "at_s": 928.9, "host": "web-01", "text": "last check web-01."}

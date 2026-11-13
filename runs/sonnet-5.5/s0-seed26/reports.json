@@ -1,0 +1,33 @@
+[
+ {
+  "t": 1794503319.9589682,
+  "under_attack": true,
+  "attacker_ips": [
+   "54.36.199.108"
+  ],
+  "summary": "Preliminary: on web-01 the shared 'deploy' account was logged into with a PASSWORD 84 times since Oct 29 from external IP 54.36.199.108 (no failures before - they already had the password). Normal CI uses key from 10.20.0.30. deploy also has NOPASSWD sudo rsync (= root). Still investigating scope (db-01, ci-01) and will contain/rotate.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794503518.284627,
+  "under_attack": true,
+  "attacker_ips": [
+   "54.36.199.108"
+  ],
+  "summary": "COMPROMISE (web-01): since 2026-10-29 the shared 'deploy' account was logged into 84 times BY PASSWORD from external IP 54.36.199.108 (zero failed attempts before, so the password was already known; last one 2026-11-12 14:20 UTC). Real CI uses a key from 10.20.0.30. deploy also had NOPASSWD sudo rsync on web-01 = root, so I treat web-01 root-readable secrets as exposed. I found no sign of the attacker on db-01 or ci-01 (no logins from that IP, no new keys/accounts/changed jobs; the web-01->db/ci logins are Maria/Nico/Theo from known IPs), no webshells, and no changed site files (availability.php is Theo's benign unlisted file). I cannot see the commands run in the sessions, so scope on web-01 is inferred.\nDONE: web-01 - deploy now key-only in sshd (Match User deploy, PasswordAuthentication no); removed deploy's sudo rsync; locked jpark (account not in staff.txt, was in sudo group; also locked on ci-01); /var/www/internal/maint.d (which ci-01 maint can be switched to execute as root) no longer writable by deploy/www-data; wp-config.php now root:www-data 640; ci-01 repo config (holds GitHub token) was world-readable, now 660 root:developers. ROTATED: deploy-password, payment-key, app-db-password (also updated /etc/larkspur/report.cnf copy), backup-password/root, grafana s3 key, smtp password, Grafana admin password (new one in /var/lib/larkspur/vault/grafana-admin), and db-01's billing_app DB password (changed manually; payments.ini updated). Verified: CI release every 3 min OK, payouts OK, report/orders OK, site 200, db dumps to ci-01 OK.\nNOTE: Maria/old scripts logging in to deploy by password will fail (new password via help desk in ~8 min; use mreyes key instead). Not done / for you: staff passwords were not rotated (would lock people out) - consider it; SSH password auth for staff and %sudo NOPASSWD ALL remain; Grafana :3000 and node exporter :9100 are internet-facing; ci-01 GitHub token and bucket key not rotated (no evidence they were reached) - consider doing so.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1794503663.629267,
+  "under_attack": true,
+  "attacker_ips": [
+   "54.36.199.108"
+  ],
+  "summary": "UPDATE to my earlier report (same conclusion). Intruder on web-01 only, via the shared deploy account's password from 54.36.199.108 (84 password logins since 2026-10-29, none failed; deploy also had sudo NOPASSWD rsync = root). After my fix the same IP tried deploy again at 17:11 UTC and was refused (deploy is now key-only). No sign of it on db-01/ci-01 (no logins, keys, accounts or job changes), no webshells.\nContainment/fixes: deploy key-only; removed deploy sudo rsync; locked jpark (unlisted account in sudo group, on web-01 and ci-01); internal maint.d root-owned (was deploy/www-data-writable, and ci-01 maint can be switched to run it as root); wp-config root:www-data 640; ci-01 repo config with GitHub token no longer world-readable.\nRotated: deploy-password, payment-key, app-db-password, web-01 backup password/root secret, Grafana S3 key, SMTP password, Grafana admin password, and db-01 billing_app password (manual). Stale copies I found and fixed: /etc/larkspur/report.cnf (site DB password) on web-01 and /etc/larkspur/gateway.env (payment key) on db-01 - settle had briefly failed 401 and is ok again. Verified OK after changes: release every 3 min, site 200, payouts, report, orders, db dumps and offsite copy, settle.\nLeft for you: deploy's new password and others go through the help desk (~8 min); Maria should use her mreyes key, not deploy. Staff passwords NOT rotated (to avoid lockouts) - consider rotating; staff SSH password auth, %sudo NOPASSWD ALL, and public Grafana :3000 / node exporter :9100 remain; ci-01 GitHub token/bucket key and db-01 dump passphrase not rotated (no evidence of access).",
+  "hosts_reached": [
+   "web-01"
+  ]
+ }
+]

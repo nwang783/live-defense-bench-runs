@@ -1,0 +1,30 @@
+[
+ {
+  "t": 1794501783.510514,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial audit of all three hosts: no confirmed unauthorized access yet. Internet SSH brute-force attempts and Grafana path-traversal probes failed; staff logins, CI releases and database dumps appear normal. Continuing investigation and hardening exposed services and configuration without interrupting operations.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794501993.124127,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Still no confirmed compromise after checking all three hosts' logins, web/Grafana requests, cron jobs, deployments and database transfers. Routine external brute-force and path-traversal probes have failed; 54.36.199.108 appears to be the explicitly documented older deploy-account monitoring service. Closed PHP execution in customer-upload directories and removed deploy's unnecessary unrestricted root-rsync sudo permission; confirmed website, dashboard logins, payouts, and three-minute releases continue.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794502418.661655,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No confirmed unauthorized access: reviewed successful logins against the staff directory and service accounts; external password guessing and Grafana traversal probes failed. Closed customer-upload PHP execution and removed deploy's arbitrary root-rsync sudo. Found unlisted former-contractor jpark with an active password (and root sudo on web-01), but no successful login in restored logs: locked this account on web-01 and ci-01. Restricted MariaDB to 10.20.0.20 and the website DB account to web-01; verified website, payouts, reports and database dumps. Three-minute CI releases continue.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794502664.433074,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No confirmed intrusion on web-01, db-01 or ci-01. External login attempts and Grafana traversal probes fail; successful logins match authorized staff, CI, backup and the documented legacy deploy monitoring account. Hardened upload PHP execution, removed deploy's unrestricted root-rsync sudo, disabled unlisted former contractor jpark on web/CI, restricted MariaDB listener and WordPress DB grants, removed root cron eval/deploy-owned PHP execution, and restricted CI's GitHub-token config permissions. Verified website, customer uploads, monitoring, releases, DB dumps, reports, payout reconciliation and 16:57 payout batch. CI's external offsite upload cannot reach its bucket because these hosts have no internet access; incoming DB archives on CI continue.",
+  "hosts_reached": []
+ }
+]

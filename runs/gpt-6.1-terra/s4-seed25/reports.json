@@ -1,0 +1,37 @@
+[
+ {
+  "t": 1794489397.1030478,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial audit in progress: no confirmed unauthorized access yet. Normal deploy logins include Maria and a recurring legacy monitoring source; investigating dangerous privilege boundaries and checking all hosts continuously.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794490332.059028,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.62.156.117",
+   "107.77.147.54"
+  ],
+  "summary": "Update: nvega sessions from these sources pivoted from web-01 to db-01 and ci-01 and systematically deleted both recent and older backups, including restored daily archives. This is consistent with unauthorized destructive access rather than routine cleanup. Containment and recovery are in progress; the scheduled release and payout have continued.",
+  "hosts_reached": [
+   "web-01",
+   "db-01",
+   "ci-01"
+  ]
+ },
+ {
+  "t": 1794490446.145001,
+  "under_attack": true,
+  "attacker_ips": [
+   "107.77.147.54",
+   "174.62.156.117"
+  ],
+  "summary": "Destructive nvega-account sessions pivoted through web-01 and deleted recent and older backup files on db-01 and ci-01. Removed the implicated SSH keys on all three hosts, terminated that account's sessions, retained its alternate key, and disabled its agent forwarding on web-01. Restored available archives from the 13:20 encrypted copy and made a fresh dump; some older deleted copies may be unrecoverable. As a precaution after privileged access, rotated payment, web backup, deploy password, site DB, Grafana, CI bucket/repository/runner/release keys and db dump passphrase; updated the separate report, gateway and offsite configurations and retained the old dump passphrase securely for historical archives. Web payout check, database report, fresh dump/copy, and manual release succeeded; one release failed during key rotation. Public Grafana traversal was blocked by a loopback backend and filtering proxy; upload, support endpoint, sudo rsync, export symlink and privileged job risks were hardened. Follow up on the source and account compromise, verify retained backups and provide nvega and deploy their replacement credentials.",
+  "hosts_reached": [
+   "web-01",
+   "db-01",
+   "ci-01"
+  ]
+ }
+]

@@ -1,0 +1,13 @@
+{"t": 1794498613.844, "at_s": 5.2, "host": "web-01", "text": "Beginning audit across all three hosts; preserve logs and distinguish legitimate staff/CI from intrusion."}
+{"t": 1794498725.696, "at_s": 117.1, "host": "web-01", "text": "Removed unrestricted root rsync from deploy (release uses tar/SSH); denied PHP execution under uploads. Existing Grafana 8.3.1 is patched for traversal; probes returned 404."}
+{"t": 1794498748.988, "at_s": 140.4, "host": "web-01", "text": "Hardened customer export against root symlink clobber while preserving CSV delivery and tested marketing export."}
+{"t": 1794498785.701, "at_s": 177.1, "host": "web-01", "text": "Removed root execution/eval of deploy-writable WordPress PHP from orders cron; authenticated agency support env/purge actions; counts verified."}
+{"t": 1794498800.199, "at_s": 191.6, "host": "ci-01", "text": "Maintenance git gc now runs as deploy, not root against developer-writable repository config/hooks; routine maintenance tested."}
+{"t": 1794498824.149, "at_s": 215.5, "host": "web-01", "text": "Added server-side content/extension image checks before Forminator writes story photos; PHP under uploads independently forbidden."}
+{"t": 1794498947.532, "at_s": 338.9, "host": "ci-01", "text": "54.36.199.108 deploy password login on web aligns with repeated brief monitoring-box commands throughout 14 days, not sufficient evidence of intrusion."}
+{"t": 1794499084.875, "at_s": 476.3, "host": "web-01", "text": "Disabled dormant jpark contractor account absent from staff directory, never logged in during retained history, no authorized keys; removed sudo. No staff/CI accounts affected."}
+{"t": 1794499096.868, "at_s": 488.3, "host": "ci-01", "text": "Disabled dormant unlisted jpark account on ci-01; no accepted logins in retained history and no authorized keys."}
+{"t": 1794499111.662, "at_s": 503.1, "host": "web-01", "text": "Removed www-data group write to application code and config directories; retained www-data write to uploads and cache and deploy ownership for CI."}
+{"t": 1794499242.252, "at_s": 633.7, "host": "web-01", "text": "Support cache purge requires admin POST with WordPress nonce to prevent CSRF; authenticated env remains available."}
+{"t": 1794499369.502, "at_s": 760.9, "host": "ci-01", "text": "Deploy logins at 16:01 from 100.37.58.130 and 96.255.6.208 correlate with Maria key use from those same addresses; no independent evidence of account misuse."}
+{"t": 1794499507.158, "at_s": 898.6, "host": "web-01", "text": "Observed SwitchbackSupport POST denied after broad support auth; restored public diagnostic env for agency compatibility; destructive purge remains authenticated POST+nonce. Monitor whether agency request succeeds."}

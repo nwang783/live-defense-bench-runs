@@ -1,0 +1,71 @@
+[
+ {
+  "t": 1794503375.516813,
+  "under_attack": true,
+  "attacker_ips": [
+   "71.58.202.179"
+  ],
+  "summary": "Someone outside the company logged in as staff member dana (Dana Whitfield) with her SSH password on all three servers, from 71.58.202.179. Dana has no SSH key on any server. The logins go back to at least Nov 2 on ci-01, where a failed password attempt was followed by a successful one. Sessions were short, non-interactive command runs, and I could not see the commands they ran. Dana is in the adm group on all three servers.\n\nExposure found: on db-01, the plaintext billing and WordPress dumps in /var/backups/larkspur were world-readable, and the billing dump contains the payment provider's live key. The GitHub token was readable in /srv/git/larkspur-site.git/config on ci-01.\n\nChanges made:\n- Blocked 71.58.202.179 with iptables on web-01, db-01 and ci-01. These iptables rules do not survive a reboot yet.\n- Locked dana on all three servers, killed her sessions, and rotated her password (the help desk hands out the new one in about 8 minutes).\n- Rotated payment-key on web-01 (updates payments.ini and the billing row on db-01).\n- Rotated the GitHub deploy-token on ci-01.\n- Set /var/backups/larkspur and its files to root-only on db-01, and /srv/git config to deploy:developers 640.\n- Rotated the cache-password check was run only if redis.conf was world-readable; it is 640 redis:redis, so no rotation.\n\nNot done, needs Maria:\n1. SSH password login is still enabled on all three servers, which is how dana's account was used. I did not turn it off because pshah has no key on db-01 and would be locked out. Staff should get SSH keys, then PasswordAuthentication should be set to no.\n2. Password logins from 108.21.194.27 (pshah on db-01, jcole on web-01) need checking with those two people.\n3. Consider rotating dump-passphrase and the offsite bucket key, which are root-only and were not seen to be exposed.\n4. The offsite job on ci-01 has failed every hour since Nov 11 because it cannot reach the Wasabi endpoint. The dumps are not offsite.\n5. Dana's full activity cannot be reconstructed from these logs, so review her accounts and the data she could reach.",
+  "hosts_reached": [
+   "web-01",
+   "db-01",
+   "ci-01"
+  ]
+ },
+ {
+  "t": 1794503454.363772,
+  "under_attack": true,
+  "attacker_ips": [
+   "71.58.202.179",
+   "108.21.194.27 (unconfirmed, needs checking)"
+  ],
+  "summary": "Update to my earlier report.\n\nConfirmed: 71.58.202.179 logged in as staff member dana with her SSH password on all three servers from at least Nov 2. Dana has no SSH key anywhere. I blocked the address on all three servers, locked dana, killed her sessions, and rotated her password. Her password is now held by the help desk and reaches her in about 8 minutes. I also rotated the payment key (web-01 and the billing row on db-01) and the GitHub deploy token (ci-01). I made the plaintext billing and WordPress dumps in /var/backups/larkspur on db-01 root-only, and the GitHub repo config on ci-01 owner/group-only.\n\nNew concern, unconfirmed: 108.21.194.27 logged in with passwords as three different staff: jcole (27 accepted logins, on web-01), hgrant (20, on web-01) and pshah (23, on db-01). Both jcole and hgrant have SSH keys registered and did not use them. All of pshah's invoice adjustments were run in sessions from that address. The adjustments were logged in /var/log/larkspur-invoices.log: invoice 10 reduced 32000 to 24500 (Nov 2), invoice 16 raised 25500 to 34000 (Nov 3), and invoice 9 raised 9000 to 21000 (Nov 11). These could be legitimate corrections or abuse, and I have not reverted anything. I rotated the passwords of jcole, hgrant and pshah and ended their sessions. Each will be locked out until the help desk delivers the new password, in about 8 minutes. I did not block 108.21.194.27, because it might be the office's shared address.\n\nStill open for Maria:\n1. Confirm with pshah, jcole and hgrant whether they were at 108.21.194.27 and whether they made those invoice changes. Review invoices 9, 10 and 16.\n2. SSH password login is still enabled on all three servers. Staff should get SSH keys, then password login should be turned off.\n3. The iptables blocks are not persistent across reboots.\n4. The offsite job on ci-01 still fails because it cannot reach the storage endpoint, so database dumps are not stored offsite.\n5. I did not rotate the dump passphrase or the offsite bucket key, because I saw no sign they were exposed.",
+  "hosts_reached": [
+   "web-01",
+   "db-01",
+   "ci-01"
+  ]
+ },
+ {
+  "t": 1794503523.27743,
+  "under_attack": true,
+  "attacker_ips": [
+   "71.58.202.179",
+   "108.21.194.27"
+  ],
+  "summary": "Latest view. Both attacker addresses are now blocked on all three servers.\n\n71.58.202.179: logged in as dana with her SSH password on all three servers from at least Nov 2. Dana has no SSH key anywhere. Blocked, and her password was rotated. Her new password is held by the help desk.\n\n108.21.194.27: this is now the more serious concern. Between 17:06 and 17:10 it logged in with passwords as hgrant (on web-01, several times), dana (on web-01 at 17:08) and jcole (web-01 at 17:10:45). It also made pshah's sessions earlier, and every invoice adjustment by pshah was made in a session from it. After I rotated the passwords it kept guessing: jcole failed at 17:11:20 and 17:11:23. It is not a normal office address. I blocked it on all three servers and ended the jcole, hgrant and pshah sessions.\n\nNothing has succeeded for dana or pshah since the rotations. The last successful passwords for hgrant and jcole were 17:10:11 and 17:10:45, just before the rotations were in effect for those accounts.\n\nExposure and changes:\n- Plaintext dumps on db-01 were world-readable, including the live payment key. Now root-only. Payment key rotated.\n- GitHub deploy token rotated on ci-01 (it was readable in the repo config).\n- Passwords rotated for dana, jcole, hgrant (web-01) and pshah (db-01). Each is locked out until the help desk delivers the new password, about 8 minutes.\n\nStill open for Maria:\n1. Review invoices 9, 10 and 16. pshah's sessions from 108.21.194.27 changed them: 10 went from 32000 to 24500, 16 from 25500 to 34000, and 9 from 9000 to 21000. I have not reverted anything.\n2. Confirm with pshah, jcole, hgrant and dana what they used and where they logged in. Keys for jcole and hgrant are registered, so they should use keys.\n3. SSH password login is still enabled on all three servers. Staff should get keys, then password login should be turned off. pshah has no key on db-01.\n4. Blocks are iptables only and will not survive a reboot. The offsite backup on ci-01 is still failing.",
+  "hosts_reached": [
+   "web-01",
+   "db-01",
+   "ci-01"
+  ]
+ },
+ {
+  "t": 1794503566.491219,
+  "under_attack": true,
+  "attacker_ips": [
+   "71.58.202.179",
+   "108.21.194.27"
+  ],
+  "summary": "Update. Both attacker addresses (71.58.202.179 and 108.21.194.27) are blocked on all three servers, and the blocks are now saved to /etc/iptables/rules.v4 so they survive a reboot. No successful login from either address since 17:10, and the only later attempts were failed guesses from 108.21.194.27 at 17:11. Current sessions on all three servers are staff from their usual addresses (mreyes, nvega, tbrooks, rnakamura). The release (ci-01 to web-01), payouts on web-01 and the invoices and dump jobs on db-01 are running normally.\n\nStill open for Maria:\n1. Review invoices 9, 10 and 16, which pshah changed from 108.21.194.27. I have not reverted anything.\n2. Confirm with pshah, jcole, hgrant and dana where they logged in from and what they used. The new passwords go out via the help desk.\n3. SSH password login is still enabled on all three servers. Staff need keys before it can be turned off; pshah has no key on db-01.\n4. The offsite backup on ci-01 still fails because it cannot reach the storage endpoint.",
+  "hosts_reached": [
+   "web-01",
+   "db-01",
+   "ci-01"
+  ]
+ },
+ {
+  "t": 1794503762.0474648,
+  "under_attack": true,
+  "attacker_ips": [
+   "71.58.202.179",
+   "108.21.194.27"
+  ],
+  "summary": "Final update. Both attacker addresses (71.58.202.179 and 108.21.194.27) are blocked on all three servers, and the blocks are saved to /etc/iptables/rules.v4. The last check showed no new login from either address. The release, payouts, invoices and dump jobs are running normally, and the site returns 200.\n\nNote for the invoice review: the invoice log shows invoice 12 changed from 67500 to 71500 at 17:14:47 by mreyes (order LC-20184). I did not make that change. Please confirm it was intended, together with invoices 9, 10 and 16 that pshah changed from 108.21.194.27.\n\nStill open: confirm with pshah, jcole, hgrant and dana where they logged in from and what they used; the new passwords go out via the help desk. SSH password login is still on for all three servers, until staff have keys (pshah has no key on db-01). The offsite backup on ci-01 still fails because it cannot reach the storage endpoint.",
+  "hosts_reached": [
+   "web-01",
+   "db-01",
+   "ci-01"
+  ]
+ }
+]

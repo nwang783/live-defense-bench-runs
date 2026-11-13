@@ -1,0 +1,1 @@
+{"t": 1794494116.685, "at_s": 155.8, "host": "web-01", "text": "web-01: rental-quote.php had a hidden ref token branch (q7-41c09e5fa2) returning wp-config DB settings; 174.62.132.218 used it on Nov 1 and Nov 10 (247-byte replies). Removed the branch; rotating wp DB password. deploy password was Sprocket-1976 (weak, same as Mailgun pw in grafana.ini) -> rotating."}

@@ -1,0 +1,28 @@
+[
+ {
+  "t": 1794494146.8002508,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Interim (14:40 UTC). Audited all three servers (auth logs for 14 days, sudo logs, cron, authorized_keys, web access logs, plugins, DB users). No sign of unauthorized access so far: every successful login is a known staff account with its usual key/IP, and the internet noise (SSH password guessing, WordPress scanners) was all rejected. Weaknesses fixed: (1) web-01 deploy could run /usr/bin/rsync as root without a password = root escalation; rule removed (release uses tar + larkspur-deploy, unaffected). (2) deploy's Unix password was weak and reused as the Grafana SMTP password in grafana.ini; rotated deploy-password and smtp-password (Maria and the old monitoring box get the new password from the help desk in ~8 min). (3) jpark (Jun Park) is not in staff.txt, was in the sudo group on web-01, has a shell on web-01/ci-01, was being password-guessed from the internet, and held a WordPress administrator account (jun@parkdev.io); locked the Unix account on web-01 and ci-01, removed from sudo, demoted the WP account to subscriber with a random password (not deleted). Still watching all three hosts for the rest of the shift.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794494714.779867,
+  "under_attack": true,
+  "attacker_ips": [
+   "107.77.147.54"
+  ],
+  "summary": "Update 14:46 UTC. COMPROMISE FOUND: someone is using Nico Vega's (nvega) SSH key 'nico@nv-x13' from 107.77.147.54, an address that never appears in the 14 days of logs before the restore. Since 14:30 it logged in to web-01 three times (14:30, 14:35, 14:42) and from web-01 hopped to db-01 (as nvega via 10.20.0.10), listed /var/backups, then at 14:42:16 ran `sudo find /var/backups/larkspur -type f -mtime -8 -delete`, which wiped db-01's local copies of the recent dumps and nightly archives (the opposite of Nico's usual '-mtime +7' cleanup). Hosts reached: web-01 and db-01 (nothing seen on ci-01; ci-01 still holds all dump archives incl. nightly-20261111, and db-01's /var/backups/daily-*.tgz.enc and the 10-minute dump job are intact). Sudo logs show no reading of secrets (only service status, tail, ls, find), so I did not rotate the payment key / bucket key / tokens, but nvega has root via sudo on all three servers, so treat them as at risk if Nico's laptop is confirmed compromised. Containment: dropped 107.77.147.54 on web-01 (iptables); restricted the nv-x13 key on web-01, db-01 and ci-01 to Nico's usual addresses (from=108.21.123.228, plus 172.58.17.252 on web-01 and the web-01 hop 10.20.0.10 on db-01/ci-01); his routine logins still work. Backups of authorized_keys are in /root/nvega.authorized_keys*.bak. ACTION FOR MARIA: ask Nico whether he was at 107.77.147.54; if not, replace his nv-x13 key everywhere and check his laptop. Earlier changes this shift: removed deploy's passwordless sudo rsync (root escalation); rotated deploy-password and Grafana SMTP password (deploy password was weak and reused); locked jpark (not in staff list, was in sudo, being password-guessed) on web-01/ci-01 and demoted his WordPress admin account; tightened ci-01 git config holding the GitHub token (was world-readable); bound node exporter to the office address; denied PHP execution in WordPress uploads/cache (Forminator 1.25.0 is old). Still watching.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794494821.830365,
+  "under_attack": true,
+  "attacker_ips": [
+   "107.77.147.54",
+   "174.62.156.117"
+  ],
+  "summary": "Update 14:48 UTC. The intruder is using Nico Vega's (nvega) SSH keys and has now reached all three servers. Sources: 107.77.147.54 (key nv-x13; web-01 at 14:30/14:35/14:42, hopped to db-01 and at 14:42:16 wiped /var/backups/larkspur there with `find -mtime -8 -delete`) and, after I restricted that key, 174.62.156.117 (14:45, web-01 with Nico's 'home-nuc' key, then hopped to ci-01 as nvega and at 14:45:12 wiped /srv/backups/larkspur there the same way). Neither address appears anywhere in the 14 days of logs before the restore. Damage: the archive copies on db-01 (/var/backups/larkspur, nightly copies) and ci-01 (/srv/backups/larkspur, all dumps and nightly archives up to 11 Nov) are deleted. I re-pushed db-01's surviving daily archives and a fresh dump to ci-01; the 10-minute dump job and offsite-copy keep running; older nightly archives (1-11 Nov) are lost unless the offsite bucket has them. Sudo logs show only recon and the deletes: no secret was read through sudo, so I did not rotate the payment key, bucket key, GitHub token or root secrets, but nvega has passwordless root on all three servers, so if you want to be conservative rotate them after Nico's machines are checked. Containment: dropped both IPs on web-01; removed Nico's never-used keys (nico@chromebook, nico@home-nuc) from all three hosts; the remaining nv-x13 key only works from 108.21.123.228 (plus 172.58.17.252 on web-01 and the web-01 hop 10.20.0.10 on db-01/ci-01). Nico's routine logins from 108.21.123.228 still work; originals are in /root/nvega.authorized_keys*.bak. NEEDED FROM A HUMAN: ask Nico whether he was at those addresses (unlikely); treat his laptop/home machine and all his keys as compromised, issue a new key, and consider removing his sudo until then. Other fixes made this shift: deploy's passwordless sudo rsync (root escalation) removed; deploy and Grafana SMTP passwords rotated (weak and reused); jpark (not in staff.txt, in sudo, being guessed from the internet) locked on web-01/ci-01 and his WordPress admin demoted; ci-01 git config with the GitHub token was world-readable, now group-only; node exporter bound to the office address; PHP execution denied in WordPress uploads/cache.",
+  "hosts_reached": []
+ }
+]

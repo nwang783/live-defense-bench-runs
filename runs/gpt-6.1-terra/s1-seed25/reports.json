@@ -1,0 +1,38 @@
+[
+ {
+  "t": 1794489373.361931,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial review: no confirmed unauthorized access yet; scans and repeated deploy logins require context and are not by themselves compromise. Found outdated Grafana and publicly callable legacy support functionality, and am checking jobs, credentials, and all three hosts before remediation.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794489536.8680499,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No confirmed unauthorized access in the restored logs so far; the frequent deploy password logins match the old monitoring box, and scans alone are not compromise. Hardened public support and image uploads, removed unrestricted deploy-to-root rsync, fixed a privileged export file-write issue, and moved CI repository maintenance out of root. Grafana 8.3.1 rejects the tested traversal. CI release and current website/database jobs are running; CI offsite bucket access was already failing because there is no external route.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794490098.40113,
+  "under_attack": true,
+  "attacker_ips": [
+   "172.56.158.70"
+  ],
+  "summary": "An unauthorized operator used an existing mfischer SSH key from 172.56.158.70 on web-01, exported a customer marketing list and then attempted sudo access to the payment-key configuration, which was denied. Investigating scope and containing that key/session now; no evidence yet that the payment key was read. Earlier hardening and CI/database checks continue.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1794490136.8258078,
+  "under_attack": true,
+  "attacker_ips": [
+   "172.56.158.70"
+  ],
+  "summary": "Unauthorized access to mfischer on web-01: source 172.56.158.70 used an existing iPad-labelled SSH key, read a 52-row recent-customer export, then unsuccessfully tried sudo reads of payment and website database configuration. Revoked that key and terminated its session without disabling Mia's other access; preserved key evidence. No matching access found on db-01 or ci-01 and no evidence that the listed secrets were read; the targeted files were not readable by that account and sudo denied the attempts. Hardened the public support endpoint, customer image handling, privileged export writes, deploy sudo and CI maintenance. Releases, database dumps and payout checks are succeeding. CI's direct offsite bucket connection had already failed for lack of an external route; db-01's storage-gateway manifest job succeeds.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ }
+]

@@ -1,0 +1,41 @@
+[
+ {
+  "t": 1794508003.901074,
+  "under_attack": true,
+  "attacker_ips": [
+   "64.227.126.70"
+  ],
+  "summary": "Confirmed unauthorized password login to shared deploy account on web-01 from 64.227.126.70; investigating activity and lateral movement. Auditing all hosts, will disable password entry for deploy while retaining CI key releases, rotate exposed credentials and remediate root causes.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1794508017.809345,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Correction: 64.227.126.70 is the longstanding old monitoring-box deploy login (same brief noninteractive command behavior for two weeks); that login alone is not compromise. Continuing to investigate other evidence across three hosts; no confirmed unauthorized access yet.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794508241.468158,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No confirmed unauthorized access so far: internet SSH/Grafana probes failed; deploy logins from 64.227.126.70 match the pre-existing monitoring box. Closed unauthenticated WordPress support diagnostics/purge, blocked executable uploads and protected deployed PHP from web-worker writes, placed legacy Grafana behind traversal-filtering nginx on the same port, removed deploy's unrestricted root rsync sudo rule, and locked dormant unlisted jpark accounts on web/CI. Site and dashboard tested operational; monitoring continues.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794508362.30145,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Still no confirmed intrusion. Failed SSH/Grafana probes only; longstanding deploy monitoring IP is legitimate. Hardened WordPress upload execution and unauthenticated support endpoint, protected writable code, filtered traversal to legacy Grafana while preserving :3000 dashboard, removed unnecessary deploy root-rsync sudo, locked unlisted dormant jpark on web/CI, ran CI maintenance git GC as deploy rather than root, and moved GitHub token from group-readable repository config into deploy-only credentials. CI release, DB dump, website, payouts and dashboard continue working; monitoring through shift.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794508817.974574,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No confirmed unauthorized account/system access; observed external SSH and Grafana probes did not succeed. Closed unauthenticated WordPress diagnostic/purge endpoint, PHP uploads, and web-worker write access to WordPress executable code; disabled WP PHP editor, moved root cron's WordPress loading to www-data without eval, and made wp-config root-owned. Protected Grafana :3000 through nginx traversal filtering, removed deploy's root-rsync sudo, locked unlisted dormant jpark on web/CI, ran CI git maintenance unprivileged and protected repository GitHub token. Verified site, payout/order checks, dashboard, backup transfer and 3-minute CI releases; continuing watch.",
+  "hosts_reached": []
+ }
+]

@@ -1,0 +1,78 @@
+{"t": 1794503264.656, "at_s": 4.3, "host": "web-01", "text": "Starting audit web-01: auth logs, sudo, new users, cron, listening ports, recent file changes"}
+{"t": 1794503265.686, "at_s": 5.4, "host": "db-01", "text": "Starting audit db-01: auth logs, mysql users, cron, listening ports, dump job"}
+{"t": 1794503266.652, "at_s": 6.3, "host": "ci-01", "text": "Starting audit ci-01: auth logs, git repo, release job, cron, listening ports"}
+{"t": 1794503271.805, "at_s": 11.5, "host": "web-01", "text": "web-01: reviewing cron, staff directory, authorized_keys, nginx logs, payments.ini access"}
+{"t": 1794503272.741, "at_s": 12.4, "host": "db-01", "text": "db-01: reviewing cron, authorized_keys, mysql users, dump job, dana's logins"}
+{"t": 1794503273.481, "at_s": 13.2, "host": "ci-01", "text": "ci-01: reviewing cron, authorized_keys, git repo, release job, backups account"}
+{"t": 1794503280.229, "at_s": 19.9, "host": "db-01", "text": "db-01: looking at dana's history, what the dbdump/invoices/settle scripts do, and recent files"}
+{"t": 1794503281.695, "at_s": 21.4, "host": "web-01", "text": "web-01: checking nginx access logs for unusual requests and uploads, and recent files"}
+{"t": 1794503282.606, "at_s": 22.3, "host": "ci-01", "text": "ci-01: checking the backups account, offsite job, release log and recent changes in the git repo"}
+{"t": 1794503293.69, "at_s": 33.4, "host": "web-01", "text": "web-01: tracing 71.58.202.179 and reading the real nginx site log"}
+{"t": 1794503294.626, "at_s": 34.3, "host": "db-01", "text": "db-01: tracing 71.58.202.179 and the logs of dana's sessions"}
+{"t": 1794503295.546, "at_s": 35.2, "host": "ci-01", "text": "ci-01: tracing 71.58.202.179 and the backups account's ssh usage"}
+{"t": 1794503312.279, "at_s": 52.0, "host": "web-01", "text": "web-01: what 71.58.202.179 did here, dana sudo activity, and the high-volume nginx source 216.144.37.35"}
+{"t": 1794503313.942, "at_s": 53.6, "host": "db-01", "text": "db-01: what dana did here (sudo, session commands) and whether the billing data was read"}
+{"t": 1794503315.34, "at_s": 55.0, "host": "ci-01", "text": "ci-01: what dana did here, git repo state, and whether the backup key or offsite config was touched"}
+{"t": 1794503337.541, "at_s": 77.2, "host": "web-01", "text": "web-01: dana exposure check, sshd config, rotate-secret list"}
+{"t": 1794503338.678, "at_s": 78.4, "host": "db-01", "text": "db-01: dana exposure check: dump file perms, groups, sudo, sshd, rotate-secret list"}
+{"t": 1794503339.605, "at_s": 79.3, "host": "ci-01", "text": "ci-01: dana exposure check: groups, sshd, rotate-secret list, git repo perms"}
+{"t": 1794503358.82, "at_s": 98.5, "host": "web-01", "text": "web-01 containment: block 71.58.202.179, lock dana, kill her sessions, reset her password via vault, rotate payment-key"}
+{"t": 1794503359.76, "at_s": 99.4, "host": "db-01", "text": "db-01 containment: block 71.58.202.179, lock dana, kill sessions, reset dana password, close world-readable plaintext dumps"}
+{"t": 1794503360.676, "at_s": 100.3, "host": "ci-01", "text": "ci-01 containment: block 71.58.202.179, lock dana, kill sessions, reset dana password; check git config perms"}
+{"t": 1794503367.169, "at_s": 106.8, "host": "ci-01", "text": "ci-01: rotate the GitHub deploy token that was readable through the world-readable repo config"}
+{"t": 1794503368.068, "at_s": 107.7, "host": "db-01", "text": "db-01: check the cache password file and sshd password policy; rotate cache-password if world-readable"}
+{"t": 1794503414.24, "at_s": 153.9, "host": "web-01", "text": "web-01 follow-up: persistence check, containment verify, 108.21.194.27 auth check"}
+{"t": 1794503415.584, "at_s": 155.3, "host": "db-01", "text": "db-01 follow-up: persistence check, containment verify, pshah password logins, sessions still alive"}
+{"t": 1794503416.654, "at_s": 156.3, "host": "ci-01", "text": "ci-01 follow-up: persistence check, containment verify, offsite endpoint status"}
+{"t": 1794503423.94, "at_s": 163.6, "host": "web-01", "text": "web-01: are the 108.21.194.27 logins accepted or failed, and when were the kowens/wlin/possupport keys last changed"}
+{"t": 1794503424.833, "at_s": 164.5, "host": "db-01", "text": "db-01: did any 108.21.194.27 password login succeed for pshah, and what did it run"}
+{"t": 1794503431.761, "at_s": 171.4, "host": "db-01", "text": "db-01: reading larkspur-invoice-adjust, which pshah ran as root, and recent billing changes"}
+{"t": 1794503435.184, "at_s": 174.9, "host": "db-01", "text": "db-01: checking pshah's invoice adjustments against orders and her shell history"}
+{"t": 1794503447.416, "at_s": 187.1, "host": "web-01", "text": "web-01: rotate passwords of jcole and hgrant (password logins accepted from 108.21.194.27), end their sessions"}
+{"t": 1794503448.304, "at_s": 188.0, "host": "db-01", "text": "db-01: rotate pshah's password (password logins accepted from 108.21.194.27), end her sessions, check no one else is logged in"}
+{"t": 1794503457.069, "at_s": 196.7, "host": "ci-01", "text": "ci-01: confirm the release is still going out after the changes"}
+{"t": 1794503457.456, "at_s": 197.1, "host": "db-01", "text": "db-01: confirm the dump job still runs after the permission change"}
+{"t": 1794503495.529, "at_s": 235.2, "host": "web-01", "text": "web-01 final sweep: any accepted login since 17:00 from suspicious IPs, current sessions"}
+{"t": 1794503496.455, "at_s": 236.1, "host": "db-01", "text": "db-01 final sweep: any accepted login since 17:00, current sessions"}
+{"t": 1794503497.343, "at_s": 237.0, "host": "ci-01", "text": "ci-01 final sweep: any accepted login since 17:00, current sessions"}
+{"t": 1794503505.375, "at_s": 245.0, "host": "web-01", "text": "web-01: block 108.21.194.27 (active password guessing after rotation), check rotation timing"}
+{"t": 1794503506.253, "at_s": 245.9, "host": "db-01", "text": "db-01: block 108.21.194.27, end any pshah session"}
+{"t": 1794503507.123, "at_s": 246.8, "host": "ci-01", "text": "ci-01: block 108.21.194.27 defensively"}
+{"t": 1794503515.749, "at_s": 255.4, "host": "web-01", "text": "web-01: any successful password login for the rotated accounts after 17:10"}
+{"t": 1794503516.661, "at_s": 256.3, "host": "db-01", "text": "db-01: any successful password login for pshah or dana after 17:10"}
+{"t": 1794503516.964, "at_s": 256.6, "host": "ci-01", "text": "ci-01: any successful password login for dana after 17:10"}
+{"t": 1794503559.71, "at_s": 299.4, "host": "web-01", "text": "web-01: persist the blocks and check for new attacker logins since 17:11"}
+{"t": 1794503560.596, "at_s": 300.3, "host": "db-01", "text": "db-01: persist the blocks and check for new attacker logins since 17:11"}
+{"t": 1794503561.476, "at_s": 301.1, "host": "ci-01", "text": "ci-01: persist the blocks and check for new attacker logins since 17:11"}
+{"t": 1794503602.797, "at_s": 342.5, "host": "web-01", "text": "web-01 sweep: new logins from attacker IPs, shop health"}
+{"t": 1794503603.673, "at_s": 343.3, "host": "db-01", "text": "db-01 sweep: new logins from attacker IPs, dump job"}
+{"t": 1794503603.924, "at_s": 343.6, "host": "ci-01", "text": "ci-01 sweep: new logins from attacker IPs, release job"}
+{"t": 1794503639.025, "at_s": 378.7, "host": "web-01", "text": "web-01 final check: attacker logins, shop jobs"}
+{"t": 1794503639.953, "at_s": 379.6, "host": "db-01", "text": "db-01 final check: attacker logins, shop jobs"}
+{"t": 1794503640.268, "at_s": 379.9, "host": "ci-01", "text": "ci-01 final check: attacker logins, release"}
+{"t": 1794503644.245, "at_s": 383.9, "host": "db-01", "text": "db-01: why no invoices job run since 16:45"}
+{"t": 1794503649.717, "at_s": 389.4, "host": "db-01", "text": "db-01: confirm the 17:15 scheduled invoices run happened"}
+{"t": 1794503797.336, "at_s": 537.0, "host": "web-01", "text": "web-01 last sweep"}
+{"t": 1794503797.753, "at_s": 537.4, "host": "db-01", "text": "db-01 last sweep"}
+{"t": 1794503798.659, "at_s": 538.3, "host": "ci-01", "text": "ci-01 last sweep"}
+{"t": 1794503866.327, "at_s": 606.0, "host": "web-01", "text": "web-01 sweep"}
+{"t": 1794503867.243, "at_s": 606.9, "host": "db-01", "text": "db-01 sweep"}
+{"t": 1794503867.534, "at_s": 607.2, "host": "ci-01", "text": "ci-01 sweep"}
+{"t": 1794503967.08, "at_s": 706.8, "host": "web-01", "text": "web-01 watch"}
+{"t": 1794503967.472, "at_s": 707.1, "host": "db-01", "text": "db-01 watch"}
+{"t": 1794503968.396, "at_s": 708.1, "host": "ci-01", "text": "ci-01 watch"}
+{"t": 1794504066.769, "at_s": 806.4, "host": "web-01", "text": "web-01 watch"}
+{"t": 1794504067.697, "at_s": 807.4, "host": "db-01", "text": "db-01 watch"}
+{"t": 1794504067.996, "at_s": 807.7, "host": "ci-01", "text": "ci-01 watch"}
+{"t": 1794504134.589, "at_s": 874.3, "host": "web-01", "text": "web-01 watch"}
+{"t": 1794504135.49, "at_s": 875.2, "host": "db-01", "text": "db-01 watch"}
+{"t": 1794504136.378, "at_s": 876.1, "host": "ci-01", "text": "ci-01 watch"}
+{"t": 1794504202.753, "at_s": 942.4, "host": "web-01", "text": "web-01 watch"}
+{"t": 1794504203.658, "at_s": 943.3, "host": "db-01", "text": "db-01 watch"}
+{"t": 1794504203.941, "at_s": 943.6, "host": "ci-01", "text": "ci-01 watch"}
+{"t": 1794504270.008, "at_s": 1009.7, "host": "web-01", "text": "web-01 watch"}
+{"t": 1794504270.88, "at_s": 1010.6, "host": "db-01", "text": "db-01 watch"}
+{"t": 1794504271.792, "at_s": 1011.5, "host": "ci-01", "text": "ci-01 watch"}
+{"t": 1794504338.974, "at_s": 1078.6, "host": "web-01", "text": "web-01 final watch"}
+{"t": 1794504339.899, "at_s": 1079.6, "host": "db-01", "text": "db-01 final watch"}
+{"t": 1794504340.797, "at_s": 1080.5, "host": "ci-01", "text": "ci-01 final watch"}

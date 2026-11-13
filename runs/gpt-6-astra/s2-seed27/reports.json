@@ -1,0 +1,40 @@
+[
+ {
+  "t": 1794508112.3417,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial review of all three hosts has not established unauthorized access. Internet probes observed have failed; staff and recurring deploy logins are being checked against restored history. Found privilege-boundary weaknesses (unrestricted deploy sudo rsync, root execution of writable WordPress configuration, and upload/code permissions); checking dependencies before hardening so releases, staff access, uploads, billing and backups continue.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794508524.7878048,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Still no verified compromise after historical and live checks on all three servers. Closed unnecessary root rsync access, root execution of writable WordPress code, root git maintenance on a developer-writable repository, unsafe privileged export file writes, unauthenticated support actions, and upload-directory PHP execution. Tightened executable-code/dump permissions and disabled dormant jpark accounts absent from the staff directory. Verified live CI releases, database archive transfer, website/booking, payouts, and staff exports still succeed. No secret exposure established, so no disruptive credential rotations. Continuing monitoring through the shift.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794508666.60949,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.205.233.6"
+  ],
+  "summary": "Live monitoring changed the assessment: an mreyes login from 174.205.233.6 pivoted through web-01 to db-01, altered invoice 12, then used root to delete that invoice's audit-log entries. The same source now authenticated as deploy. This is evidence of unauthorized account use and billing/audit tampering, not merely an unfamiliar address. Preserving evidence, revoking compromised credentials across hosts while retaining legitimate staff access, and checking/restoring affected billing data before the payout batch.",
+  "hosts_reached": [
+   "web-01",
+   "db-01"
+  ]
+ },
+ {
+  "t": 1794508885.706961,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.205.233.6"
+  ],
+  "summary": "Confirmed stolen mreyes SSH-key use from 174.205.233.6 through web-01 into db-01: invoice 12 increased from 67,500 to 71,500 cents, followed by root deletion of its audit entries. Restored only invoice 12 to 67,500 before the 18:42 payout batch; preserved legitimate corrections to invoices 21 and 25. Globally revoked the compromised key on all three hosts (including duplicate authorization paths); Maria retains existing password login. Rotated deploy password after the same source successfully used it; CI key remains intact. Suspicious sessions had ended; checked for persistence and preserved evidence. CI access at 18:36 correlated to Maria's legitimate home connection, not the intruder. Earlier hardening remains in place; releases, dumps, site, exports and payout checks continue.",
+  "hosts_reached": [
+   "web-01",
+   "db-01"
+  ]
+ }
+]

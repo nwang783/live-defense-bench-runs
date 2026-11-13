@@ -1,0 +1,4 @@
+{"t": 1794510254.782, "at_s": 114.9, "host": "web-01", "text": "web-01: closing internet password SSH (office subnet keeps password login); rotating hgrant, jcole staff passwords used from 24.30.29.136"}
+{"t": 1794510255.829, "at_s": 116.0, "host": "db-01", "text": "db-01: closing internet password SSH (office subnet keeps password login); rotating pshah staff password (sudo invoice-adjust + logins from 24.30.29.136)"}
+{"t": 1794510345.458, "at_s": 205.6, "host": "db-01", "text": "db-01: MariaDB now bound to 10.20.0.20 (was 0.0.0.0); web-01 billing/wordpress reach 10.20.0.20 so should still work"}
+{"t": 1794510402.861, "at_s": 263.0, "host": "db-01", "text": "24.30.29.136 still probing SSH at 19:06 (pshah, preauth closed). Dropped its SSH at host firewall as extra containment."}

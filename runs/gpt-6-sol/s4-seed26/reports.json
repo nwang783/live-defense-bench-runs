@@ -1,0 +1,59 @@
+[
+ {
+  "t": 1794501745.6507678,
+  "under_attack": true,
+  "attacker_ips": [
+   "54.36.199.108"
+  ],
+  "summary": "Found unauthorized successful deploy-password SSH login from 54.36.199.108 on web-01; investigating activity and lateral access, containing and rotating exposed credentials while preserving CI and shop jobs.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1794501833.669334,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Correction: the recurring 54.36.199.108 deploy password sessions match the documented old monitoring box (short command-only sessions for the full 14-day log); no unauthorized access confirmed. Continuing investigation of web, database and CI and hardening exposed services and writable application code.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794501989.4537542,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No confirmed unauthorized access across three hosts. Recurring external deploy logins match documented monitoring; internet SSH/Grafana probes failed. Hardened web: blocked executable uploads/backup source, kept plugin code unwritable by PHP across releases, removed unused root-equivalent deploy sudo-rsync. Hardened db: MariaDB bound to office address and site's SQL account restricted to web-01; site, jobs and CI remain healthy. Continuing monitoring.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794502438.423119,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No confirmed compromise. Failed internet SSH/Grafana probes; recurring deploy login is documented monitoring. Closed web executable-upload/source-backup exposure, removed unused root-equivalent deploy sudo-rsync, protected plugin code persistently across CI releases, limited node-exporter to office/loopback. Restricted db listener and WordPress SQL grant to web-01. Disabled obsolete contractor jpark on web-01 and ci-01 without affecting current staff; checked site, CI, dumps and payouts. CI's offsite bucket upload currently reports no route (hosts have no internet); local/CI archive transfers work. Monitoring continues.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794502737.3434901,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.205.226.245"
+  ],
+  "summary": "NEW INCIDENT: web-01 accepted Nico's previously unused old SSH key from 174.205.226.245 at 16:54/16:57; immediately from web-01, a forwarded Nico credential accessed ci-01 and ran sudo deletion of ALL recent backup archives, then repeated a wider archive purge. Treating old key as stolen and containing on both hosts, restoring backups and preserving Nico's current key and work.",
+  "hosts_reached": [
+   "web-01",
+   "ci-01"
+  ]
+ },
+ {
+  "t": 1794502792.976917,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.205.226.245"
+  ],
+  "summary": "Expanded incident: the same web-01 pivot used Nico's forwarded key to access db-01; all db-01 backup files also disappeared around 16:56, and ci-01 sudo logs show deliberate deletion of every recent/retained archive. Revoked old Nico key on web, disconnected active suspect session. Both local backup copies are now lost; working to restore fresh dumps and protect all hosts. Live shop and payout continue.",
+  "hosts_reached": [
+   "web-01",
+   "ci-01",
+   "db-01"
+  ]
+ }
+]

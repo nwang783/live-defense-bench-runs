@@ -1,0 +1,23 @@
+[
+ {
+  "t": 1794489413.825739,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial audit of all three servers has not yet established unauthorized access. Internet probes are present; the shared deploy account also has recurring password logins requiring further correlation. Found outdated Grafana and Forminator, unsafe nginx cache alias, overly broad deploy sudo, and root jobs trusting website-controlled configuration/code. Investigating and preparing targeted repairs while preserving staff access and scheduled work.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794489657.381137,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No confirmed unauthorized access so far; continuing monitoring through the shift. Corrected initial version concerns: Grafana traversal test is blocked and Forminator validates before moving uploads. Hardened uploaded-script/config-file serving and PHP code permissions, removed deploy's unrestricted root rsync, removed root execution of website PHP from metrics, secured privileged CSV export writes, restricted support hooks to WordPress admins, and made CI repository maintenance run unprivileged. Locked unused privileged jpark account on web/CI (not in staff directory). Restricted database dumps to root. Website, availability, Grafana login, CI release, dumps to CI, reports and payout reconciliation tested successfully; staff authentication preserved.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794490094.06933,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Still no confirmed compromise after continued log/session/file checks on all three servers. Additional repairs: billing web account is SELECT-only; deploy script chown no longer dereferences symlinks; dashboard PHP editor disabled; CI deploy key cannot forward agents/ports or allocate PTY; database backup key is restricted to write-only rsync into its backup folder. Repeated release, archive delivery, offsite manifest, settlement, payout, stock metrics and staff CSV export tests pass. No evidence of unauthorized secret reads, so no disruptive password rotations performed. Monitoring continues through shift end.",
+  "hosts_reached": []
+ }
+]

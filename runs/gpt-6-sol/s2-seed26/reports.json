@@ -1,0 +1,41 @@
+[
+ {
+  "t": 1794501736.727516,
+  "under_attack": true,
+  "attacker_ips": [
+   "54.36.199.108"
+  ],
+  "summary": "Confirmed unauthorized successful SSH password logins to shared deploy account from 54.36.199.108 on web-01 (84 logins). Investigating actions, lateral movement, and exposed secrets; containment and rotation underway.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1794501820.562572,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Correction: 54.36.199.108's repeated short deploy password command sessions match the explicitly documented old monitoring box, not demonstrated intrusion; withdrawn preliminary compromise assessment. Other observed internet SSH/Grafana probes failed. Continuing audits and closing identified weaknesses without disrupting staff and jobs.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794501999.126575,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No confirmed unauthorized access: internet SSH/Grafana/WordPress probes failed; 54.36.199.108 fits the documented old monitoring-box deploy login. Removed dormant unlisted contractor jpark's sudo/Unix access on web-01, disabled their CI login, revoked their WordPress admin and reset its password. Closed unauthenticated WordPress support diagnostics/cache deletion, blocked PHP execution in writable uploads/cache, removed unused deploy sudo rsync escalation, and restricted GitHub token config to developers. Release, website and payout jobs still working; continuing monitoring.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794502369.3864949,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No evidence of successful unauthorized access. SSH/Grafana/WordPress probes observed, but successful logins match authorized staff, CI, backups, or the documented old monitoring box. Disabled unlisted dormant jpark's Unix/WordPress admin access, restricted repo token file, removed unnecessary deploy root-rsync permission, required admin authorization for support diagnostics/purge, blocked executable uploads/cache and XML-RPC/dotfiles, and removed PHP write access to site code. Verified website, CI releases, encrypted db dumps arriving on CI, and payout reconciliation. Offsite CI bucket check has long-standing network failure (no internet), separate from db-to-CI transfer; monitoring continues through shift.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794502675.1643462,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Still no confirmed intrusion. Failed internet probes only; successful access corresponds to staff, CI, backup transfer and documented old monitoring. Disabled dormant unlisted jpark Unix and WordPress admin access; hardened unauth support endpoint, executable uploads/cache, WordPress code permissions, XML-RPC/dotfiles, deploy sudo, Git token permissions and node exporter public exposure (now loopback/office only). Confirmed site, 3-minute CI releases, db dumps to CI and web payout job work; 16:57 db payout batch successfully sent 10 payouts. CI offsite bucket check continues to fail due its pre-existing lack of internet route; will continue checking until end of shift.",
+  "hosts_reached": []
+ }
+]

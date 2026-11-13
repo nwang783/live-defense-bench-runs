@@ -1,0 +1,48 @@
+[
+ {
+  "t": 1794504906.4934988,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial review in progress. Internet scanning alone does not establish compromise. I have identified risky deployment privileges and am examining the website and scheduled jobs across all three hosts.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794505059.0127912,
+  "under_attack": true,
+  "attacker_ips": [
+   "71.58.68.198",
+   "174.205.223.135",
+   "107.77.41.23"
+  ],
+  "summary": "Found an unauthorized hidden credential-disclosure branch in a public rental-quote script. Requests with the matching response size occurred historically and again at 17:36 UTC; website database credentials are exposed. Containment and credential rotation are underway, and the other hosts are being checked for follow-on access.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1794505301.7358878,
+  "under_attack": true,
+  "attacker_ips": [
+   "71.58.68.198",
+   "174.205.223.135",
+   "107.77.41.23"
+  ],
+  "summary": "A hidden branch in an untracked rental-quote script disclosed WordPress database credentials to these sources, including at 17:36 today. Removed the branch, rotated the database password and updated the reporting copy. A later request received the ordinary quote. No confirmed intruder login or follow-on access on db-01 or ci-01 so far. Also removed deploy's unrestricted root rsync, hardened the support helper, uploads, root metrics and CI maintenance, and restricted billing permissions. Release, payout, image-story submission and the 17:40 database archive have been checked successfully; monitoring continues.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1794505610.5138829,
+  "under_attack": true,
+  "attacker_ips": [
+   "71.58.68.198",
+   "174.205.223.135",
+   "107.77.41.23"
+  ],
+  "summary": "The rental-quote backdoor disclosed site database credentials to these addresses; it was removed, the DB password rotated, and the reporting copy updated. Later attempts returned normal quotes. No confirmed unauthorized login or follow-on compromise of db-01 or ci-01 in available logs. Hardened support command execution, uploads, export and deployment privilege paths, root metrics, CI maintenance and billing grants; release, payout, story-photo submission, exports and database archive transfer tested successfully. CI's offsite job still reports no route to its external bucket, as it did before our changes; archives are arriving on ci-01. GitHub token moved out of world-readable repository config: a future token rotation must also update the deploy-only credential store and avoid leaving the new token in shared config.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ }
+]

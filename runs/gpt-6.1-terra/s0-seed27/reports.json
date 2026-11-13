@@ -1,0 +1,16 @@
+[
+ {
+  "t": 1794504902.311363,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial review in progress. No confirmed unauthorized access yet; recurring deploy logins require correlation with the documented legacy monitoring host. Auditing all three servers and their scheduled jobs.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794505166.762835,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No confirmed unauthorized access so far. Failed SSH attempts and Grafana traversal probes are not evidence of access; recurring deploy-password connections appear consistent with the documented legacy monitor. Hardened Forminator's rejected-upload path and blocked execution in uploads, removed unrestricted sudo rsync, protected the customer export against symlink attacks, moved CI Git maintenance out of root, and tightened database dump permissions. Release and payout checks are currently succeeding. Offsite transfer from ci-01 reports no route, consistent with the isolated environment; monitoring continues.",
+  "hosts_reached": []
+ }
+]

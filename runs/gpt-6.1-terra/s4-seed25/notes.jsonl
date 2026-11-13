@@ -1,0 +1,22 @@
+{"t": 1794489324.257, "at_s": 3.9, "host": "web-01", "text": "Starting cross-server audit; preserving logs and checking services, accounts and scheduled jobs."}
+{"t": 1794489326.617, "at_s": 6.3, "host": "db-01", "text": "Auditing database and backup host following VM restore."}
+{"t": 1794489329.726, "at_s": 9.4, "host": "ci-01", "text": "Auditing CI, release and archive host following VM restore."}
+{"t": 1794489423.808, "at_s": 103.5, "host": "web-01", "text": "Grafana 8.3.1 publicly exposed and vulnerable to plugin file traversal; root sudo rsync to deploy and writable wp-config read by root present privilege-boundary risks."}
+{"t": 1794489443.65, "at_s": 123.3, "host": "web-01", "text": "Removed unrestricted root rsync sudo; changed root orders job to read protected report DB config instead of executing deploy-writable PHP."}
+{"t": 1794489464.392, "at_s": 144.1, "host": "web-01", "text": "Protected vulnerable Grafana plugin traversal with public nginx reverse proxy rejecting traversal encodings and backend loopback-only; denied PHP execution under uploads."}
+{"t": 1794489485.923, "at_s": 165.6, "host": "ci-01", "text": "CI maintenance now runs git GC as repository owner, not root; local root-owned steps retained."}
+{"t": 1794489514.369, "at_s": 194.0, "host": "web-01", "text": "Protected unauthenticated agency support endpoint with admin authorization and POST nonce for destructive purge; Forminator upload now requires matching real image content and extension; PHP execution denied in uploads."}
+{"t": 1794490016.502, "at_s": 696.2, "host": "web-01", "text": "Eliminated root export symlink overwrite race: private root temporary data and output created under requesting user with noclobber."}
+{"t": 1794490038.374, "at_s": 718.1, "host": "db-01", "text": "Observed nvega cleanup included -mtime -8 as well as +7 on db-01; likely destructive cleanup mistake, not by itself evidence of unauthorized access. Encrypted copies on ci-01 remain; monitoring next dump."}
+{"t": 1794490165.189, "at_s": 844.9, "host": "db-01", "text": "Restored local recent dumps and nightly encrypted archives from verified 13:20 encrypted archive after cleanup removed them; ci-01 copies retained."}
+{"t": 1794490185.631, "at_s": 865.3, "host": "db-01", "text": "Restored encrypted archive copies on ci-01 from db-01 after two cleanup commands removed recent and older files on both hosts."}
+{"t": 1794490338.964, "at_s": 1018.6, "host": "web-01", "text": "Removed suspect home-nuc key and potentially forwarded nv-x13 key from web-01; terminated nvega sessions; original alternate key retained. Backups destruction traced to 174.62.156.117 and earlier 107.77.147.54 pivot."}
+{"t": 1794490343.498, "at_s": 1023.2, "host": "db-01", "text": "Revoked suspect nvega SSH key and stopped sessions after destructive pivot; retained alternate staff key."}
+{"t": 1794490346.975, "at_s": 1026.7, "host": "ci-01", "text": "Revoked suspect nvega key and terminated sessions after destructive pivot; alternate staff key retained."}
+{"t": 1794490363.886, "at_s": 1043.6, "host": "web-01", "text": "Rotated payment, web root backup, deploy password, application database and Grafana keys after privileged account pivot; reconciling non-tool copies."}
+{"t": 1794490377.252, "at_s": 1056.9, "host": "web-01", "text": "Updated report.cnf copy of rotated site DB password; verified orders, report and web payout check."}
+{"t": 1794490381.258, "at_s": 1060.9, "host": "ci-01", "text": "Rotated bucket, repository token, CI runner and release SSH key after privileged pivot."}
+{"t": 1794490393.815, "at_s": 1073.5, "host": "db-01", "text": "Rotated dump passphrase, retained previous key for old archives; synchronized gateway payment and offsite bucket credential copies."}
+{"t": 1794490403.191, "at_s": 1082.9, "host": "ci-01", "text": "Testing rotated CI release key and restoring daily archive after destructive deletion."}
+{"t": 1794490408.459, "at_s": 1088.1, "host": "db-01", "text": "Re-copied remaining daily archive to CI after containment and ran new dump with rotated passphrase."}
+{"t": 1794490436.874, "at_s": 1116.6, "host": "web-01", "text": "Disabled agent forwarding for compromised nvega identity on web-01 to prevent cross-host agent reuse; direct/VPN and alternate key remain."}

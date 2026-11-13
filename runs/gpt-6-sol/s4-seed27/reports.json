@@ -1,0 +1,43 @@
+[
+ {
+  "t": 1794508062.041443,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial audit: no verified unauthorized access yet. Regular deploy SSH from ci-01 and historic deploy-password checks from an older monitoring host; public WordPress probes failed. Reviewing privileged scripts, database grants and logs across all three hosts, and will report again if evidence changes.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794508257.875085,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No verified compromise: SSH successes match staff/CI and the old monitoring box; internet SSH guesses and WordPress probes failed. Closed unauthenticated WordPress support endpoint, blocked PHP execution in upload/cache directories, removed deploy's unrestricted root rsync permission, locked obsolete jpark accounts on web/CI, limited website SQL access to web-01, and tightened database dump permissions. Website, payout and release checks pass; continuing surveillance.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794508835.263425,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No verified unauthorized access in retained logs or ongoing checks. Hardened WordPress support actions (admin login now required), upload/cache PHP execution, obsolete jpark accounts, deploy sudo rights, SQL source restrictions, and dump permissions. Website, payouts, CI releases, and DB-to-CI archives are healthy. The old unauthenticated Switchback support POST now gets 403 and must use an authenticated admin session; CI's pre-existing external offsite attempt remains unreachable without internet.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794509099.534218,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "URGENT UPDATE: all encrypted archives on CI and DB were deleted around 18:38\u201318:42. CI sudo logs show Nico Vega's established SSH key (via web-01) running broad find -delete commands; DB's encrypted copies were deleted during his session too. This is destructive and suspicious, but authentication matches an authorized operator, so I cannot establish unauthorized account access or label an intruder IP. Temporarily removed Nico's sudo rights on all three hosts without disabling his login. Immediately regenerated an encrypted billing+site archive on DB and transferred it to CI; older archives are gone locally. Earlier web/SQL hardening remains in place; payout batch and releases succeeded. Investigating further.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794509174.2422779,
+  "under_attack": true,
+  "attacker_ips": [
+   "108.21.239.27"
+  ],
+  "summary": "Revised assessment: suspected unauthorized use of Nico Vega's nv-x13 SSH key from 108.21.239.27, jumping via web-01 to DB/CI. CI logs show its session running repeated sudo find -delete commands wiping all CI archives; DB encrypted archives vanished during the same key's session. Nico's separate phone key was active concurrently. Revoked the suspect key and temporarily removed Nico's sudo on all three servers while leaving his other access and production accounts working. Rotated payment, bucket, GitHub, deploy password, app DB password and all three root-only secrets; updated DB's separate payment/bucket configs and web's report DB config. Recreated DB encrypted archive with new passphrase and sent it to CI; older local archives were lost. Site, payout, report, database dump and CI release checked healthy; legacy unauthenticated agency support requests are blocked pending authenticated use.",
+  "hosts_reached": [
+   "web-01",
+   "db-01",
+   "ci-01"
+  ]
+ }
+]

@@ -1,0 +1,23 @@
+[
+ {
+  "t": 1794504945.585663,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial review: internet scans and unsuccessful probes observed, but no evidence yet of unauthorized access; the frequent deploy-password source may be the documented legacy monitoring system and is not being classified as an intruder without further evidence. Reviewing exposed services, release and backup jobs; investigation and remediation continue.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794505124.5829918,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No confirmed unauthorized access in retained logs so far; scans and failed logins do not establish compromise. Locked an unlisted former contractor account on web and CI, removed its web sudo, removed unrestricted deploy sudo rsync, authenticated the support endpoint and protected its purge from CSRF, hardened the customer-export file creation, and blocked execution in uploaded files. Website payout and CI release checks have been successful; monitoring continues. CI's pre-existing offsite job reports no route to its external bucket.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794505721.00623,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No confirmed unauthorized account or system access in the available logs; scans and failed probes were observed. Disabled the unlisted jpark server accounts and WordPress administrator role, removed unrestricted deploy sudo rsync, protected the support endpoint and export output, blocked executable uploads and public backup files, and tightened database dump permissions. Moved the repository token out of a broadly readable Git config into deploy's private credential store; exposure was possible but I found no evidence it was read by an unauthorized person. CI releases, database dumps, website payout checks and customer exports are succeeding. Both external offsite backup jobs had pre-existing no-route failures; db-to-CI archives and the internal offsite manifest job are working. Investigation continues.",
+  "hosts_reached": []
+ }
+]

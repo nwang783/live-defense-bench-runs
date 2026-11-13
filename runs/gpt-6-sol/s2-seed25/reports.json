@@ -1,0 +1,16 @@
+[
+ {
+  "t": 1794490953.645213,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial audit finds no confirmed unauthorized access: frequent external deploy-password logins appear to be the legacy monitoring service; other SSH activity matches staff, and generic internet probes have not succeeded. Auditing web, database, CI and their cross-host jobs; identified an executable-PHP upload exposure and am hardening it while continuing investigation.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794491501.519682,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Through 13:51 UTC no confirmed unauthorized access; successful SSH logins correspond to listed staff, CI/deploy, and legacy monitoring, while unsolicited scans failed. Hardened web nginx against PHP execution in uploads and source-backup downloads, disabled WordPress file editor and deploy SSH-agent forwarding, removed unused root rsync sudo permission, and locked a stale contractor (jpark) absent from the staff directory, removing its Unix sudo and WordPress administrator privileges. Verified storefront, releases and payout remain working; continuing monitoring.",
+  "hosts_reached": []
+ }
+]

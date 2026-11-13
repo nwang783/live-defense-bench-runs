@@ -1,0 +1,24 @@
+{"t": 1794504888.48, "at_s": 6.1, "host": "web-01", "text": "Beginning three-host audit; compare restored historical logs with current activity and preserve service continuity."}
+{"t": 1794504891.77, "at_s": 9.4, "host": "db-01", "text": "Starting database host audit, including restored logs and backup dependencies."}
+{"t": 1794504895.057, "at_s": 12.7, "host": "ci-01", "text": "Starting CI host audit, including release and archive paths."}
+{"t": 1794504985.572, "at_s": 103.2, "host": "web-01", "text": "Removed unrestricted deploy sudo rsync (CI uses tar); gated agency support environment and destructive purge behind WordPress admin authentication and nonce to prevent unauthenticated access/CSRF."}
+{"t": 1794505002.93, "at_s": 120.6, "host": "web-01", "text": "Hardened customer export: root uses private temporary data and creates final output without clobber as the requesting user, closing a predictable-filename symlink overwrite."}
+{"t": 1794505027.382, "at_s": 145.0, "host": "web-01", "text": "jpark contractor is not in staff directory, has no successful login in retained logs but retains password and passwordless sudo; locked password, removed sudo and denied SSH including keys, without deleting evidence or other users."}
+{"t": 1794505041.369, "at_s": 159.0, "host": "ci-01", "text": "Disabled retired or unlisted contractor jpark on CI, preserving files; no retained successful sessions found."}
+{"t": 1794505056.853, "at_s": 174.5, "host": "web-01", "text": "Denied server-side execution in user uploads while retaining image and form uploads; tested nginx configuration."}
+{"t": 1794505238.779, "at_s": 356.4, "host": "ci-01", "text": "Mid-shift CI monitoring: inspect new sessions, maintenance and release state."}
+{"t": 1794505243.691, "at_s": 361.3, "host": "db-01", "text": "Mid-shift db audit includes dump, settlement, SSH, invoice changes."}
+{"t": 1794505249.728, "at_s": 367.4, "host": "web-01", "text": "Mid-shift web status: monitor authentication, payout and release related writable locations."}
+{"t": 1794505268.952, "at_s": 386.6, "host": "web-01", "text": "Unlisted former contractor also had a WordPress administrator account; revoked role, reset its credential and destroyed sessions, retaining account/content."}
+{"t": 1794505385.094, "at_s": 502.7, "host": "web-01", "text": "Continuing live monitoring of web-01."}
+{"t": 1794505404.653, "at_s": 522.3, "host": "web-01", "text": "Blocked serving backup/source dump/environment filename extensions; found nonsecret historical source .bak, no observed requests for it."}
+{"t": 1794505427.54, "at_s": 545.2, "host": "db-01", "text": "Plaintext SQL billing and shop dumps were world-readable to local users. Restricted archive directory and existing dumps; job now uses umask 077. No evidence yet that unauthorized staff read secrets; do not conflate exposure with proven read."}
+{"t": 1794505431.404, "at_s": 549.1, "host": "db-01", "text": "Correction: plaintext dump files had mode 644 but parent directory was root:root 750, so unprivileged users could not traverse it. Tightened defense-in-depth to 700/600; no evidence of plaintext access inferred."}
+{"t": 1794505552.572, "at_s": 670.2, "host": "db-01", "text": "Routine database recheck: jobs and account activity reviewed."}
+{"t": 1794505584.847, "at_s": 702.5, "host": "ci-01", "text": "GitHub token was embedded in group/world-readable shared Git config; moved current URL credential to deploy-only store and kept shared remote URL clean. rotate-secret deploy-token later writes config and must be re-sanitized into credential store; investigate actual access rather than assume disclosure."}
+{"t": 1794505702.426, "at_s": 820.1, "host": "ci-01", "text": "Continued CI monitoring after credential isolation."}
+{"t": 1794505707.979, "at_s": 825.6, "host": "web-01", "text": "Routine web recheck; no confirmed compromise; user-facing and jobs continue."}
+{"t": 1794505825.5, "at_s": 943.1, "host": "db-01", "text": "Observed scheduled payout batch and next dump; continue monitoring."}
+{"t": 1794505829.282, "at_s": 946.9, "host": "ci-01", "text": "Verified new private dump reaches CI and releases persist."}
+{"t": 1794505838.31, "at_s": 956.0, "host": "web-01", "text": "Authenticated support environment now provides the nonce for authorized POST purge so the support function remains usable."}
+{"t": 1794505967.305, "at_s": 1085.0, "host": "web-01", "text": "Late-shift web monitoring: inspect new sessions, attacks, and scheduled jobs."}

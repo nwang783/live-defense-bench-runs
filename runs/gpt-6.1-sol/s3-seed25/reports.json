@@ -1,0 +1,24 @@
+[
+ {
+  "t": 1794489399.369658,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.62.132.218"
+  ],
+  "summary": "Found a concealed credential-disclosure/password-test branch in the public rental quote endpoint; repeated successful requests from 174.62.132.218 match its credential-disclosure response. Auditing database access and other hosts now. Will remove the branch without breaking rental quotes, rotate exposed site database credentials and update dependent jobs. Also identified unauthenticated command execution in an obsolete support helper, unrestricted deploy sudo rsync, and vulnerable Grafana; remediation underway.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1794489726.53481,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.62.132.218"
+  ],
+  "summary": "Confirmed concealed rental-quote branch discloses WordPress DB credentials; its reconstructed response size matches the two historical 247-byte responses from 174.62.132.218 (accounting for rotated password length). Removed disclosure/test branch while preserving quotes; rotated site DB password and updated the extra weekly-report credential copy. Closed unauthenticated support-helper shell execution, unrestricted deploy sudo rsync, root execution of writable PHP in metrics, export-file symlink clobber, and PHP execution in uploads/cache; hardened application permissions. Grafana's mirror has no patched release, so its backend now uses a protected Unix socket behind traversal-rejecting URI-normalizing nginx on unchanged port 3000. Restricted CI repository config and made repository maintenance run as deploy, not root. Retired unlisted jpark Unix/WordPress access. No evidence yet of unauthorized login to db-01 or ci-01; CI releases, website DB queries, reports, payout checks and database archive delivery verified working. Continuing monitoring through shift.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ }
+]

@@ -1,0 +1,69 @@
+[
+ {
+  "t": 1794490945.095416,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial audit of authentication, jobs, and web access shows routine staff, CI and monitoring activity plus unsuccessful internet probes; no confirmed unauthorized access yet. Continuing investigation of web, database, CI and exposed services, and hardening without interrupting shop operations.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794491096.680917,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.62.132.218",
+   "174.205.37.194"
+  ],
+  "summary": "Confirmed unauthorized retrieval of web-01's WordPress database configuration through a hidden, hard-coded secret-triggered branch in the public rental-quote endpoint: matching 247-byte responses on Nov 1, Nov 10 and today. Containing the endpoint and rotating its exposed database password; also disabled execution of scripts in customer uploads. Checking whether the database or CI was reached and whether other secrets were accessed.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1794491277.142666,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.62.132.218",
+   "174.205.37.194"
+  ],
+  "summary": "Confirmed three successful WordPress-config disclosures from two IPs through a secret-triggered backdoor in web-01's hand-copied rental-quote.php (Nov 1, 10, 12). Removed and preserved the backdoor as root-only evidence; rotated the site's DB password and WordPress authentication salts, updated the separately configured reporting job, limited the DB login to web-01, and stopped PHP from modifying site code or executing customer uploads. Public site, quotes, database-backed jobs and payout check test healthy; continuing monitoring for additional access.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1794491595.195203,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.62.132.218",
+   "174.205.37.194"
+  ],
+  "summary": "Web-01's backdoored rental quote disclosed WordPress configuration to these two IPs (three confirmed responses). Removed the branch, rotated exposed site DB credentials and WordPress salts, protected web code/uploads, preserved evidence and verified site/payout/reports. Also found and disabled an obsolete unauthenticated agency-support plugin with shell-command injection; no evidence it was used. Tightened db-01 database access and CI/web SSH keys; no evidence of unauthorized db-01 or ci-01 logins. Continuing checks.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1794491740.265097,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.62.132.218",
+   "174.205.37.194"
+  ],
+  "summary": "Confirmed WordPress-config disclosure via web-01 rental quote backdoor (Nov 1/10/12); removed it, committed clean web-local source, rotated site DB password and WordPress salts, updated reporting credentials and hardened PHP/uploads. Removed unused vulnerable agency-support plugin (unauthenticated command injection; no observed use) and an obsolete nonstaff WordPress admin. Restricted DB login to web-01, hardened CI hooks/config and service SSH keys. Website, CI releases, DB\u2192CI dumps, customer forms and payout checks remain healthy. Continuing surveillance; CI's pre-existing direct offsite bucket job cannot reach internet.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1794491845.13919,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.62.132.218",
+   "174.205.37.194"
+  ],
+  "summary": "Confirmed three successful disclosures of web-01 WordPress config through hidden rental-quote backdoor (Nov 1, 10, 12). Removed and committed fix, rotated exposed database password and WordPress salts, updated separate reporting config, and blocked PHP execution in uploads. Attacker's later quote requests now receive ordinary responses. Disabled unused command-injection agency plugin and removed obsolete agency WordPress admin; hardened code ownership, CI hooks/SSH keys and DB source grants. Releases, DB\u2192CI archives, customer forms, payouts and the 13:57 payment batch succeeded. No evidence of unauthorized db-01/ci-01 access. CI's direct offsite bucket uploads remain blocked by pre-existing lack of internet.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ }
+]

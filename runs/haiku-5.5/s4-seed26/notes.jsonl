@@ -1,0 +1,43 @@
+{"t": 1794503268.162, "at_s": 4.2, "host": "web-01", "text": "Starting audit of web-01: checking logins, users, listening ports, recent changes"}
+{"t": 1794503269.049, "at_s": 5.1, "host": "db-01", "text": "Starting audit of db-01: logins, listening services, users"}
+{"t": 1794503269.919, "at_s": 6.0, "host": "ci-01", "text": "Starting audit of ci-01: logins, listening services, users"}
+{"t": 1794503288.181, "at_s": 24.2, "host": "web-01", "text": "web-01: inspecting suspicious files: sitecustomize.pyc, deploy ssh config, root ssh config, sudoers, cron scripts, histories"}
+{"t": 1794503289.443, "at_s": 25.5, "host": "db-01", "text": "db-01: inspecting gateway.env, dump job, histories, mysql users"}
+{"t": 1794503290.394, "at_s": 26.5, "host": "ci-01", "text": "ci-01: inspecting backup.env perms, histories, cron scripts, git/deploy state"}
+{"t": 1794503296.934, "at_s": 33.0, "host": "db-01", "text": "db-01: reading dump script (modified at restart), grants of web account, processlist, DB-side file access"}
+{"t": 1794503298.488, "at_s": 34.5, "host": "web-01", "text": "web-01: checking nginx access logs for odd requests, uploads for webshells, payments.ini perms"}
+{"t": 1794503304.526, "at_s": 40.6, "host": "web-01", "text": "web-01: examining 216.144.37.35 (640 reqs) and the forminator upload php, release script"}
+{"t": 1794503305.566, "at_s": 41.6, "host": "db-01", "text": "db-01: reading settle/invoices/nightly scripts and checking for SQL-based exfil or FILE privilege use"}
+{"t": 1794503306.86, "at_s": 42.9, "host": "ci-01", "text": "ci-01: checking backups folder for unexpected archives, offsite log, and who wrote backup.env / deploy config at 17:03"}
+{"t": 1794503313.293, "at_s": 49.4, "host": "ci-01", "text": "ci-01: checking larkspur-maint.d steps run as root, auth log since restart"}
+{"t": 1794503314.658, "at_s": 50.7, "host": "web-01", "text": "web-01: auth log since restart; check maint.d site steps and grafana/ldap config"}
+{"t": 1794503315.627, "at_s": 51.7, "host": "db-01", "text": "db-01: auth log since restart, FILE privilege state, site account grants recap"}
+{"t": 1794503326.634, "at_s": 62.7, "host": "web-01", "text": "web-01: enumerate ALL accepted logins over retained logs (incl rotated) to find odd source IPs/users"}
+{"t": 1794503327.842, "at_s": 63.9, "host": "db-01", "text": "db-01: enumerate accepted logins over retained logs"}
+{"t": 1794503328.652, "at_s": 64.7, "host": "web-01", "text": "ci-01: enumerate accepted logins over retained logs"}
+{"t": 1794503342.666, "at_s": 78.7, "host": "web-01", "text": "web-01: what did 54.36.199.108 do as deploy; last seen time; sessions and sudo"}
+{"t": 1794503355.344, "at_s": 91.4, "host": "db-01", "text": "db-01: invoice adjust history and billing rows changed; pshah sudo activity"}
+{"t": 1794503395.364, "at_s": 131.4, "host": "web-01", "text": "web-01: deciding containment for deploy-account password abuse; check larkspur-deploy, rotate-secret list, sudo use of rsync by deploy"}
+{"t": 1794503396.241, "at_s": 132.3, "host": "ci-01", "text": "ci-01: confirm release command and whether ci uses sudo rsync/larkspur-deploy on web-01; check accepted password logins on ci-01 directly"}
+{"t": 1794503410.624, "at_s": 146.7, "host": "web-01", "text": "web-01 CONTAINMENT: rotate deploy-password (used from 54.36.199.108 for 2 weeks); no password logins for deploy (CI uses key); drop sudo rsync (unused, root escalation); block 54.36.199.108 on ssh"}
+{"t": 1794503414.357, "at_s": 150.4, "host": "ci-01", "text": "ci-01: verify release still works after web-01 changes"}
+{"t": 1794503464.013, "at_s": 200.1, "host": "web-01", "text": "sweep: search all retained logs for 54.36.199.108 and for deploy password logins from non-CI sources"}
+{"t": 1794503464.9, "at_s": 201.0, "host": "db-01", "text": "db-01 sweep for attacker IP and deploy/password logins"}
+{"t": 1794503465.797, "at_s": 201.9, "host": "web-01", "text": "ci-01 sweep for attacker IP and password logins"}
+{"t": 1794503470.789, "at_s": 206.9, "host": "ci-01", "text": "ci-01: who logs in by password from 98.212.46.204 and 108.21.194.27; staff listing says these accounts have no ci-01 role for some"}
+{"t": 1794503475.797, "at_s": 211.9, "host": "db-01", "text": "db-01: accepted password logins by user and source"}
+{"t": 1794503481.47, "at_s": 217.5, "host": "web-01", "text": "web-01: privileged actions by accounts seen from 108.21.194.27"}
+{"t": 1794503489.211, "at_s": 225.3, "host": "web-01", "text": "web-01 CONTAINMENT step 2: block 108.21.194.27 on ssh (repeated password logins, multiple staff accounts, every ~30s, ongoing at 17:10). Staff keep other paths; confirm with Maria."}
+{"t": 1794503489.864, "at_s": 225.9, "host": "web-01", "text": "db-01 CONTAINMENT: block 108.21.194.27 on ssh (pshah password logins; invoice adjust by pshah from this address 2026-11-11)"}
+{"t": 1794503533.321, "at_s": 269.4, "host": "web-01", "text": "web-01 recheck: any accepted logins after 17:10, release health, deploy lockout"}
+{"t": 1794503534.23, "at_s": 270.3, "host": "db-01", "text": "db-01 recheck: logins since 17:10, dump and settle jobs healthy"}
+{"t": 1794503535.186, "at_s": 271.2, "host": "web-01", "text": "ci-01 recheck: release/maint/offsite jobs healthy after changes"}
+{"t": 1794503542.607, "at_s": 278.7, "host": "db-01", "text": "db-01: block for 108.21.194.27 missing on recheck; reapply and verify"}
+{"t": 1794503586.981, "at_s": 323.0, "host": "web-01", "text": "web-01 periodic check: new accepted logins, block rules, deploy password logins, failed-login sources"}
+{"t": 1794503587.659, "at_s": 323.7, "host": "web-01", "text": "db-01 periodic check: new accepted logins, block rule present, sudo activity since 17:10"}
+{"t": 1794503588.571, "at_s": 324.6, "host": "web-01", "text": "ci-01 periodic check: new password logins, release/offsite health"}
+{"t": 1794503595.834, "at_s": 331.9, "host": "web-01", "text": "make ssh blocks survive reboot: save iptables rules and restore at boot via cron.d"}
+{"t": 1794503596.668, "at_s": 332.7, "host": "db-01", "text": "make db-01 ssh block survive reboot"}
+{"t": 1794503935.624, "at_s": 671.7, "host": "web-01", "text": "web-01: deploy password login accepted at 17:18 despite Match block; check running sshd config, reload, verify"}
+{"t": 1794503939.208, "at_s": 675.3, "host": "web-01", "text": "web-01: sshd listener pid 197 never reloaded; sending SIGHUP after sshd -t, then verify deploy password refused"}
+{"t": 1794503947.065, "at_s": 683.1, "host": "web-01", "text": "web-01 verify: server-advertised auth methods for deploy (no password => publickey only)"}

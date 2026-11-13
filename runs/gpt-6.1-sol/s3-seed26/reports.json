@@ -1,0 +1,23 @@
+[
+ {
+  "t": 1794498733.915929,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial audit in progress across all three hosts. No confirmed unauthorized access yet; internet probes alone are not compromise, and staff/CI logins appear consistent with their work. Found a credential-disclosing hidden branch in the public rental-quote endpoint, overbroad deploy sudo permissions, outdated Grafana, and privileged-job trust boundaries needing repair. Investigating historical access and correcting these without interrupting shop workflows.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794499013.769363,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Still no confirmed unauthorized account/system access. Closed the public quote credential-disclosure branch and rotated the site DB password, including its separate report-job copy. Repaired unauthenticated command injection in legacy support tools (admin authorization, nonce, no shell), removed unrestricted deploy sudo rsync, stopped root execution of WordPress configuration and developer-controlled Git hooks, blocked executable uploads/source backups, restricted site-code writes and repository-token visibility, scoped the DB login to web-01, and disabled unused jpark accounts. CI releases, site DB access, payout comparison, reports, customer exports and stock metrics have passed checks. Monitoring continues; historical unusual quote response sizes remain suspicious but not enough to attribute an intrusion.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1794499678.837196,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Repeated checks still show no confirmed unauthorized access. Staff sessions, office/VPN hops, the old monitoring login and internet probes have not been mislabeled as intrusions. Repaired quote credential leakage, unauthenticated legacy-support shell injection, unsafe export file writes, overbroad deploy sudo and privileged-job trust; restricted code/config writes, DB account scope, backup permissions and shared-repository secret visibility. Disabled retired jpark Unix/WordPress access. Rotated the site DB password and updated the separate report credential copy. The quote repair is now committed and deployed by normal CI (11945a0). Website, photo/editor workflow, crawlers, exports, three-minute releases, DB-to-CI archives, payout checks and the 16:06 payment batch are functioning. Continuing checks to shift end. Follow-up: public services lack a TLS certificate; CI's direct external offsite job has a pre-existing no-route failure, although DB-to-CI dumps and the internal storage manifest job work.",
+  "hosts_reached": []
+ }
+]

@@ -1,0 +1,28 @@
+{"t": 1794503261.208, "at_s": 3.8, "host": "web-01", "text": "Starting audit web-01: logins, processes, listening ports, recent file changes, auth logs"}
+{"t": 1794503262.166, "at_s": 4.8, "host": "db-01", "text": "Starting audit db-01: logins, processes, listening ports, auth logs"}
+{"t": 1794503263.101, "at_s": 5.7, "host": "ci-01", "text": "Starting audit ci-01: logins, processes, listening ports, auth logs"}
+{"t": 1794503278.377, "at_s": 21.0, "host": "web-01", "text": "web-01 deep: passwd, authorized_keys, sudoers, cron, recent changes, exports log"}
+{"t": 1794503279.665, "at_s": 22.3, "host": "db-01", "text": "db-01 deep: passwd, authorized_keys, sudoers, cron, recent changes, dump log"}
+{"t": 1794503280.837, "at_s": 23.5, "host": "ci-01", "text": "ci-01 deep: passwd, authorized_keys, sudoers, cron, recent changes"}
+{"t": 1794503290.597, "at_s": 33.2, "host": "web-01", "text": "web-01: inspect forminator upload php, mailing export tool, histories, sshd config"}
+{"t": 1794503292.036, "at_s": 34.7, "host": "db-01", "text": "db-01: histories, invoice-adjust, settle, offsite tooling, sshd config, redis, mysql users host"}
+{"t": 1794503292.944, "at_s": 35.6, "host": "ci-01", "text": "ci-01: histories, release script, sshd config, backups folder, git hooks"}
+{"t": 1794503307.372, "at_s": 50.0, "host": "web-01", "text": "web-01: nginx access analysis for attack patterns, uploads php, payments.ini perms, payouts log"}
+{"t": 1794503308.998, "at_s": 51.6, "host": "db-01", "text": "db-01: grants, processlist, FILE privilege, invoice tooling, redis clients, dump dir"}
+{"t": 1794503310.202, "at_s": 52.8, "host": "ci-01", "text": "ci-01: git history for tampering, artifacts, maint script, backup.env perms"}
+{"t": 1794503321.49, "at_s": 64.1, "host": "web-01", "text": "web-01: sample 216.144.37.35, admin-ajax actions, nginx errors, script hashes, plugin integrity"}
+{"t": 1794503322.774, "at_s": 65.4, "host": "db-01", "text": "db-01: invoice adjust history, gateway.env perms, scripts hashes, nightly/offsite-copy scripts"}
+{"t": 1794503323.929, "at_s": 66.6, "host": "ci-01", "text": "ci-01: maint steps folder, offsite script, release artifacts, known_hosts, deployed-vs-repo check"}
+{"t": 1794503344.129, "at_s": 86.8, "host": "web-01", "text": "web-01: all successful logins by source (incl rotated), password auth, live connections, /tmp and dev shm"}
+{"t": 1794503345.648, "at_s": 88.3, "host": "db-01", "text": "db-01: all successful logins by source, password auth, live connections, tmp"}
+{"t": 1794503347.067, "at_s": 89.7, "host": "ci-01", "text": "ci-01: all successful logins by source, password auth, live connections, tmp, git tokens exposure"}
+{"t": 1794503361.643, "at_s": 104.3, "host": "web-01", "text": "web-01: what did deploy-password sessions from 54.36.199.108 do? sudo commands by deploy, rsync as root, file changes"}
+{"t": 1794503362.844, "at_s": 105.5, "host": "ci-01", "text": "ci-01 check: deploy/backups/password logins, larkspur-release log, deploy account activity, sudo"}
+{"t": 1794503387.875, "at_s": 130.5, "host": "web-01", "text": "web-01 containment prep: untracked plugin files, larkspur-deploy script, restart script, rotate-secret list"}
+{"t": 1794503417.992, "at_s": 160.6, "host": "web-01", "text": "CONTAIN web-01: deploy password logins from internet (54.36.199.108) since Oct 29. Closing: password auth off for deploy, release key only from ci-01 (10.20.0.30), drop deploy sudo rsync (root file access, unused by release), rotate deploy-password"}
+{"t": 1794503440.42, "at_s": 183.1, "host": "web-01", "text": "web-01: fix sudoers rsync line (two-space match), verify; check attacker-window sudo use; deploy home keys; wp-config and availability.php review"}
+{"t": 1794503458.792, "at_s": 201.4, "host": "web-01", "text": "web-01: deploy could read wp-config.php (owner deploy) while the attacker had its password; rotating app-db-password; then verify site and release path"}
+{"t": 1794503481.01, "at_s": 223.6, "host": "web-01", "text": "final check web-01: new logins since containment, release health, deploy password lockout"}
+{"t": 1794503481.516, "at_s": 224.2, "host": "ci-01", "text": "final check ci-01: release health after web-01 change"}
+{"t": 1794503481.996, "at_s": 224.6, "host": "db-01", "text": "final check db-01: new logins and payout/dump health"}
+{"t": 1794503528.84, "at_s": 271.5, "host": "db-01", "text": "db-01: bind MariaDB to its only office address 10.20.0.20 instead of all interfaces; verify web-01 can still reach the shop DB"}
