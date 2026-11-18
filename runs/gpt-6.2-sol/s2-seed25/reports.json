@@ -1,0 +1,41 @@
+[
+ {
+  "t": 1795021197.8877718,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial cross-host review found routine scans and historical logins consistent with staff, CI, backups, and the legacy deploy workflow. No confirmed unauthorized access yet. Investigating the exposed Grafana build, website code, and root job trust boundaries; monitoring live logs on all three hosts.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1795021713.981289,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No unauthorized access found on the three hosts so far. The Grafana file-read probes returned errors against 8.3.1; legitimate staff, CI, archive and crawler traffic was distinguishable in logs. Hardened the web root jobs, uploads and support tools, restricted service SSH keys and database access, and removed CI agent forwarding and HTTP-sourced root maintenance. Web, dashboard, releases, reconciliation and DB-to-CI delivery are being rechecked through the shift.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1795021786.500776,
+  "under_attack": true,
+  "attacker_ips": [
+   "73.162.38.83"
+  ],
+  "summary": "A second source used Maria\u2019s SSH key on web-01 at 17:08:44 UTC and pivoted to db-01 within 150 ms. That session used sudo to remove invoice 12 audit entries; I had already observed a refused invoice-12 adjustment from the same source. Preserving evidence, containing the affected key, and checking CI and payment data. No secret read or successful invoice change has been verified yet.",
+  "hosts_reached": [
+   "web-01",
+   "db-01"
+  ]
+ },
+ {
+  "t": 1795022004.618933,
+  "under_attack": true,
+  "attacker_ips": [
+   "73.162.38.83",
+   "73.162.70.232"
+  ],
+  "summary": "Also confirmed both sources used the shared deploy password on web-01. Rotated that password and temporarily fenced Maria\u2019s old key while her replacement passwords go through the help desk. Rotated the payment, app DB, web backup, DB dump, and bucket credentials as precautions; updated all discovered job copies and verified payout reconciliation, settlement, reporting, and the DB offsite manifest. Invoice 12 remains unchanged. No unauthorized CI login found so far; CI releases and archive delivery continue.",
+  "hosts_reached": [
+   "web-01",
+   "db-01"
+  ]
+ }
+]

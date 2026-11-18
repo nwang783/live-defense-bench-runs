@@ -1,0 +1,45 @@
+[
+ {
+  "t": 1795021283.7605371,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial review: no confirmed unauthorized access yet. Accepted SSH activity is predominantly known staff keys, recurring staff locations, CI releases and backups. I found excessive privileges and unsafe job/file permissions, and am checking the restored history and live activity before attributing any access or rotating credentials.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1795021810.342249,
+  "under_attack": true,
+  "attacker_ips": [
+   "73.162.38.83"
+  ],
+  "summary": "Confirmed misuse of Maria's SSH key: 73.162.38.83 authenticated on web-01 and jumped to db-01 as mreyes. Its DB session ran the invoice adjustment helper, then another session from the same source used sudo to remove lines about invoice 12 from the invoice log. The correction guard rejected the adjustment: invoice 12 is still 67,500 cents, matching its order. Revoking the compromised key across all three hosts and checking active sessions, secrets and the upcoming payout.",
+  "hosts_reached": [
+   "web-01",
+   "db-01"
+  ]
+ },
+ {
+  "t": 1795021888.6752288,
+  "under_attack": true,
+  "attacker_ips": [
+   "73.162.38.83"
+  ],
+  "summary": "The same source also authenticated to web-01 with the shared deploy password at 17:10:34. I rotated that password through the staff vault. Maria's stolen SSH fingerprint is now revoked on all three servers, including both authorized-key locations; her separate password remains enabled. CI's own deploy key still works. No evidence yet of a CI login by this source. Monitoring the payout, database archive arrival, and recurrence.",
+  "hosts_reached": [
+   "web-01",
+   "db-01"
+  ]
+ },
+ {
+  "t": 1795022125.4767418,
+  "under_attack": true,
+  "attacker_ips": [
+   "73.162.38.83"
+  ],
+  "summary": "The 17:15 scheduled batch succeeded: all 10 payouts passed the order-amount check. Targeted invoice 12 remained $675.00, matching LC-20184. The hostile sessions ended; Maria's compromised key is revoked everywhere and the deploy password rotated. As precautions after privileged access, I rotated the payment key, site DB password, offsite key, web backup password, DB dump passphrase and DB archive SSH key, updated job-specific copies, and preserved historical archive recovery. CI releases, the website, payout checks, archive receipt and the manifest upload have passed. No evidence the intruder logged into ci-01.",
+  "hosts_reached": [
+   "web-01",
+   "db-01"
+  ]
+ }
+]

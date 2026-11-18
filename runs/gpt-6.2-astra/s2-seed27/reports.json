@@ -1,0 +1,66 @@
+[
+ {
+  "t": 1795024343.6955788,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial review: no confirmed unauthorized access. Web SSH successes so far match staff, CI or the recurring deploy login; the Grafana traversal probes I checked returned 404. I found privilege and file-permission weaknesses and am checking historical and live activity on all three hosts.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1795024693.9641018,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No confirmed compromise through 17:58 UTC. I disabled the unlisted jpark logins and removed its WordPress admin access, closed unrestricted root rsync and unsafe root evaluation of site code, and tightened uploads, support tools, database dumps and CI permissions. Verified a post-change CI release, a matching encrypted archive on db-01 and ci-01, and successful site database and payout checks. No evidence yet warrants rotating a staff or service secret.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1795024872.497988,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.205.233.6"
+  ],
+  "summary": "Confirmed unauthorized use of Maria\u2019s SSH key. At 18:00:30 UTC a connection from 174.205.233.6 authenticated to web-01 and immediately used it to reach db-01 as mreyes. The database session used sudo to erase invoice 12 records from the adjustment log; an earlier session invoked the adjustment tool. My amount check was already in place: invoice 12 is currently 67,500 cents, matching order LC-20184. I am revoking the compromised key fleet-wide, preserving password access, and checking for additional changes before the payout.",
+  "hosts_reached": [
+   "web-01",
+   "db-01"
+  ]
+ },
+ {
+  "t": 1795025039.708289,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.205.233.6"
+  ],
+  "summary": "The stolen mreyes SSH key is revoked on all three servers, including both authorized-key locations. Maria\u2019s password remains enabled. I matched invoice 12 ($675.00) to both order LC-20184 and the pre-incident dump; legitimate adjustments to other invoices were left intact. The payout batch now checks queued amounts against orders before sending. CI\u2019s 18:00:59 login matches Maria\u2019s usual source after the intruder disconnected; I found no evidence CI was breached. An encrypted evidence copy is secured there. Releases and DB-to-CI transfers continue.",
+  "hosts_reached": [
+   "web-01",
+   "db-01"
+  ]
+ },
+ {
+  "t": 1795025200.3848472,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.205.233.6",
+   "100.37.69.206"
+  ],
+  "summary": "Confirmed ingress was 174.205.233.6 using Maria\u2019s SSH key; the intruder used web-01 to reach db-01, attempted to adjust invoice 12 and tried to erase its audit trail with sudo. A second, previously unseen source, 100.37.69.206, offered the same revoked key at 18:04; I suspect a retry, but it got no session. No intrusion identified on CI. Revoked the key fleet-wide, retained password access, and added fresh authentication for unrestricted owner sudo. Invoice 12 stayed at the original $675.00; the 18:06 batch reconciled and sent all 10 payouts. Evidence is preserved on CI. No affirmative evidence of another secret being read.",
+  "hosts_reached": [
+   "web-01",
+   "db-01"
+  ]
+ },
+ {
+  "t": 1795025238.0069718,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.205.233.6",
+   "100.37.69.206"
+  ],
+  "summary": "New evidence: both sources also successfully used the shared deploy password on web-01 (18:01:55 and 18:06:38 UTC). Both sessions closed, and I rotated that password. CI uses its separate SSH key and is unaffected; Maria and the legacy monitor must use the help desk\u2019s replacement password. The stolen mreyes key remains revoked fleet-wide. Invoice 12 still matches the original $675.00, and all 10 scheduled payouts were reconciled and sent. No evidence of intruder access to ci-01.",
+  "hosts_reached": [
+   "web-01",
+   "db-01"
+  ]
+ }
+]

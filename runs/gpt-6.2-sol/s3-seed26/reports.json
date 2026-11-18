@@ -1,0 +1,32 @@
+[
+ {
+  "t": 1795022766.035553,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial review of all three hosts has not established unauthorized access. The Grafana traversal requests seen so far returned 404. Historical deploy password logins from 54.36.199.108 are regular, short command sessions consistent with the documented legacy monitoring workflow; attribution is provisional. Continuing live log correlation and remediation.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1795022929.2052228,
+  "under_attack": true,
+  "attacker_ips": [
+   "172.56.216.189"
+  ],
+  "summary": "New evidence: web-01's rental-quote PHP endpoint contained an unauthenticated database-credential disclosure branch. A 17:26:45 UTC POST from 172.56.216.189 returned the unusually large response consistent with that branch. Preserved and patched the endpoint, verified normal quotes, and am rotating the WordPress DB credential and tracing any subsequent use. A restored historical POST is still being correlated.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1795023403.347541,
+  "under_attack": true,
+  "attacker_ips": [
+   "172.56.216.189",
+   "70.120.249.96"
+  ],
+  "summary": "Confirmed that the rental-quote credential disclosure produces exactly the observed 247 logged bytes, including HTTP chunk framing. It was accessed from 172.56.216.189 today at 17:26:45 UTC and 70.120.249.96 in restored logs on Nov 5. Removed the branch; repeat requests returned only normal quotes. Rotated the WordPress DB password, updated the report copy, restricted the DB account to web-01, and enabled connection auditing. No evidence yet of unauthorized access to db-01 or ci-01. Website, payouts, and releases are working; the 17:30 database dump arrived on ci-01. Other fixes include SSH/sudo restrictions, upload hardening, and Grafana traversal filtering; the signed mirror offers no patched Grafana build.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ }
+]

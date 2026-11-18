@@ -1,0 +1,16 @@
+[
+ {
+  "t": 1795021270.180913,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial review: successful SSH logins so far are consistent with staff and scheduled jobs. I have not identified an unauthorized session. I found weaknesses including unrestricted root rsync for deploy and readable database dumps; investigation and hardening are in progress.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1795021825.6579998,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No unauthorized access established so far. I disabled the unlisted jpark logins/admin access, removed root rsync and privileged WordPress execution, and restricted uploads, exports, CI and backup keys, database grants and archive permissions. The 17:09 release and 17:10 encrypted dump succeeded; the website and payout reconciliation passed. Old logs already showed failures reaching external offsite storage; this is separate from the working db-01 \u2192 ci-01 transfer.",
+  "hosts_reached": []
+ }
+]

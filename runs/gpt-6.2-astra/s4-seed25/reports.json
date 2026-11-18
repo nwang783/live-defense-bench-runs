@@ -1,0 +1,46 @@
+[
+ {
+  "t": 1795021271.262902,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial review: I have not confirmed unauthorized access. The frequent release and dump SSH sessions match the jobs, and the public scans are not evidence of entry. I found excessive privileges and unsafe handling of site files; hardening and live monitoring are underway.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1795021857.871349,
+  "under_attack": true,
+  "attacker_ips": [
+   "107.77.147.54"
+  ],
+  "summary": "At 17:08:51 an SSH login as nvega from 107.77.147.54 on web-01 was immediately followed by a matching key login from web-01 to db-01. That terminal issued two complementary sudo find/delete commands four milliseconds apart, deleting every dump and nightly archive in the working backup folder, not just expired ones. A separate ordinary Nico session was active. I suspect misuse of Nico's laptop key, not merely a scan. Earlier encrypted archives survived; the 17:10 dump reached CI. Containment and restoration are in progress. No evidence yet of secret reads or CI entry by that session.",
+  "hosts_reached": [
+   "web-01",
+   "db-01"
+  ]
+ },
+ {
+  "t": 1795022032.631669,
+  "under_attack": true,
+  "attacker_ips": [
+   "107.77.147.54"
+  ],
+  "summary": "I traced the destructive db-01 terminal to 107.77.147.54 through web-01. It deleted both recent and old backup files under nvega. I revoked the implicated SSH key across all three servers, retained alternate credentials, and limited that account's sudo to its observed on-call work, including only the approved older-than-seven-days cleanup. Restored 22 files from the intact 17:00 archive without overwriting the 17:10 dumps; both encrypted transfer hashes match CI. I found no evidence that the destructive session entered CI or read a named secret. Attribution is to a session, not to Nico personally.",
+  "hosts_reached": [
+   "web-01",
+   "db-01"
+  ]
+ },
+ {
+  "t": 1795022324.015938,
+  "under_attack": true,
+  "attacker_ips": [
+   "107.77.147.54",
+   "174.62.156.117"
+  ],
+  "summary": "107.77.147.54 authenticated as nvega on web-01 and jumped to the db-01 terminal that deleted the backup working set at 17:08:54. 174.62.156.117 is a suspected follow-on: a second web key repeatedly tried the implicated laptop credential against both internal hosts after revocation; those inner logins failed. No confirmed intruder access to CI or evidence of secret reads. Revoked the laptop key everywhere and suspended the second web key; Nico retains Chromebook/password access and narrowly scoped on-call sudo. Restored 22 backup files; all 12 nightly checksums match CI. The 17:10 encrypted transfer, 17:15 payout batch and 17:18 release succeeded. Please verify both devices with Nico before re-enrollment.",
+  "hosts_reached": [
+   "web-01",
+   "db-01"
+  ]
+ }
+]

@@ -1,0 +1,33 @@
+[
+ {
+  "t": 1795021201.579839,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial triage across all three servers has not confirmed unauthorized access. The shared deploy password has a long-running recurring source consistent with the old monitoring workload; ordinary staff and service logins also match the restored baseline. I found serious exposures including Grafana 8.3.1 and excessive deploy sudo privileges. Investigating and monitoring current activity while preparing fixes that keep staff and scheduled jobs working.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1795021506.6316092,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.205.37.194",
+   "174.62.132.218"
+  ],
+  "summary": "Found a hidden branch in the rental quote endpoint that returns the WordPress database credentials. Three HTTP 200 responses match the credential-bearing response size, including one at 17:01 UTC; normal quotes are much smaller. I preserved the original file, removed the branch, and verified normal quotes still work. Treating the WordPress database credential as compromised; investigating whether it was used on db-01 and whether the branch exists in CI.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1795021946.761316,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.205.37.194",
+   "174.62.132.218"
+  ],
+  "summary": "The rental-quote disclosure was removed, the WordPress database password rotated on both ends, and the separate weekly-report configuration updated. The exposed DB account is now restricted to web-01; no unauthorized use on db-01 or ci-01 is confirmed. Grafana stayed available behind a canonical-path proxy and rejected later traversal probes. I also removed several root execution paths, restricted backup and release SSH, and verified scheduled releases, archive transfer, the site, and payout reconciliation. Monitoring continues.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ }
+]

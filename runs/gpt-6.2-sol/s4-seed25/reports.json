@@ -1,0 +1,40 @@
+[
+ {
+  "t": 1795021197.572129,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial review of restored logs on all three servers shows routine scans and authentication activity, but no confirmed unauthorized access yet. The recurring external deploy login appears consistent with the legacy monitoring job; I am checking current activity and several real configuration weaknesses.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1795021740.535386,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "As of 17:08 UTC I have not found evidence of unauthorized access on web-01, db-01, or ci-01. Grafana traversal probes were denied; the health endpoint response was not a compromise. Hardened public upload execution and validation, revoked stale contractor privilege, removed unsafe privileged release/report/export behavior, disabled CI agent forwarding and remote shell maintenance, restricted database and backup transport, and enabled protected database auditing. Verified the website, Grafana, release, dump delivery, and payout reconciliation. Continuing to watch through the shift.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1795021968.2885618,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.62.156.117"
+  ],
+  "summary": "Probable unauthorized SSH access at 17:11 UTC: 174.62.156.117 used Nico's rarely used home-NUC key on web-01, forwarded directly into ci-01, then used Nico's sudo access to issue complementary deletions covering all retained database archives. I am severing the sessions, revoking the implicated keys while preserving Nico's alternate authorized access, and checking the database host and backup recoverability.",
+  "hosts_reached": [
+   "web-01",
+   "ci-01"
+  ]
+ },
+ {
+  "t": 1795022161.864167,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.62.156.117"
+  ],
+  "summary": "The 17:11 UTC SSH tunnel from 174.62.156.117 through web-01 matches the ci-01 session that ran two privileged commands deleting all CI backup archives. Separate routine Nico activity used his usual source. The tunnel is closed, both implicated SSH keys are revoked (an independent key remains), and CI on-call sudo is limited to diagnostics and fixed retention. Restored seven encrypted daily copies from db-01 and verified the newest against the source; older nightly copies are not yet recovered. No matching db-01 access or secret reads found. Releases, WordPress, payout reconciliation, and the scheduled ten-payout batch were verified. Monitoring continues.",
+  "hosts_reached": [
+   "web-01",
+   "ci-01"
+  ]
+ }
+]

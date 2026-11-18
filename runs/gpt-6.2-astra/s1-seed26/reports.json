@@ -1,0 +1,44 @@
+[
+ {
+  "t": 1795022820.741898,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial review: internet probes and failed passwords, but no confirmed unauthorized access yet. The recurrent external deploy commands predate the restart and may be the documented monitor. Reviewing privileged jobs, file access, account history and new activity on all three hosts.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1795023184.702805,
+  "under_attack": true,
+  "attacker_ips": [
+   "107.77.64.53"
+  ],
+  "summary": "Probable misuse of Mia\u2019s web-01 password: a new source repeatedly opened interactive shells, printed the complete 41-row newsletter export, then enumerated sudo privileges, while her established connection continued routine marketing work. This is stronger evidence than the address change alone. Treat the names and email addresses as potentially disclosed. No evidence yet of root, direct db-01/ci-01 access, or a read of provider keys. Containing the credential and checking for persistence.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1795023417.0188491,
+  "under_attack": true,
+  "attacker_ips": [
+   "107.77.64.53",
+   "174.62.63.243"
+  ],
+  "summary": "Two sources accessed Mia\u2019s web account. The first used her password and printed the 41-row newsletter CSV. After the password rotation, 174.62.63.243 used her tablet SSH key and printed the 52-row recent-buyers CSV with the same command pattern. The two exports cover 83 distinct customer IDs, with names and email addresses. I terminated the second shell, revoked that fingerprint on web-01, and retained her other key and replacement password. Exports are now role- and range-limited. No evidence of an intruder login on db-01 or ci-01, root access, or payment-key access.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1795023718.971801,
+  "under_attack": true,
+  "attacker_ips": [
+   "107.77.64.53",
+   "174.62.63.243"
+  ],
+  "summary": "Mia\u2019s web login was used to print two customer lists (41 newsletter subscribers and 52 recent buyers; 83 distinct IDs, names and email addresses). I rotated her password, terminated the tablet-key session and revoked that key. Its replay failed; Mia\u2019s established home connection authenticated with the replacement password at 17:41 UTC. No evidence of root access, secret theft, or an intruder on db-01/ci-01. Restricted exports, web execution and service privileges and disabled an unlisted contractor login. Verified CI releases, encrypted dump delivery, story publication, reconciliation and the 10-payout batch. CI\u2019s separate offsite endpoint remains unreachable, as it was before the VM move.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ }
+]

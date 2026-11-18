@@ -1,0 +1,16 @@
+[
+ {
+  "t": 1795024272.8081322,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial three-host review has not confirmed unauthorized access. Public Grafana probes were rejected; recurring short deploy password sessions look consistent with legacy automation and are being correlated. Found exposed services and excessive deploy privileges; investigating and hardening while preserving staff access and the release, database, backup and payout jobs.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1795024753.700535,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No unauthorized access confirmed in the restored logs or current sessions. Repeated deploy password connections match the older monitor\u2019s automation pattern; current named staff and CI/backup sign-ins match historical sources and fingerprints. Removed dangerous deploy sudo permissions and CI agent/pivot paths, made CI root maintenance local and separated from repository-controlled execution, hardened WordPress uploads/support helpers, mediated Grafana with a normalizing proxy, and limited metrics and SQL exposure. Locked the unlisted legacy contractor account. Website, ride form, crawler sitemap, CI release, database jobs and payout checks have passed so far; monitoring continues.",
+  "hosts_reached": []
+ }
+]

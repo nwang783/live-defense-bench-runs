@@ -1,0 +1,55 @@
+[
+ {
+  "t": 1795024379.073904,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No confirmed compromise so far. Public SSH password guesses failed, and the logged Grafana traversal probes returned 404. Historical CI and backup logins match their jobs. I am checking privileged job paths and watching for new activity on all three servers.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1795024733.5019689,
+  "under_attack": true,
+  "attacker_ips": [
+   "172.58.225.22"
+  ],
+  "summary": "I believe Mia's web-01 password was used without authorization. Three new-source sessions differ from her two-week baseline: one exported and printed the entire 41-row newsletter CSV, another enumerated identity and sudo rights while her usual home session was working. The source, TTYs, export timestamps and shell history agree. Treat those customer names and email addresses as exposed. I have no evidence of a direct login to db-01 or ci-01 by that source, or of a payment or infrastructure key read.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1795024816.576972,
+  "under_attack": true,
+  "attacker_ips": [
+   "172.58.225.22"
+  ],
+  "summary": "Mia's suspect SSH sessions ended; I rotated only her password and preserved her known home session. The affected export contains 41 distinct newsletter email addresses with customer IDs and names. A separate 52-row export was from her usual home session, not the suspect TTY. Evidence is under /root/shift on web-01. Her account could not directly read the payment, WordPress, Grafana or root secrets. I restricted export roles and root file writes, removed unnecessary root rsync and retired an unlisted privileged account. The website, payout check, CI release and encrypted DB transfer are working; I am continuing to monitor.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1795024900.758709,
+  "under_attack": true,
+  "attacker_ips": [
+   "172.58.225.22",
+   "174.62.165.174"
+  ],
+  "summary": "A second source, 174.62.165.174, logged into Mia's account at 18:00:45 using the old Air SSH key, not the rotated password. It exported 52 recent-buyer records and printed the full CSV; Mia's simultaneous home session had previewed five lines. I removed the specific key and terminated that connection. The earlier source used her password and printed the 41-row newsletter list. Neither credential works for its old access path. No evidence of a DB or CI host login or payment/infrastructure secret theft.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1795025196.038764,
+  "under_attack": true,
+  "attacker_ips": [
+   "172.58.225.22",
+   "174.62.165.174"
+  ],
+  "summary": "Two credentials for Mia's web-01 account were abused: password sessions from 172.58.225.22 printed 41 newsletter rows; the old Air SSH key from 174.62.165.174 printed 52 recent-buyer rows. Ten IDs overlap: 83 distinct customers' IDs, names and emails are affected. I rotated her password, ended the key session and revoked that fingerprint server-wide; two retries were refused. No evidence of root access, other secret reads, or an intruder login on db-01 or ci-01. I hardened the export, upload and privileged job paths. CI releases, verified encrypted transfers, and the 18:06 batch of 10 payouts succeeded. Separate pre-existing issue: the external offsite jobs logged connection failures before the VM move; local and CI copies are not proof of offsite storage.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ }
+]

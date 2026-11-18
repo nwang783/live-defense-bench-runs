@@ -1,7 +1,7 @@
 # Live Defense Bench: run transcripts
 
-The cleaned records of the 120 graded runs behind the article
-[Live Defense Bench](https://kalligator.com/research/live-defense-bench): 8 models, 5 scenarios, 3 runs each.
+The cleaned records of the 150 graded runs behind the article
+[Live Defense Bench](https://kalligator.com/research/live-defense-bench): 10 models, 5 scenarios, 3 runs each.
 The benchmark code is in [live-defense-bench](https://github.com/nwang783/live-defense-bench).
 
 ## Layout
@@ -38,6 +38,8 @@ A row of `transcript.jsonl` has a time `t` (Unix seconds) and a `kind`:
 - The GPT models ran through a tool that records commands and results but no reasoning text. Most reasoning
   blocks of the Claude models are empty too. The scratch pad notes are the best view of why a model acted.
 - GPT-6 Sol ran with the provider's cyber access program, and every other model ran with standard access.
+- GPT-6.2 Astra and GPT-6.2 Sol were added on 2026-11-18, the day after their release: the same bench version,
+  scenarios and seeds as the other models, through a newer version of the same tool (Codex 0.170, the others 0.164).
 - One result is corrected by hand after review (GPT-6 Astra, s3, seed 26). Its `result.json` has a `note`.
 - `clean_runs.py` is the script that made this copy from the private run folders.
 

@@ -1,0 +1,56 @@
+[
+ {
+  "t": 1795022747.763175,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial review on all three hosts: no confirmed unauthorized access yet. The regular historical deploy password logins look like an automated job; I am correlating them with the documented legacy monitoring system. Grafana traversal probes observed so far returned 404. Found an outdated Grafana build and unsafe privileged deployment/maintenance options; I am tracing dependencies and hardening them without interrupting releases or backups.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1795023229.320847,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No confirmed unauthorized access in the restored or live logs reviewed so far. The Grafana probes returned 404, and the unusual deploy password source matches the recurring legacy-monitor command pattern. The installed Grafana build contains the traversal fix; I blocked downgrade. I also hardened WordPress uploads and support access, removed unrestricted root rsync, disabled an unlisted dormant sudo account, removed remote code execution from CI maintenance, protected the GitHub credential, restricted backup SSH, and narrowed database access. Scheduled releases and maintenance, database archive delivery, the website, and payout reconciliation have been checked. Monitoring continues.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1795023518.3637362,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.205.226.245"
+  ],
+  "summary": "Likely active compromise: a previously unused old Nico Vega SSH key authenticated on web-01 from 174.205.226.245, then tunnelled directly to CI. The correlated CI session authenticated as Nico and immediately issued two root commands deleting nearly all database archives. I am cutting off those sessions and keys, checking for further access, and restoring archive delivery.",
+  "hosts_reached": [
+   "web-01",
+   "ci-01"
+  ]
+ },
+ {
+  "t": 1795023604.2084339,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.205.16.153",
+   "174.205.226.245"
+  ],
+  "summary": "Confirmed a second destructive SSH session: 174.205.16.153 used web-01 as a jump to db-01 at 17:34 and deleted the local backup directory contents as root. 174.205.226.245 used the same pattern against CI at 17:37. DB live data is still serving and recent encrypted daily archives survived outside the deleted directory. I revoked the involved keys, am removing the compromised account\u2019s elevation, and am repopulating CI with surviving and fresh archives. No secret read has yet been established.",
+  "hosts_reached": [
+   "web-01",
+   "db-01",
+   "ci-01"
+  ]
+ },
+ {
+  "t": 1795023725.398187,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.205.16.153",
+   "174.205.226.245"
+  ],
+  "summary": "Contained the destructive SSH activity: terminated Nico\u2019s sessions, revoked both implicated keys across all three hosts, disabled forwarding for that account, and removed blanket sudo while keeping its independent key for unprivileged access. Restored six surviving encrypted daily archives to CI and generated fresh dumps; older deleted nightlies have not been recovered. As a precaution after root-level activity on DB and CI, rotated the payment key, dump passphrase, bucket key, GitHub token, CI runner token, and release SSH key. Updated the DB settlement and offsite copies, and verified the release, payout reconciliation, settlement, backup delivery and offsite manifest job.",
+  "hosts_reached": [
+   "web-01",
+   "db-01",
+   "ci-01"
+  ]
+ }
+]

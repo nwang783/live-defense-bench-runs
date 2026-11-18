@@ -1,0 +1,84 @@
+[
+ {
+  "t": 1795022815.611914,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial review: no confirmed unauthorized access yet. Grafana traversal probes returned 404; successful SSH sessions include CI, staff and a recurring deploy-password client. I am checking for persistence, application/data misuse and unsafe privileges on all three hosts.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1795023219.066257,
+  "under_attack": true,
+  "attacker_ips": [
+   "100.37.58.130"
+  ],
+  "summary": "I believe Maria\u2019s SSH key was copied. An unfamiliar client authenticated to web-01 and used the same SSH connection to reach db-01 as mreyes. While Maria was active from her usual address, the forwarded shell tried to raise already-paid invoice 12 from its recorded 67,500 cents to 71,500 before today\u2019s payout. The order-total check I added rejected it. Priya\u2019s separate correction to invoice 11 matched its order and succeeded. I am revoking the implicated key and closing its sessions; no CI access from that client established.",
+  "hosts_reached": [
+   "web-01",
+   "db-01"
+  ]
+ },
+ {
+  "t": 1795023280.4521961,
+  "under_attack": true,
+  "attacker_ips": [
+   "100.37.58.130"
+  ],
+  "summary": "The suspect sessions ended. I revoked the MacBook key in sshd on all three servers and removed both the per-user and central authorizations. At 17:34 web-01 rejected the same key from 100.37.58.130. Maria\u2019s other key, password and unrelated live session were left intact. Invoice 12 still matches order LC-20184 at 67,500 cents. No evidence yet that a payment, backup or deployment secret was read; CI releases, dumps and payout reconciliation are healthy.",
+  "hosts_reached": [
+   "web-01",
+   "db-01"
+  ]
+ },
+ {
+  "t": 1795023401.545239,
+  "under_attack": true,
+  "attacker_ips": [
+   "100.37.58.130"
+  ],
+  "summary": "At 17:36:10 the same source authenticated to web-01 again, this time with the shared deploy password. The command session ended immediately. I rotated that password; the help desk will supply the replacement to Maria and the monitoring box in about eight minutes. CI uses its separate key. The stolen Maria key remains globally revoked; the attempted increase to invoice 12 was rejected. Checking the deploy account and its accessible credentials for follow-on activity.",
+  "hosts_reached": [
+   "web-01",
+   "db-01"
+  ]
+ },
+ {
+  "t": 1795023579.1947641,
+  "under_attack": true,
+  "attacker_ips": [
+   "100.37.58.130",
+   "100.37.47.141"
+  ],
+  "summary": "Confirmed intruder source: 100.37.58.130 (mreyes on web and db, then deploy on web). Suspected second source: 100.37.47.141 offered the same revoked key at 17:38; no successful login seen from it. The shared deploy password was rotated. As a precaution I also rotated the site DB password accessible to deploy, synchronized the report job\u2019s separate copy, and verified the site, reporting, payouts and CI release. Invoice 12 remains 67,500 cents; the batch now checks each invoice against its order before sending.",
+  "hosts_reached": [
+   "web-01",
+   "db-01"
+  ]
+ },
+ {
+  "t": 1795023677.7948601,
+  "under_attack": true,
+  "attacker_ips": [
+   "100.37.58.130",
+   "100.37.47.141"
+  ],
+  "summary": "100.37.58.130 used Maria\u2019s SSH key on web-01 and through it on db-01, and later the shared deploy password on web. 100.37.47.141 is a suspected retry source only. I revoked the key across all three hosts, rotated deploy and the potentially exposed site DB password, and corrected its report-job copy. Order validation blocked the $40 increase on paid invoice 12; at 17:40 the batch sent all 10 verified payouts. The 17:40 encrypted DB archive on CI matches db-01 by SHA-256; no intrusion found on CI. Maria should use her unaffected alternative credential and enroll a new key from a trusted device. External offsite jobs already logged routing failures before the incident.",
+  "hosts_reached": [
+   "web-01",
+   "db-01"
+  ]
+ },
+ {
+  "t": 1795023832.424129,
+  "under_attack": true,
+  "attacker_ips": [
+   "100.37.58.130",
+   "100.37.47.141"
+  ],
+  "summary": "100.37.58.130 used Maria\u2019s SSH key to reach web-01 and db-01 and the shared deploy password on web-01. Likely retry source 100.37.47.141 tried both credentials after containment; neither worked. No CI compromise found. Revoked the key globally, rotated deploy and the site DB password, updated its job copy, and restricted root jobs, uploads, exports and backup transfers. Invoice 12 stayed at $675: the attempted $715 change failed the order check, and the scheduled batch sent 10 verified payouts. Website, CI releases and DB-to-CI archives verified. Maria: use your alternate credential and enroll a fresh key from a trusted device. External offsite routing remains a separate pre-existing failure.",
+  "hosts_reached": [
+   "web-01",
+   "db-01"
+  ]
+ }
+]

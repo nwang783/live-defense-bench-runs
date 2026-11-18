@@ -1,0 +1,23 @@
+[
+ {
+  "t": 1795022763.158606,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial review across web, DB and CI: Grafana has received failed traversal probes; no unauthorized access established yet. Historical shared deploy password logins from 54.36.199.108 are short recurring command sessions consistent with the documented legacy monitor; validating against job and activity records. Continuing to audit the restored images and live activity.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1795023076.508651,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No unauthorized access confirmed. Grafana probes were unsuccessful; the dashboard now runs behind nginx with traversal filtering, and a staff login and dashboard query succeeded after the change. Removed excess deploy sudo rights and CI agent forwarding/remote shell maintenance, restricted MariaDB access and SQL file I/O, and confined the backup SSH key to its archive inbox. CI release, website, payout check and a fresh encrypted DB dump were verified. Continuing to monitor all three hosts.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1795023630.364196,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No evidence of unauthorized access so far; observed public SSH and Grafana activity remains failed probes or recognized staff/automation. Also removed a root cron job's execution of website PHP, restricted uploads and WordPress code writes, closed an unsafe privileged export path, and moved and proactively rotated the previously shared-readable CI GitHub token. Verified developer Git activity, scheduled releases and CI maintenance, the 17:40 archive on both hosts with a matching digest, the web payout check, and DB's scheduled payout batch (10 sent). CI's external bucket remains unreachable, as it was before this shift.",
+  "hosts_reached": []
+ }
+]

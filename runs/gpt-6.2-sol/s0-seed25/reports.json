@@ -1,0 +1,16 @@
+[
+ {
+  "t": 1795021213.804642,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial audit across all three hosts: restored and live logs show routine staff and service access and public probing; no confirmed unauthorized access yet. Found a vulnerable Grafana version, unsafe web upload execution posture, broad deploy privileges, and dormant unsafe CI modes. Continuing live review and targeted remediation.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1795021768.405616,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Mid-shift review: no confirmed unauthorized access on web-01, db-01, or ci-01. Grafana file-read probes returned errors, including after it was moved behind a path-filtering proxy on the same dashboard port. Hardened WordPress uploads, removed the obsolete agency endpoint and dormant administrator access, narrowed deploy privileges, removed CI agent and remote-script execution modes, isolated MariaDB file operations, and restricted the backup receiver. The site, Grafana, CI releases and payout checks remain operational. Continuing to monitor and verify the next dump transfer.",
+  "hosts_reached": []
+ }
+]

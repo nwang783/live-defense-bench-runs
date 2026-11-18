@@ -1,0 +1,38 @@
+[
+ {
+  "t": 1795022737.7679648,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial triage on all three hosts: no confirmed unauthorized access yet. Grafana 8.3.1 is public and is receiving traversal probes; observed requests failed. The shared web deploy account has overly broad sudo privileges. Investigating both while preserving CI and staff access.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1795023257.580628,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No confirmed unauthorized access across the three servers so far. Grafana scan requests failed; the dashboard remains available behind a filtering proxy. Hardened WordPress uploads and web code permissions, narrowed deploy sudo, confined CI maintenance and backup SSH, enabled MariaDB auditing, and added invoice amount validation. Confirmed live website/staff activity, scheduled CI releases, payout reconciliation, and an encrypted archive transfer to CI. CI\u2019s direct offsite bucket check has a pre-existing connectivity failure; db-01\u2019s separate manifest job is succeeding. Monitoring continues.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1795023442.497816,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.62.63.243"
+  ],
+  "summary": "At 17:37 UTC an anomalous SSH session using mfischer\u2019s key from 174.62.63.243 attempted to read the root-only payment configuration. Sudo denied that command, but the session authenticated. I am containing the key and checking for any successful secret reads or lateral access.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1795023501.428608,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.62.63.243"
+  ],
+  "summary": "Confirmed misuse of mfischer\u2019s Galaxy SSH key on web-01. The 17:34 session generated and displayed a CSV with 52 customer records through the marketing export tool; treat those names and email addresses as exposed. Attempts to read the root-only payment configuration and WordPress configuration were denied. I revoked the Galaxy key, terminated its remaining session, preserved evidence, and kept Mia\u2019s other key and password working. db-01 audit confirms only the expected application-mediated customer query; no unauthorized shell or direct DB access on db-01 or ci-01 found. Monitoring continues.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ }
+]

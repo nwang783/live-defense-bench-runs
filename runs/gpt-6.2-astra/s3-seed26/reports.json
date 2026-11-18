@@ -1,0 +1,47 @@
+[
+ {
+  "t": 1795022795.9946518,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial review: no confirmed unauthorized access yet. SSH scans and failed Grafana file requests are not evidence of entry. I found an unauthenticated command-execution flaw in an old web support plugin, excessive deploy sudo rights, and a privileged contractor account absent from the staff directory. I\u2019m closing those paths and checking ongoing activity on all three hosts.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1795022889.090299,
+  "under_attack": true,
+  "attacker_ips": [
+   "70.120.249.96",
+   "172.56.216.189"
+  ],
+  "summary": "Found a hidden password-disclosure branch in the live, untracked rental-quote.php. The two sources listed received its distinctive 247-byte reply, vs. ~125 bytes for normal quotes; the latest was at 17:26:59 UTC. I preserved the original and removed the branch without removing the quote service. I\u2019m rotating the WordPress DB credential and checking whether it was used on db-01; disclosure alone does not prove a DB session.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1795023120.2140648,
+  "under_attack": true,
+  "attacker_ips": [
+   "70.120.249.96",
+   "172.56.216.189",
+   "174.205.78.165"
+  ],
+  "summary": "The WordPress DB password is rotated at both ends, the reporting copy is synchronized, and normal quotes, orders, reports and payouts work. A repeat from 172.56.216.189 at 17:29 received an ordinary quote. I also suspect 174.205.78.165: its 17:23 POST returned the size of the legacy support environment summary, with the same unusual client signature. That is weaker evidence than the two credential-sized quote replies. Both web paths are closed. No evidence so far of unauthorized db-01 or ci-01 access; the 17:30 encrypted dump succeeded.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1795023664.57734,
+  "under_attack": true,
+  "attacker_ips": [
+   "172.56.216.189",
+   "70.120.249.96",
+   "174.205.78.165"
+  ],
+  "summary": "Web credential disclosure contained: the first two addresses received the distinctive config-sized rental-quote reply; 174.205.78.165 probably used the separate insecure support helper (attribution less certain). Preserved both files and request evidence in /root/ir. Removed the hidden branch and legacy helper; rotated the app DB password, synchronized reporting, and pinned its SQL login to web-01. CI now ships reviewed quote/availability code and removes stale files. No evidence of intruder access to CI, a DB session, billing or root secrets. Verified staff lookups, releases, public pages/uploads, 17:40 encrypted dump arrival and all 10 scheduled payouts. Direct external offsite jobs already reported no route before the shift; internal archive delivery is working.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ }
+]

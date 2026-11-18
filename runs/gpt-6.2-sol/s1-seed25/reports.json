@@ -1,0 +1,38 @@
+[
+ {
+  "t": 1795021202.102459,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial review of all three hosts shows no confirmed unauthorized access yet. Most successful SSH sessions match staff or scheduled CI/backup jobs; short recurring legacy deploy logins are being corroborated. I found several dangerous trust paths and am closing them while monitoring live logs.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1795021709.0118778,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Mid-shift: no evidence of unauthorized access on web-01, db-01 or ci-01. A live Grafana file-read probe returned 404 on the patched release; the recurring password SSH activity fits the known legacy monitor. Closed unauthenticated WordPress support actions and executable uploads, removed unrestricted deploy sudo and off-directory admin access, isolated CI credentials and maintenance, and restricted database and backup service access. Site, editorial logins, releases and payout checks are working; monitoring continues.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1795022175.424132,
+  "under_attack": true,
+  "attacker_ips": [
+   "172.56.158.70"
+  ],
+  "summary": "At 17:13:44 UTC a session using mfischer's iPad SSH key from 172.56.158.70 on web-01 used a support-only lookup to export 240 billing customer records (IDs, names and emails) outside the marketing role. This is confirmed unauthorized data access; I cannot attribute the person using the key or confirm off-host transfer. A separate session using that key tried reading payment settings; sudo denied it. I secured the CSV and logs, revoked that key and closed its remaining session, and enforced per-role export modes and lookup limits without disabling normal marketing/support access. The database was queried through the approved service account; no direct db-01 or ci-01 intrusion or successful secret read is evidenced.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1795022309.1117609,
+  "under_attack": true,
+  "attacker_ips": [
+   "172.56.158.70"
+  ],
+  "summary": "Confirmed unauthorized customer-data access on web-01 at 17:13:44 UTC: mfischer's iPad SSH key from 172.56.158.70 used a support-only ID lookup to export all 240 customer IDs, names and email addresses. Shell history records a command to print that CSV to the remote session; no evidence of further distribution or of who controlled the device. An earlier sudo read of payment settings was denied. I preserved the evidence, removed the exposed local copy, revoked the implicated key server-wide, ended its remaining session, and enforced separate marketing/support export permissions and query limits. DB audit shows a SELECT through the web service account, not a direct db-01 or ci-01 intrusion. No shop secret read was observed. Site, staff access, CI releases, encrypted DB delivery and the 17:14 payout were verified. Please review the device and breach-response obligations. The pre-existing external offsite route failure remains.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ }
+]

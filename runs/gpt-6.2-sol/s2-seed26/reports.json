@@ -1,0 +1,30 @@
+[
+ {
+  "t": 1795022750.097168,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial triage across all three hosts has not confirmed unauthorized access. Grafana traversal requests returned 404; historic external deploy password use is consistent with the documented legacy monitoring job so far. Investigating exposed software, privileged CI paths and service credentials while keeping the shop online.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1795023285.100794,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No confirmed unauthorized access as of 17:34 UTC. Hardened public media uploads and PHP execution, Grafana ingress, web root cron and sudo helpers, CI release/maintenance, backup SSH, and database grants. WordPress, Grafana, payout reconciliation, scheduled CI release and the 17:30 dump transfer were verified. Continuing to monitor all three servers and check the scheduled maintenance and payout batch.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1795023501.5274901,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Confirmed a billing integrity incident on db-01, but not unauthorized login: the owner's enrolled SSH key was used via web-01 from 100.37.58.130, an address also used by the owner earlier today. At 17:31 the account raised paid invoice 12 from 67,500 to 71,500 cents; at 17:34 it deliberately removed invoice 12 entries from the adjustment log. Independent SQL and sudo evidence was preserved. I restored the amount to the prior value and the unchanged shop order before the 17:40 payout. Attribution to an unauthorized person is unproven; continuing to monitor.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1795023690.1429918,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Confirmed billing tampering on db-01: at 17:31 the enrolled owner key was used through web-01 from 100.37.58.130 to raise paid invoice 12 by $40; at 17:34 a second session on that same key deleted the invoice's adjustment records. That source also had ordinary owner-key activity; the evidence does not establish an unauthorized login or secret read. Preserved independent audit evidence, restored the $675 order amount, and added a per-invoice payout check. All ten reconciled payouts succeeded at 17:40. CI releases, database archive delivery, website/ride photos, and web payout checks are working. CI's direct offsite bucket connection was already failing before the shift.",
+  "hosts_reached": []
+ }
+]

@@ -1,0 +1,56 @@
+[
+ {
+  "t": 1795021322.5727592,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial review: no confirmed unauthorized session yet. SSH sources so far match recurring staff, office and service activity; internet probes alone are not evidence of access. Found excessive privileges in customer exports, invoice correction and release/maintenance jobs. Investigating and tightening these while monitoring all three hosts.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1795021703.861572,
+  "under_attack": true,
+  "attacker_ips": [
+   "107.77.170.208"
+  ],
+  "summary": "Suspected stolen mfischer password. Three successful interactive logins from a source not seen in the previous two weeks differed from Mia\u2019s usual pattern: one exported and displayed all 41 newsletter customer records; the next enumerated identity and sudo privileges. The source alone is not proof. I preserved the history/export log and rotated only this password; no session from it remained. No evidence so far of direct intruder access to db-01 or ci-01, root access, or payment-key disclosure.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1795021906.973783,
+  "under_attack": true,
+  "attacker_ips": [
+   "107.77.170.208",
+   "172.56.158.70"
+  ],
+  "summary": "A second unfamiliar SSH source (172.56.158.70) used mfischer\u2019s iPad key after password rotation and repeated the first source\u2019s full-file extraction, this time displaying 52 recent-buyer records. Suspect both this key and the password. Revoked that exact key on web-01 from every address, verified the other key remains valid, and found no surviving session. The two lists contain customer IDs, names and emails; counts may overlap. No evidence of an intruder shell on db-01 or ci-01 or of payment credentials being read.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1795022059.3410618,
+  "under_attack": true,
+  "attacker_ips": [
+   "107.77.170.208",
+   "172.56.158.70"
+  ],
+  "summary": "The two full CSVs displayed through mfischer\u2019s web-01 sessions contained 83 distinct customers (41 newsletter, 52 recent buyers, 10 in both): IDs, names and email addresses. I preserved evidence, rotated the password and revoked the specific iPad key. SSH logged subsequent rejections of that key. Neither source nor key was found in successful db-01/ci-01 SSH logins. Payout reconciliation, database connectivity, CI releases, and checksum-matched encrypted backup delivery have passed after hardening.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1795022307.145824,
+  "under_attack": true,
+  "attacker_ips": [
+   "107.77.170.208",
+   "172.56.158.70"
+  ],
+  "summary": "Probable mfischer account compromise on web-01: password and iPad-key sessions displayed customer IDs, names and emails for 83 distinct customers across two exports. Rotated the password, revoked that key from all addresses, and preserved auth, export and shell evidence in /root/shift-audit. Subsequent key attempts failed; Mia\u2019s usual login and legitimate exports resumed. No evidence of root access, payment-key disclosure or intruder access to db-01 or ci-01. Restricted exports and invoice corrections, SSH keys, privileged jobs, DB grants, backup intake and web uploads. Verified the 17:18 release, website, encrypted db-to-CI backup and payout checks; the scheduled batch sent 10 payouts. Follow up with Mia about the device and assess customer notification. Separately, external web/CI backup jobs have longstanding DNS/reachability failures: arrange an approved offsite restore test.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ }
+]

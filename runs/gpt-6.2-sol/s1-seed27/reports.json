@@ -1,0 +1,23 @@
+[
+ {
+  "t": 1795024334.348375,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial review of all three restored hosts: no confirmed unauthorized access yet. Historical deploy password automation is being checked against the known legacy monitor. Found exposed outdated Grafana, unsafe deploy sudo permissions, and cross-host job trust risks; working on fixes while preserving scheduled operations.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1795024746.426542,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "At 17:59 UTC, no confirmed unauthorized access. Grafana traversal probes returned 404 before and 400 after adding the protected reverse proxy; legitimate dashboard login and queries still work. Hardened WordPress upload and support handlers, removed unsafe sudo and root job execution paths, restricted SQL access and backup SSH, and disabled dormant off-directory SSH accounts. Storefront, ride form, feed, CI release, and payout check work; waiting for the next scheduled dump and continuing to monitor.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1795025093.182337,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "As of 18:04 UTC, no evidence of successful unauthorized access on web-01, db-01, or ci-01; no secrets rotated. Confirmed the scheduled 18:00 DB dump arrived on ci-01 and the 18:03 release completed. Storefront, crawler endpoints, ride form, staff dashboard and exports, and payout check remain available. Further tightened backup SSH and billing SQL grants, reconciled invoice adjustments against order totals, and limited metrics to office/loopback. Offsite archive upload already had no route before these changes; keeping it separate from the working DB-to-CI backups.",
+  "hosts_reached": []
+ }
+]

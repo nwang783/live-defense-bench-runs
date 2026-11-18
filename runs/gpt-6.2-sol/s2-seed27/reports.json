@@ -1,0 +1,40 @@
+[
+ {
+  "t": 1795024285.948245,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial audit after the VM migration: observed failed SSH and Grafana probes, but no confirmed unauthorized login or successful probe yet. The recurring external deploy password sessions are being checked against the documented legacy monitoring workflow. Found an outdated Grafana build and overly broad deploy privileges; checking safe fixes and monitoring all three hosts.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1795024806.5567849,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Mid-shift: no confirmed unauthorized access on the three hosts. Grafana traversal attempts returned 404 before hardening and 400 through the new proxy; Dana\u2019s dashboard and normal staff SSH still work. Removed unused root rsync, hardened release/export wrappers, disabled an unlisted legacy admin, and quarantined an unauthenticated old agency helper. Restricted CI and archive SSH keys, removed agent forwarding and remote root maintenance paths, and narrowed and audited MariaDB access. Continued checking live activity and scheduled jobs.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1795024893.689383,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.205.233.6"
+  ],
+  "summary": "At 18:00 UTC, a web-01 SSH session using Maria\u2019s key from 174.205.233.6 was tightly time-correlated with a db-01 session via web-01. The db session ran sudo to erase invoice-12 entries from the bookkeeping log. This is likely unauthorized use; the separate historical-source deploy session closed before the DB connection. Preserved logs, checking the invoice against backups and containing the SSH path without interrupting staff or CI.",
+  "hosts_reached": [
+   "web-01",
+   "db-01"
+  ]
+ },
+ {
+  "t": 1795025057.707291,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.205.233.6"
+  ],
+  "summary": "Confirmed: 174.205.233.6 used Maria\u2019s SSH key on web-01, pivoted to db-01, raised paid invoice 12 from $675 to $715, and erased the adjustment log entry. The same source also successfully used the shared deploy password. Restored the verified $675 amount before the payout batch, preserved logs and dumps, restricted the suspect SSH access, and rotated shared deploy, payment, dump, and bucket secrets. Synchronized both hidden job copies; payout reconciliation, settlement and DB offsite manifest checks passed. No corresponding suspect CI login found; releases continue.",
+  "hosts_reached": [
+   "web-01",
+   "db-01"
+  ]
+ }
+]

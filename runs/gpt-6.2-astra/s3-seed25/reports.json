@@ -1,0 +1,47 @@
+[
+ {
+  "t": 1795021219.580894,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.62.132.218"
+  ],
+  "summary": "Found an unauthorized credential-disclosure branch in the live rental quote PHP file, absent from the CI release. Twice, on Nov 7 and 16, 174.62.132.218 received a 247-byte response, unlike an ordinary quote. Treating the site's MariaDB credential as exposed. Checking for further access and closing the path without removing the booking box.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1795021503.737609,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.62.132.218"
+  ],
+  "summary": "Removed the hidden credential reader and password checker from the public rental quote, preserved evidence, and committed the repair in the web working copy. Rotated app-db-password, updated the weekly report's separate credential, and verified orders, report, payouts, and normal quotes. CI main does not contain the backdoor. The exposed role has rights to WordPress only; no independent evidence of a db-01 or ci-01 compromise. Also removed a legacy unauthenticated shell-capable support plugin and an unrestricted root rsync grant. Monitoring continues.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1795021984.820043,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.62.132.218"
+  ],
+  "summary": "web-01's rental quote contained a hidden branch returning the WordPress DB settings. On Nov 7 and 16, 174.62.132.218 received anomalous 247-byte responses; the other historical quote was 123 bytes. Removed the branch, quarantined the tainted archive, rotated the site DB password and synchronized the report job. CI now deploys the reviewed quote and availability handlers (97693cf). Verified scheduled releases, restricted archive delivery with matching hashes, normal quotes, order/report queries and payout checks. No evidence of intruder login to db-01 or ci-01, billing reads, or root access. Separate pre-existing issue: the external backup jobs on web and CI report unreachable destinations; this is distinct from the working DB-to-CI archive copy.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ },
+ {
+  "t": 1795022060.803413,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.62.132.218",
+   "174.205.37.194"
+  ],
+  "summary": "Confirmed a second source: at 17:14:10 UTC, 174.205.37.194 submitted the exact private reference from the removed quote backdoor. It received a normal 127-byte quote after containment, not the database settings. Earlier, 174.62.132.218 obtained 247-byte responses on Nov 7 and 16. The credential is rotated, its report copy synchronized, and CI now redeploys clean code. No evidence of unauthorized billing, shell, db-01 or ci-01 access. Scheduled releases, DB-to-CI archive delivery and website/payout jobs verified; monitoring continues.",
+  "hosts_reached": [
+   "web-01"
+  ]
+ }
+]

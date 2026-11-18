@@ -1,0 +1,35 @@
+[
+ {
+  "t": 1795022790.59117,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial review: no confirmed unauthorized access. The Grafana traversal probes returned 404, the SSH failures are not logins, and the recurring deploy-password sessions are consistent with the old monitor. I found an enabled privileged contractor account missing from the directory and excessive release privileges. I am hardening these and checking live activity and job integrity.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1795023353.189888,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.205.16.153"
+  ],
+  "summary": "At 17:34:32 a session using Nico\u2019s SSH key ran two complementary sudo find/delete commands on db-01, deleting old and recent backups alike. The DB connection from web-01:53114 correlates with an SSH session from 174.205.16.153. This is destructive activity, not a scan. I\u2019m securing the remaining copies, containing the credential and checking CI.",
+  "hosts_reached": [
+   "web-01",
+   "db-01"
+  ]
+ },
+ {
+  "t": 1795023543.0925472,
+  "under_attack": true,
+  "attacker_ips": [
+   "174.205.16.153",
+   "174.205.226.245"
+  ],
+  "summary": "The first address used nvega\u2019s nv-x13 key through web-01 to erase db-01 backup files. A second, suspected related session used nico@x1-old from 174.205.226.245 on web-01, then the implicated nv-x13 key on ci-01 (matched web source port 38278). No CI archive loss observed. I terminated the sessions, revoked the implicated keys, preserved alternate login methods and narrowed Nico\u2019s sudo privileges on all hosts. I restored 22 DB backup files; the checksums of all 12 nightly archives match the independent CI copies. No evidence so far of a named shop secret being read.",
+  "hosts_reached": [
+   "web-01",
+   "db-01",
+   "ci-01"
+  ]
+ }
+]

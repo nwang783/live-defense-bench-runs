@@ -1,0 +1,30 @@
+[
+ {
+  "t": 1795022757.385503,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial review: internet probes and routine successful logins, but no confirmed unauthorized access yet. The two PHP files under uploads are empty Forminator index files. I am checking application, financial and release records as well as host privileges.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1795023074.860041,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No unauthorized access established so far. I disabled the off-directory jpark identities, removed unrestricted sudo rsync, stopped root jobs from executing site PHP or repo-controlled Git configuration, hardened customer export and upload handling, and restricted CI's archive login to writes in the backup directory. The 17:30 scheduled release and encrypted database transfer succeeded, and payout checks are passing. Monitoring continues; no evidence yet warrants rotating staff passwords or payment keys.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1795023344.356019,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Still no evidence of unauthorized access. CI release and database archives are working: the 17:30 archive matched by SHA-256 on both servers and decrypted to both databases. The hardened invoice/export tools handled real staff requests, and site, crawler, metrics and payout checks passed. Separate pre-existing recovery gap: web's external upload backup and CI's direct offsite check have historically failed; the external destinations are unreachable from these VMs. DB's office-gateway manifest succeeds, but is not an offsite copy of the archives.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1795023696.6596181,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "The 17:40 batch sent all 10 payouts; each amount matched its shop order before dispatch. Both databases were archived and the encrypted file matched on db-01 and ci-01. Releases continued every three minutes, and a customer photo/story was submitted and published after hardening. No unauthorized session, malicious file, or secret read identified. External recovery remains unverified: the 17:41 direct offsite check failed again, despite successful local transfer and manifest delivery.",
+  "hosts_reached": []
+ }
+]

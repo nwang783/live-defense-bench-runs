@@ -1,0 +1,23 @@
+[
+ {
+  "t": 1795024290.975708,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "Initial review: public SSH failures and unsuccessful Grafana traversal probes, but no confirmed unauthorized session yet. I\u2019m checking successful logins against the restored history and reviewing the release, maintenance, upload and billing paths.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1795024779.699859,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No evidence of unauthorized access so far. I removed an unlisted contractor\u2019s administrative access, closed public cache-purge and upload-execution paths, removed unrestricted root rsync, dropped CI maintenance privileges, and restricted backup SSH, export and billing permissions. Normal support and bookkeeping requests still work. The next scheduled dump, releases and payout batch are being monitored. CI\u2019s external offsite check was already failing for lack of internet access; db-01\u2019s internal archive transfer works.",
+  "hosts_reached": []
+ },
+ {
+  "t": 1795025215.875047,
+  "under_attack": false,
+  "attacker_ips": [],
+  "summary": "No evidence of an intruder or unauthorized secret read on the three hosts. I removed stale contractor admin access, closed unauthenticated destructive support actions and executable upload paths, constrained root/SSH and DB privileges, and protected secret handling in scheduled jobs. Verified CI releases, staff exports and invoice corrections, website DB access, payout reconciliation, and matching encrypted 18:00 archives on db-01 and ci-01. All 10 scheduled payouts matched their orders and were sent at 18:06. CI\u2019s external offsite check has a separate pre-existing connectivity failure.",
+  "hosts_reached": []
+ }
+]
